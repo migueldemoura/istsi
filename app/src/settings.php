@@ -11,8 +11,8 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name' => 'slim-app',
-            'path' => __DIR__ . '/../logs/app.log',
+            'name' => 'istsi',
+            'path' => __DIR__ . '/../../logs/app/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],

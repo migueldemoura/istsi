@@ -16,6 +16,7 @@ services:
             - 9000:9000
         volumes:
             - ${APP_PATH}:/var/www/istsi
+            - ../logs:/var/www/logs
     nginx:
         build: nginx
         ports:
@@ -23,7 +24,7 @@ services:
         volumes_from:
             - php
         volumes:
-            - ./logs/nginx/:/var/log/nginx
+            - ../logs/nginx/:/var/log/nginx
     elk:
         image: willdurand/elk
         ports:
