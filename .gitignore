@@ -1,6 +1,6 @@
 /app/composer.lock
 /app/vendor/
 /app/logs/*
-/deploy/.data/
-/deploy/logs/
+/docker/.data/
+/docker/logs/
 !.keep
