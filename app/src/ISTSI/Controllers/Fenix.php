@@ -37,12 +37,12 @@ class Fenix
         }
         $authCode = $request->getQueryParam('code');
 
-        //TODO:try {
+        try {
             $fenix->getAccessTokenFromCode($authCode);
-        //} catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             //TODO:throw new IException(E_URL_INVALID);
-            //die('E_URL_INVALID');
-        //}
+            die('E_URL_INVALID');
+        }
 
         $uid = $fenix->getUid();
         $name = $fenix->getName();
