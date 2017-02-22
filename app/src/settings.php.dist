@@ -1,0 +1,67 @@
+<?php
+declare(strict_types = 1);
+
+use Monolog\Logger;
+
+return [
+    'settings' => [
+        'displayErrorDetails'    => , // BOOL
+        'addContentLengthHeader' => , // BOOL
+
+        'renderer' => [
+            'templatePath' => __DIR__ . '/../templates/',
+            'cachePath'    => __DIR__ . '/../../cache/',
+        ],
+
+        'logger' => [
+            'name'        => '',
+            'path'        => __DIR__ . '/../../logs/app/app.log',
+            'level'       => Logger::DEBUG,
+        ],
+
+        'fenix' => [
+            'clientId'    => '',
+            'clientSecret'=> '',
+            'redirectUri' => '',
+            'apiBaseUrl'  => ''
+        ],
+
+        'database' => [
+            'driver'      => '',
+            'host'        => '',
+            'database'    => '',
+            'username'    => '',
+            'password'    => '',
+            'charset'     => '',
+            'collation'   => '',
+        ],
+
+        'files' => [
+            'extension'   => '',
+            'mimeType'    => '',
+            'maxSize'     => '',
+            'path'        => __DIR__ . '/../../data/',
+        ],
+
+        'program' => [
+            'name'        => '',
+            'year'        => '',
+            'email'       => '',
+            'facebook'    => '',
+            'courses'     => [], // ARRAY STRING
+            'years'       => [], // ARRAY INTS
+
+            'registrationStart'   => '', //YYYY-MM-DD
+            'registrationEnd'     => '', //YYYY-MM-DD
+
+            'uidMaxSize'          => , // Int
+            'nameMaxSize'         => , // Int
+            'yearMaxSize'         => , // Int
+            'courseMaxSize'       => , // Int
+            'emailMaxSize'        => , // Int
+            'phoneSize'           => , // Int
+            'proposalMaxSize'     => , // Int
+            'observationsMaxSize' =>   // Int
+        ]
+    ],
+];

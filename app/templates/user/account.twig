@@ -1,0 +1,61 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ programName }} {{ programYear }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,700">
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/user.css">
+{% endblock %}
+
+{% block body %}
+    <div id="token" class="hidden">{{ token }}</div>
+
+    {% include('user/navbar.twig') %}
+
+    <div class="container">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-10 col-md-offset-1">
+                <h3 style="margin-bottom: 15px;">Informação Candidato</h3>
+                <p>Antes de poderes submeter candidaturas às várias propostas, terás que preencher os campos abaixo.
+                    Confirma que os dados estão atualizados, pois serão utilizados pelas empresas para te contactar.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <form id="infoform" class="form-horizontal">
+                    {# Email #}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="email">Email</label>
+                        <div class="col-md-6">
+                            <input type="email" id="email" name="email" class="form-control" maxlength="{{ emailMaxSize }}"
+                                   value="{{ email }}">
+                        </div>
+                    </div>
+                    {# Phone #}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="phone">Telemóvel</label>
+                        <div class="col-md-6">
+                            <input type="number" id="phone" name="phone" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {# Submit Button #}
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-3 col-md-offset-4">
+                <button type="submit" class="btn btn-primary btn-block" id="submit">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    {% include('user/footer.twig') %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="/scripts/account.js"></script>
+{% endblock %}

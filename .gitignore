@@ -1,4 +1,10 @@
-/app/composer.lock
-/app/vendor/
-/docker/.data/
-/logs/
+app/composer.lock
+app/vendor/
+docker/.data/
+docker/.env
+cache/
+data/
+logs/
+!.keep
+
+app/src/settings.php

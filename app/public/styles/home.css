@@ -1,0 +1,148 @@
+@import 'fonts.css';
+
+html,
+body {
+    height: 100%;
+    color: rgba(232, 232, 232, 0.99);
+}
+
+body {
+    letter-spacing: 1px;
+    line-height: 1.75;
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
+                url(../images/background.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-size: 18px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+h1 {
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 36px;
+}
+
+a {
+    color: rgba(248, 250, 255, 0.99);
+}
+
+a:focus,
+a:hover {
+    color: rgba(248, 250, 250, 0.85);
+    text-decoration: none;
+}
+
+i {
+    display: inline-block;
+    letter-spacing: 0;
+}
+
+::selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(0, 0, 0, 0.99);
+}
+::-moz-selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(0, 0, 0, 0.99);
+}
+
+.wrap {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 80px;
+    max-width: 585px;
+    margin: 0 auto;
+}
+
+.section-subtitle {
+    letter-spacing: 3px;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.section-divider {
+    border-radius: 50px;
+    background-color: rgba(62, 68, 89, 0.99);
+    display: inline-block;
+    height: 6px;
+    width: 80px;
+    margin: 30px 0 20px;
+}
+
+.highlight-value {
+    line-height: 1;
+    font-size: 50px;
+    letter-spacing: 0;
+}
+
+.highlight-type {
+    border-radius: 50px;
+    display: inline-block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 3px 25px;
+    margin-top: 5px;
+    background-color: rgba(62, 68, 89, 0.9);
+    color: rgba(248, 250, 255, 0.99);
+}
+
+.contacts {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.contacts a {
+    display: inline-block;
+    height: 44px;
+    width: 44px;
+    line-height: 44px;
+}
+
+.contacts a i {
+    font-size: 22px;
+}
+
+.section-header {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.section-main {
+    text-align: center;
+    max-width: 720px;
+    margin: 15px auto 30px;
+}
+
+@media (max-width: 380px) {
+    .col-highlight {
+        width: 100%;
+    }
+}
+
+@media (max-width: 675px) {
+    .col-highlight {
+        width: 50%;
+        margin-bottom: 15px;
+    }
+    .section-title {
+        font-size: 50px;
+    }
+}
+

@@ -1,0 +1,54 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ programName }} {{ programYear }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/home.css">
+{% endblock %}
+
+{% block body %}
+    <div class="wrap">
+        <div class="cell">
+            <div class="container">
+                <div class="section-header row">
+                    <h1 class="section-title">{{ programName }}</h1>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">Se a última edição foi assim</p>
+                </div>
+                <div class="section-main row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-3 col-highlight">
+                            <div class="highlight-value">0</div>
+                            <div class="highlight-type">Empresas</div>
+                        </div>
+                        <div class="col-xs-3 col-highlight">
+                            <div class="highlight-value">0</div>
+                            <div class="highlight-type">Propostas</div>
+                        </div>
+                        <div class="col-xs-3 col-highlight">
+                            <div class="highlight-value">0</div>
+                            <div class="highlight-type">Vagas</div>
+                        </div>
+                        <div class="col-xs-3 col-highlight">
+                            <div class="highlight-value">0</div>
+                            <div class="highlight-type">Candidatos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-header row">
+                    <p class="section-subtitle">Imagina a próxima...</p>
+                </div>
+                <div class="contacts">
+                    <a href="https://www.facebook.com/{{ facebook }}" title="Facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="mailto:{{ email }}" title="Email">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

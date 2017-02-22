@@ -3,7 +3,7 @@
 cd docker/
 
 case $1 in
-  "up") args="up" ;;
+  "up") args="up -d" ;;
   "down") args="down" ;;
   "build") args="build" ;;
   "exec") args="exec php bash" ;;

@@ -1,0 +1,231 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ programName }} {{ programYear }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,700">
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/user.css">
+{% endblock %}
+
+{% block body %}
+    <div id="token" class="hidden">{{ token }}</div>
+
+    {% include('user/navbar.twig') %}
+
+    <div class="container">
+        <div class="row text-left">
+            <div class="col-md-12">
+                <h3>Candidaturas Submetidas</h3>
+            </div>
+        </div>
+        <div class="row text-left">
+            <div class="col-md-12">
+                <div id="nosubmissions" class='hidden'>
+                    <ul class="list-group">
+                        <li class="list-group-item clearfix text-center">Nenhuma candidatura encontrada :(</li>
+                    </ul>
+                </div>
+                <ul id="submissionslist" class="list-group">
+                </ul>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-12">
+                        <button type="button" id="newbutton" class="btn btn-primary btn-large"
+                                data-toggle="modal"
+                                data-target="#newmodal"
+                                {% if not registrationOpen %}disabled{% endif %}
+                        >
+                        <span class="glyphicon glyphicon-plus"></span> Nova Candidatura
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include('user/footer.twig') %}
+
+    {# New Modal #}
+    <div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="label-newModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="label-newModal">Nova Candidatura</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="newform" class="form-horizontal" method="POST">
+                        {# Proposal #}
+                        <div class="form-group ">
+                            <label class="col-md-4 control-label" for="newproposal">Proposta</label>
+                            <div class="col-md-6">
+                                <select id="newproposal" name="proposal" class="form-control"></select>
+                            </div>
+                        </div>
+                        {# Observations #}
+                        <div class="form-group ">
+                            <label class="col-md-4 control-label" for="newobservations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="newobservations" name="observations" rows="6" class="form-control"
+                                          maxlength="{$observationsMaxSize}"></textarea>
+                            </div>
+                        </div>
+                        {# CV File #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newCV">Curriculum Vitae (CV)</label>
+                            <div class="col-md-6">
+                                <label class='btn btn-info' for="newCV">Selecionar ficheiro...</label>
+                                <input type="file" id="newCV" name="CV" size="40" class="input-file">
+                                <span class="label label-info" id="pathnewCV"></span>
+                            </div>
+                        </div>
+                        {# CM File #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newCM">Carta de Motivação (CM)</label>
+                            <div class="col-md-6">
+                                <label class='btn btn-info' for="newCM">Selecionar ficheiro...</label>
+                                <input type="file" id="newCM" name="CM" size="40" class="input-file">
+                                <span class="label label-info" id="pathnewCM"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="newformSubmit">Submeter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Edit Modal #}
+    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="label-editModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="label-editModal">Editar Candidatura</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="editform" class="form-horizontal" method="POST">
+                        <span class="hidden" id="proposal"></span>
+                        {# Observations #}
+                        <div class="form-group ">
+                            <label class="col-md-4 control-label" for="editobservations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="editobservations" name="observations" rows="6" class="form-control"
+                                          maxlength="{$observationsMaxSize}"></textarea>
+                            </div>
+                        </div>
+                        {# CV File #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="editCV">Curriculum Vitae (CV)</label>
+                            <div class="col-md-6">
+                                <label class='btn btn-info' for="editCV">Selecionar ficheiro...</label>
+                                <input type="file" id="editCV" name="CV" size="40" class="input-file">
+                                <span class="label label-info" id="patheditCV"></span>
+                            </div>
+                        </div>
+                        {# CM File #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="editCM">Carta de Motivação (CM)</label>
+                            <div class="col-md-6">
+                                <label class='btn btn-info' for="editCM">Selecionar ficheiro...</label>
+                                <input type="file" id="editCM" name="CM" size="40" class="input-file">
+                                <span class="label label-info" id="patheditCM"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="editformSubmit">Gravar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# View Modal #}
+    <div class="modal fade" id="viewmodal" tabindex="-1" role="dialog"
+         aria-labelledby="label-viewModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="label-viewModal">Visualizar Candidatura</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="viewform" class="form-horizontal">
+                        {# Observations #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="viewobservations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="viewobservations" name="observations" rows="6" class="form-control"
+                                          maxlength="{$observationsMaxSize}" disabled></textarea>
+                            </div>
+                        </div>
+                        {# CV File #}
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-sm-10">
+                                <a id="viewCV" class="btn btn-info" href="" target="_blank" rel="noopener">
+                                    <span class="glyphicon glyphicon-file"></span> Curriculum Vitae (CV)
+                                </a>
+                            </div>
+                        </div>
+                        {# CV File #}
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-sm-10">
+                                <a id="viewCM" class="btn btn-info" href="" target="_blank" rel="noopener">
+                                    <span class="glyphicon glyphicon-file"></span> Carta de Motivação (CM)
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="submissionrow">
+        <li class="list-group-item clearfix">
+            <span class="glyphicon glyphicon-align-justify"></span>
+            <span>Proposta </span><span class="proposal"></span>
+            <span class="pull-right">
+        <button type="button" id="viewbutton" class="btn btn-xs btn-info"
+                data-item="">
+            Visualizar
+        </button>
+        <button type="button" id="editbutton" class="btn btn-xs btn-info"
+                data-item="">
+            Editar
+        </button>
+        <button type="button" id="delete" class="btn btn-xs btn-danger"
+                data-item="">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </span>
+        </li>
+    </template>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="/vendor/jquery/jquery.validate.additional-methods.min.js"></script>
+    <script src="/scripts/dashboard.js"></script>
+{% endblock %}

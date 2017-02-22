@@ -1,19 +1,57 @@
 <?php
-// DIC configuration
+declare(strict_types = 1);
 
-$container = $app->getContainer();
+$c = $app->getContainer();
 
-// view renderer
-$container['renderer'] = function ($c) {
+$c['renderer'] = function ($c) {
     $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+
+    $renderer = new Slim\Views\Twig($settings['templatePath'], [
+        'cache' => $settings['cachePath'],
+        'auto_reload' => true,
+        'strict_variables' => true,
+        'autoescape' => 'html'
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
+    $renderer->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
+
+    return $renderer;
 };
 
-// monolog
-$container['logger'] = function ($c) {
+$c['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
+};
+
+$c['session'] = function () {
+    return new ISTSI\Models\Session();
+};
+
+$c['fenix'] = function ($c) {
+    return new ISTSI\Models\Fenix($c);
+};
+
+$c['database'] = function ($c) {
+    $settings = $c->get('settings')['database'];
+    $config = new Spot\Config();
+
+    $config->addConnection('mysql', [
+        'driver'   => $settings['driver'],
+        'host'     => $settings['host'],
+        'dbname'   => $settings['database'],
+        'user'     => $settings['username'],
+        'password' => $settings['password'],
+        'charset'  => $settings['charset']
+    ]);
+
+    return new Spot\Locator($config);
+};
+
+$c['filemanager'] = function ($c) {
+    return new ISTSI\Models\FileManager($c);
 };
