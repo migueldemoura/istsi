@@ -1,3 +1,4 @@
+app/src/settings.php
 app/composer.lock
 app/vendor/
 docker/.data/
@@ -6,5 +7,3 @@ cache/
 data/
 logs/
 !.keep
-
-app/src/settings.php
