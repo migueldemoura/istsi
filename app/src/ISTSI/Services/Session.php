@@ -41,7 +41,7 @@ class Session
         return $_SESSION['token'];
     }
 
-    public function hasValidToken(string $token)
+    public function hasValidToken($token)
     {
         return ($_SESSION['token'] === $token);
     }
