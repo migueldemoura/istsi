@@ -16,13 +16,13 @@ class Fenix
         $this->c = $c;
     }
 
-    public function login(Request $request, Response $response, $args)
+    public function connect(Request $request, Response $response, $args)
     {
         $fenix = $this->c->get('fenix');
         return $response->withStatus(302)->withHeader('Location', $fenix->getAuthUrl());
     }
 
-    public function callback(Request $request, Response $response, $args)
+    public function login(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
         $fenix = $this->c->get('fenix');
@@ -93,12 +93,8 @@ class Fenix
     {
         $session = $this->c->get('session');
 
-        if ($session->isLogged() && $session->isValidToken($request->getQueryParam('token'))) {
-            //TODO:$logger->addRecord(I_LOGOUT, ['$uid' => $_SESSION['$uid']]);
-            $session->close();
-        } else {
-            //TODO:$logger->addRecord(E_FENIX_INVALID);
-        }
+        //TODO:$logger->addRecord(I_LOGOUT, ['$uid' => $_SESSION['$uid']]);
+        $session->close();
 
         return $response->withStatus(302)->withHeader('Location', '/');
     }
