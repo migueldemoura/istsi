@@ -31,7 +31,7 @@ class User
             'programName' => $settingsProgram['name'],
             'programYear' => $settingsProgram['year'],
             'uid'         => $uid,
-            'logoutPath'  => '/fenix/logout?token=' . $session->getToken(),
+            'logoutPath'  => '/fenix/logout?csrf_token=' . $session->getToken(),
             'emailMaxSize' => $settingsProgram['emailMaxSize'],
             'email'       => $user->email,
             'token'       => $session->getToken()
@@ -59,7 +59,7 @@ class User
             'programName' => $settingsProgram['name'],
             'programYear' => $settingsProgram['year'],
             'userID'      => $uid,
-            'logoutPath'  => '/fenix/logout?token=' . $session->getToken(),
+            'logoutPath'  => '/fenix/logout?csrf_token=' . $session->getToken(),
             'observationsMaxSize' => $settingsProgram['observationsMaxSize'],
             'token'       => $session->getToken(),
             'registrationOpen' => Registration::isOpen(
