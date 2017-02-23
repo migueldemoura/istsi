@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Models;
+namespace ISTSI\Services;
 
 use GuzzleHttp\Client;
 use Psr\Container\ContainerInterface;

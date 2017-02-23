@@ -1,7 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Models;
+namespace ISTSI\Services;
+
+use Psr\Container\ContainerInterface;
 
 class FileManager
 {
@@ -11,7 +13,7 @@ class FileManager
     public $maxSize;
     public $path;
 
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->c = $c;
 
@@ -22,7 +24,7 @@ class FileManager
         $this->path      = $settings['path'];
     }
 
-    public function parseUpload($field, $fileDir, $fileName, $overwrite)
+    public function parseUpload(string $field, string $fileDir, string $fileName, bool $overwrite)
     {
         //TODO:MOVE ALL THIS TO $request->getUploadedFiles();
         $filePath = $fileDir . $fileName;
@@ -68,29 +70,18 @@ class FileManager
         }
     }
 
-    public function isUploaded($field)
+    public function isUploaded(string $field)
     {
         return !empty($_FILES[$field]['name']) &&
                file_exists($_FILES[$field]['tmp_name']) &&
                is_uploaded_file($_FILES[$field]['tmp_name']);
     }
 
-    public function deleteFile($filePath)
+    public function deleteFile(string $filePath)
     {
         if (file_exists($filePath)) {
             return unlink($filePath);
         }
-
         return true;
-    }
-
-    public function areEqual($file1, $file2)
-    {
-        if (file_exists($file1) && file_exists($file2)) {
-            return filesize($file1) === filesize($file2) &&
-                   hash_file('sha512', $file1) === hash_file('sha512', $file2);
-        }
-
-        return false;
     }
 }

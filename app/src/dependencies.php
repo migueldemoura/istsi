@@ -29,11 +29,11 @@ $c['logger'] = function ($c) {
 };
 
 $c['session'] = function () {
-    return new ISTSI\Models\Session();
+    return new ISTSI\Services\Session();
 };
 
 $c['fenix'] = function ($c) {
-    return new ISTSI\Models\Fenix($c);
+    return new ISTSI\Services\Fenix($c);
 };
 
 $c['database'] = function ($c) {
@@ -53,5 +53,5 @@ $c['database'] = function ($c) {
 };
 
 $c['filemanager'] = function ($c) {
-    return new ISTSI\Models\FileManager($c);
+    return new ISTSI\Services\FileManager($c);
 };

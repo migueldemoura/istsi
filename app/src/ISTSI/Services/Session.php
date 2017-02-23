@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Models;
+namespace ISTSI\Services;
 
 class Session
 {
@@ -41,7 +41,7 @@ class Session
         return $_SESSION['token'];
     }
 
-    public function hasValidToken($token)
+    public function hasValidToken(string $token)
     {
         return ($_SESSION['token'] === $token);
     }
@@ -51,7 +51,7 @@ class Session
         return $_SESSION['uid'];
     }
 
-    private function setUid($uid)
+    private function setUid(string $uid)
     {
         $_SESSION['uid'] = $uid;
     }
