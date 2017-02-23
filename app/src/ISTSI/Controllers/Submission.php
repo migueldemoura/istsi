@@ -177,10 +177,6 @@ class Submission
             //TODO:throw new IException(E_FILE_UPLOAD, ['fileID' => 'CM'], 'fileCM');
             die('E_FILE_UPLOAD');
         };
-        if ($fileManager->areEqual($_FILES['CV']['tmp_name'], $_FILES['CM']['tmp_name'])) {
-            //TODO: throw new IException(E_FILE_EQUAL, null, 'files');
-            die('E_FILE_EQUAL');
-        }
 
         // File Upload
         $settingsFiles = $this->c->get('settings')['files'];
@@ -239,13 +235,6 @@ class Submission
         }
 
         if (isset($_POST['observations'])) {
-            if (!empty($_FILES['CV']['name']) && !empty($_FILES['CM']['name'])) {
-                if ($fileManager->areEqual($_FILES['CV']['tmp_name'], $_FILES['CM']['tmp_name'])) {
-                    //TODO:throw new IException(E_FILE_EQUAL, null, 'files');
-                    die('E_FILE_EQUAL');
-                }
-            }
-
             $observations = $request->getParsedBodyParam('observations');
 
             if (!empty($observations) &&
