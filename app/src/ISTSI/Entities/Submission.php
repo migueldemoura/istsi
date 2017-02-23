@@ -18,7 +18,7 @@ class Submission extends Entity
             'id'           => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
             'user_id'      => ['type' => 'string', 'unique' => 'user_idProposal_id'],
             'proposal_id'  => ['type' => 'string', 'unique' => 'user_idProposal_id'],
-            'observations' => ['type' => 'string'],
+            'observations' => ['type' => 'text'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
         ];
