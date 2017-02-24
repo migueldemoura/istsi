@@ -16,22 +16,32 @@ It was built to ease the work of those behind the program and to allow the candi
 
 ### Docker
 
-This project includes config files to create a dev environment with Nginx, PHP-FPM, MySQL, among others.
+This project includes config files to create an environment with Nginx, PHP-FPM, MySQL, among others.
 
 * Install [Docker] and [Docker Compose]
 * Go to `docker/`, rename `.env.dist` to `.env` and fill all the options.
 
-To start containers:
+* Start environment:
+
     ```sh
     $ ./deploy.sh up
     ```
 
-To stop them:
+You may need to also execute the following to fix some permission issues:
+
+```sh
+$ ./deploy.sh exec
+container# chown -R www-data:www-data /var/www/cache /var/www/data /var/www/logs
+container# exit
+```
+
+To access the webpage go to [istsi.dev](http://istsi.dev).
+
+* Stop environment:
+
     ```sh
     $ ./deploy.sh down
     ```
-
-You may access the webpage at [istsi.dev](http://istsi.dev)
 
 ### License
 
