@@ -16,12 +16,6 @@ class Auth
         $this->c = $c;
     }
 
-    /***
-     * @param Request $request
-     * @param Response $response
-     * @param $next
-     * @return \Psr\Http\Message\ResponseInterface
-     */
     public function __invoke(Request $request, Response $response, $next)
     {
         $session = $this->c->get('session');
