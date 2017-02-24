@@ -40,7 +40,10 @@ return [
             'extension'   => '',
             'mimeType'    => '',
             'maxSize'     => '',
-            'path'        => __DIR__ . '/../../data/',
+
+            // Allowed slugs {year}, {proposal}, {uid}, {type}
+            'directory'   => __DIR__ . '/../../data/',
+            'filename'    => '',
         ],
 
         'program' => [

@@ -79,6 +79,7 @@ class Submission
     public function getFile(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
+        $fileManager = $this->c->get('filemanager');
         $session = $this->c->get('session');
         $settingsFiles = $this->c->get('settings')['files'];
         $settingsProgram = $this->c->get('settings')['program'];
@@ -94,16 +95,17 @@ class Submission
         }
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
-        $result = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
 
-        if (!$result) {
+        if (!$submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal])) {
             die('E_INVALID_PROPOSAL');
         }
 
-        $fileDir = $settingsFiles['path'] . $settingsProgram['year'] . '/' . $proposal . '/';
-        $fileName = $uid . '-'. $file . '.' . $settingsFiles['extension'];
-        $filePath = $fileDir . $fileName;
-
+        $filePath = $fileManager->getFilePath([
+            '{year}' => $settingsProgram['year'],
+            '{proposal}' => $proposal,
+            '{uid}' => $uid,
+            '{type}' => $file
+        ]);
         $stream = new Stream(fopen($filePath, 'rb'));
 
         //TODO:$logger->addRecord(I_VIEW_FILE, ['userID' => $_SESSION['userID'], 'fileID' => $file, 'proposal' => $proposal]);
@@ -127,7 +129,7 @@ class Submission
         $userMapper = $database->mapper('\ISTSI\Entities\User');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
-
+        $submissionMapper->migrate();
         $user = $userMapper->get($uid);
         $proposals = $proposalMapper->all();
 
@@ -151,13 +153,14 @@ class Submission
             }
         }
         if (!$valid) {
-            //throw new IException(E_PROPOSAL_INVALID, null, 'proposal');
+            //TODO:throw new IException(E_PROPOSAL_INVALID, null, 'proposal');
             die('E_PROPOSAL_INVALID');
         }
 
         // Insert new submission
         $observations = $request->getParsedBodyParam('observations');
-        if (!empty($observations) &&
+
+        if ($observations !== '' &&
             !filter_var(
                 $observations,
                 FILTER_VALIDATE_REGEXP,
@@ -168,26 +171,20 @@ class Submission
             die('E_OBSERVATIONS_INVALID');
         }
 
-        // File validation
-        if (!$fileManager->isUploaded('CV')) {
-            //TODO:throw new IException(E_FILE_UPLOAD, ['fileID' => 'CV'], 'fileCV');
-            die('E_FILE_UPLOAD');
-        };
-        if (!$fileManager->isUploaded('CM')) {
-            //TODO:throw new IException(E_FILE_UPLOAD, ['fileID' => 'CM'], 'fileCM');
-            die('E_FILE_UPLOAD');
-        };
-
         // File Upload
-        $settingsFiles = $this->c->get('settings')['files'];
-
-        $fileDir = $settingsFiles['path'] . $settingsProgram['year'] . '/' . $proposal . '/';
-        $fileNameCV = $uid . '-CV.' . $settingsFiles['extension'];
-        $fileNameCM = $uid . '-CM.' . $settingsFiles['extension'];
-
-        $fileManager->parseUpload('CV', $fileDir, $fileNameCV, true);
-        $fileManager->parseUpload('CM', $fileDir, $fileNameCM, true);
-
+        foreach ($request->getUploadedFiles() as $type => $file) {
+            if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
+                $fileManager->parseUpload(
+                    $request->getUploadedFiles()[$type],
+                    $fileManager->getFilePath([
+                        '{year}' => $settingsProgram['year'],
+                        '{proposal}' => $proposal,
+                        '{uid}' => $uid,
+                        '{type}' => $type
+                    ])
+                );
+            }
+        }
 
         // Database Update
         $submission = $submissionMapper->build([
@@ -215,7 +212,6 @@ class Submission
         $fileManager = $this->c->get('filemanager');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
-        $settingsFiles = $this->c->get('settings')['files'];
 
         $uid = $session->getUid();
 
@@ -228,23 +224,21 @@ class Submission
         }
 
         $proposal = $args['proposal'];
+        $observations = $request->getParsedBodyParam('observations');
+        $files = $request->getUploadedFiles();
 
-        if (!isset($_POST['observations']) && empty($_FILES['CV']['name']) && empty($_FILES['CM']['name'])) {
+        if ($observations === '' && $files['CV']->file === '' && $files['CM']->file === '') {
             //TODO:throw new IException(E_SUBMISSION_EDIT_EMPTY, null, 'all');
             die('E_SUBMISSION_EDIT_EMPTY');
         }
 
-        if (isset($_POST['observations'])) {
-            $observations = $request->getParsedBodyParam('observations');
-
-            if (!empty($observations) &&
-                !filter_var(
-                    $observations,
-                    FILTER_VALIDATE_REGEXP,
-                    ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s'],]
-                )
-            ) {
-                //TODO:throw new IException(E_OBSERVATIONS_INVALID, ['observationsMaxSize' => $configProgram['observationsMaxSize']],'observations');
+        if ($observations !== '') {
+            if (!filter_var(
+                $observations,
+                FILTER_VALIDATE_REGEXP,
+                ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s'],]
+            )) {
+                //TODO:throw new IException(E_OBSERVATIONS_INVALID, ['observationsMaxSize' 'observations');
                 die('E_OBSERVATIONS_INVALID');
             }
 
@@ -252,35 +246,22 @@ class Submission
             $submission->observations = $observations;
             $submissionMapper->update($submission);
 
-            //TODO:$logger->addRecord(I_EDIT_OBSERVATIONS, ['userID' => $_SESSION['userID'], 'proposal' => $proposal]);
+            //TODO:$logger->addRecord(I_EDIT_OBSERVATIONS, ['userID' 'proposal']);
         }
 
-        if (!empty($_FILES['CV']['name'])) {
-            if (!$fileManager->isUploaded('CV')) {
-                //TODO:throw new IException(E_FILE_UPLOAD, ['fileID' => 'CV'], 'fileCV');
-                die('E_FILE_UPLOAD');
-            };
-
-            $fileDir = $settingsFiles['path'] . $settingsProgram['year'] . '/' . $proposal . '/';
-            $fileName = $uid . '-CV.' . $settingsFiles['extension'];
-
-            $fileManager->parseUpload('CV', $fileDir, $fileName, true);
-
-            //TODO:$logger->addRecord(I_EDIT_FILE,['userID' => $_SESSION['userID'], 'fileID' => 'CV', 'proposal' => $proposal]);
-        }
-
-        if (!empty($_FILES['CM']['name'])) {
-            if (!$fileManager->isUploaded('CM')) {
-                //TODO:throw new IException(E_FILE_UPLOAD, ['fileID' => 'CM'], 'fileCM');
-                die('E_FILE_UPLOAD');
-            };
-
-            $fileDir = $settingsFiles['path'] . $settingsProgram['year'] . '/' . $proposal . '/';
-            $fileName = $uid . '-CM.' . $settingsFiles['extension'];
-
-            $fileManager->parseUpload('CM', $fileDir, $fileName, true);
-
-            //TODO: $logger->addRecord(I_EDIT_FILE,['userID' => $_SESSION['userID'], 'fileID' => 'CM', 'proposal' => $proposal]);
+        foreach ($files as $type => $file) {
+            if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
+                $fileManager->parseUpload(
+                    $request->getUploadedFiles()[$type],
+                    $fileManager->getFilePath([
+                        '{year}' => $settingsProgram['year'],
+                        '{proposal}' => $proposal,
+                        '{uid}' => $uid,
+                        '{type}' => $type
+                    ])
+                );
+                //TODO:$logger->addRecord(I_EDIT_FILE,['uid' $type $proposal]);
+            }
         }
 
         return $response->withJson([
@@ -312,21 +293,22 @@ class Submission
         $result = $submissionMapper->delete(['user_id' => $uid, 'proposal_id' => $proposal]);
         if (!$result) {
             //TODO:If submission doesn't exist, dont attempt to delete file
-            die('E_DB_OP');
+            die('E_SUBMISSION_NOT_FOUND');
         }
 
         // Delete submission files
-        $settingsFiles = $this->c->get('settings')['files'];
-
-        $fileDir = $settingsFiles['path'] . $settingsProgram['year'] . '/' . $proposal . '/';
-        $fileNameCV = $uid . '-CV.' . $settingsFiles['extension'];
-        $fileNameCM = $uid . '-CM.' . $settingsFiles['extension'];
-
-        if (!$fileManager->deleteFile($fileDir . $fileNameCV)) {
+        $substitutions = [
+            '{year}' => $settingsProgram['year'],
+            '{proposal}' => $proposal,
+            '{uid}' => $uid,
+            '{type}' => 'CV'
+        ];
+        if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
             //TODO:throw new IException(E_FILE_DELETE, ['fileID' => 'CV'], 'file');
             die('E_FILE_DELETE');
         };
-        if (!$fileManager->deleteFile($fileDir . $fileNameCM)) {
+        $substitutions['{type}'] = 'CM';
+        if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
             //TODO:throw new IException(E_FILE_DELETE, ['fileID' => 'CM'], 'file');
             die('E_FILE_DELETE');
         };
