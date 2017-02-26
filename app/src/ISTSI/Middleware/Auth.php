@@ -21,15 +21,7 @@ class Auth
         $session = $this->c->get('session');
 
         if (!$session->isLogged()) {
-            if ($request->isXhr()) {
-                $data = [
-                    'status' => 'fail',
-                    'data' => 'E_FENIX_INVALID'
-                ];
-                return $response->withJson($data);
-            }
-
-            //TODO: Better handling
+            //TODO:
             $response->getBody()->write('E_FENIX_INVALID');
             return $response;
         }

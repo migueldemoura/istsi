@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
+use ISTSI\Identifiers\Exception;
+use ISTSI\Identifiers\Information;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -26,23 +28,11 @@ class Fenix
     {
         $database = $this->c->get('database');
         $fenix = $this->c->get('fenix');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        if ($request->getQueryParam('error', $default = null) !== null) {
-            //TODO:throw new IException(E_FENIX_ACCESS_DENIED);
-            die('E_FENIX_ACCESS_DENIED');
-        } elseif ($request->getQueryParam('code', $default = null) === null) {
-            //TODO:throw new IException(E_URL_INVALID);
-            die('E_URL_INVALID');
-        }
-        $authCode = $request->getQueryParam('code');
-
-        try {
-            $fenix->getAccessTokenFromCode($authCode);
-        } catch (\Exception $exception) {
-            //TODO:throw new IException(E_URL_INVALID);
-            die('E_URL_INVALID');
-        }
+        //TODO: THIS MAY TROW AN EXCEPTION
+        $fenix->getAccessTokenFromCode($request->getQueryParam('code'));
 
         $uid = $fenix->getUid();
         $name = $fenix->getName();
@@ -54,7 +44,6 @@ class Fenix
         }
         $year = $fenix->getYear($course);
 
-        // User Update
         $userMapper = $database->mapper('\ISTSI\Entities\User');
 
         if ($user = $userMapper->get($uid)) {
@@ -64,36 +53,34 @@ class Fenix
             $user->year = $year;
             $userMapper->update($user);
         } else {
-            $result = $userMapper->create([
+            if (!$userMapper->create([
                 'id'     => $uid,
                 'name'   => $name,
                 'email'  => $email,
                 'course' => $course,
                 'year'   => $year
-            ]);
-            if (!$result) {
-                //TODO:$logger->addRecord(E_DB_OP);
-                die('E_DB_OP');
+            ])) {
+                throw new \Exception(Exception::DB_OP);
             }
         }
 
         $session->create($uid);
-        //TODO:$logger->addRecord(I_LOGIN, ['$uid' => $_SESSION['$uid']]);
 
-        // Redirect to appropriate page
-        $user = $userMapper->get($uid);
+        $logger->addRecord(Information::LOGIN, ['uid' => $uid]);
 
         return $response->withStatus(302)->withHeader(
             'Location',
-            '/user/' . (($user->phone === null) ? 'account' : 'dashboard')
+            '/user/' . (($userMapper->get($uid)->phone === null) ? 'account' : 'dashboard')
         );
     }
 
     public function logout(Request $request, Response $response, $args)
     {
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        //TODO:$logger->addRecord(I_LOGOUT, ['$uid' => $_SESSION['$uid']]);
+        $logger->addRecord(Information::LOGOUT, ['uid' => $session->getUid()]);
+
         $session->close();
 
         return $response->withStatus(302)->withHeader('Location', '/');

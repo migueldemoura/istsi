@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace ISTSI\Controllers;
 
 use ISTSI\Helpers\Registration;
+use ISTSI\Identifiers\Exception;
+use ISTSI\Identifiers\Information;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -80,6 +82,7 @@ class Submission
     {
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
         $settingsFiles = $this->c->get('settings')['files'];
         $settingsProgram = $this->c->get('settings')['program'];
@@ -89,15 +92,14 @@ class Submission
         $proposal = $args['proposal'];
         $file = $args['file'];
 
-        if ($file !== 'CV' && $file !== 'CM') {
-            //TODO:throw new IException(E_URL_INVALID);
-            die('E_INVALID_FILE');
+        if (!in_array($file, ['CV', 'CM'])) {
+            return $response->withStatus(400)->write('Bad Request');
         }
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         if (!$submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal])) {
-            die('E_INVALID_PROPOSAL');
+            return $response->withStatus(400)->write('Bad Request');
         }
 
         $filePath = $fileManager->getFilePath([
@@ -108,7 +110,7 @@ class Submission
         ]);
         $stream = new Stream(fopen($filePath, 'rb'));
 
-        //TODO:$logger->addRecord(I_VIEW_FILE, ['userID' => $_SESSION['userID'], 'fileID' => $file, 'proposal' => $proposal]);
+        $logger->addRecord(Information::SUBMISSION_VIEW, ['uid' => $uid, 'file' => $file, 'proposal' => $proposal]);
 
         return $response->withHeader('Content-Type:', $settingsFiles['mimeType'])
                         ->withHeader('Content-Disposition', 'inline; filename=' . basename($filePath))
@@ -121,6 +123,7 @@ class Submission
         //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
@@ -153,8 +156,7 @@ class Submission
             }
         }
         if (!$valid) {
-            //TODO:throw new IException(E_PROPOSAL_INVALID, null, 'proposal');
-            die('E_PROPOSAL_INVALID');
+            throw new \Exception(Exception::SUBMISSION_INVALID);
         }
 
         // Insert new submission
@@ -167,8 +169,7 @@ class Submission
                 ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s']]
             )
         ) {
-            //TODO: throw new IException(E_OBSERVATIONS_INVALID
-            die('E_OBSERVATIONS_INVALID');
+            throw new \Exception(Exception::SUBMISSION_INVALID);
         }
 
         // File Upload
@@ -194,11 +195,11 @@ class Submission
         ]);
 
         if (!$submissionMapper->save($submission)) {
-            //TODO:throw new IException(E_SUBMISSION_NEW_DUPLICATE, null, 'proposal');
-            die('E_SUBMISSION_NEW_DUPLICATE');
+            throw new \Exception(Exception::SUBMISSION_DUPLICATE);
         }
 
-        //TODO:$logger->addRecord(I_NEW_SUBMISSION, ['userID' => $_SESSION['userID'], 'proposal' => $proposal]);
+        $logger->addRecord(Information::SUBMISSION_NEW, ['uid' => $uid, 'proposal' => $proposal]);
+
         return $response->withJson([
             'status' => 'success',
             'data'   => null
@@ -210,6 +211,7 @@ class Submission
         //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
@@ -238,15 +240,12 @@ class Submission
                 FILTER_VALIDATE_REGEXP,
                 ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s'],]
             )) {
-                //TODO:throw new IException(E_OBSERVATIONS_INVALID, ['observationsMaxSize' 'observations');
-                die('E_OBSERVATIONS_INVALID');
+                throw new \Exception(Exception::SUBMISSION_INVALID);
             }
 
             $submission = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
             $submission->observations = $observations;
             $submissionMapper->update($submission);
-
-            //TODO:$logger->addRecord(I_EDIT_OBSERVATIONS, ['userID' 'proposal']);
         }
 
         foreach ($files as $type => $file) {
@@ -260,9 +259,10 @@ class Submission
                         '{type}' => $type
                     ])
                 );
-                //TODO:$logger->addRecord(I_EDIT_FILE,['uid' $type $proposal]);
             }
         }
+
+        $logger->addRecord(Information::SUBMISSION_EDIT);
 
         return $response->withJson([
             'status' => 'success',
@@ -275,6 +275,7 @@ class Submission
         //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
@@ -290,10 +291,8 @@ class Submission
 
         $proposal = $args['proposal'];
 
-        $result = $submissionMapper->delete(['user_id' => $uid, 'proposal_id' => $proposal]);
-        if (!$result) {
-            //TODO:If submission doesn't exist, dont attempt to delete file
-            die('E_SUBMISSION_NOT_FOUND');
+        if (!$submissionMapper->delete(['user_id' => $uid, 'proposal_id' => $proposal])) {
+            throw new \Exception(Exception::SUBMISSION_INVALID);
         }
 
         // Delete submission files
@@ -304,16 +303,15 @@ class Submission
             '{type}' => 'CV'
         ];
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            //TODO:throw new IException(E_FILE_DELETE, ['fileID' => 'CV'], 'file');
-            die('E_FILE_DELETE');
+            throw new \Exception(Exception::FILE_DELETE);
         };
         $substitutions['{type}'] = 'CM';
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            //TODO:throw new IException(E_FILE_DELETE, ['fileID' => 'CM'], 'file');
-            die('E_FILE_DELETE');
+            throw new \Exception(Exception::FILE_DELETE);
         };
 
-        //TODO:$logger->addRecord(I_DELETE_SUBMISSION, ['userID' => $_SESSION['userID'], 'proposal' => $proposal]);
+        $logger->addRecord(Information::SUBMISSION_DELETE, ['uid' => $uid, 'proposal' => $proposal]);
+
         return $response->withJson([
             'status' => 'success',
             'data'   => null

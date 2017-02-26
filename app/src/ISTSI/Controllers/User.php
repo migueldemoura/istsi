@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace ISTSI\Controllers;
 
 use \ISTSI\Helpers\Registration;
+use ISTSI\Identifiers\Information;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -74,6 +75,7 @@ class User
     public function update(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
+        $logger = $this->c->get('logger');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
@@ -89,7 +91,7 @@ class User
             )
         ) {
             //TODO:throw new IException(E_EMAIL_INVALID, null, 'email');
-            die('E_EMAIL_INVALID');
+            die('EMAIL_INVALID');
         }
 
         if (empty($phone) ||
@@ -100,7 +102,7 @@ class User
             )
         ) {
             //TODO:throw new IException(E_PHONE_INVALID, null, 'phone');
-            die('E_PHONE_INVALID');
+            die('PHONE_INVALID');
         }
 
         $userMapper = $database->mapper('\ISTSI\Entities\User');
@@ -110,7 +112,7 @@ class User
         $user->phone = $phone;
         $userMapper->update($user);
 
-        //TODO:$logger->addRecord(I_INFO, ['userID' => $_SESSION['userID']]);
+        $logger->addRecord(Information::ACCOUNT_INFO, ['uid' => $uid]);
 
         $data = [
             'status' => 'success',
