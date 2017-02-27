@@ -228,28 +228,22 @@ class Submission
 
         $proposal = $args['proposal'];
         $observations = $request->getParsedBodyParam('observations');
-        $files = $request->getUploadedFiles();
 
-        if ($observations === '' && $files['CV']->file === '' && $files['CM']->file === '') {
-            //TODO:throw new IException(E_SUBMISSION_EDIT_EMPTY, null, 'all');
-            die('E_SUBMISSION_EDIT_EMPTY');
-        }
-
-        if ($observations !== '') {
-            if (!filter_var(
+        if ($observations !== '' &&
+            !filter_var(
                 $observations,
                 FILTER_VALIDATE_REGEXP,
-                ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s'],]
-            )) {
-                throw new \Exception(Notice::SUBMISSION_INVALID);
-            }
-
-            $submission = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
-            $submission->observations = $observations;
-            $submissionMapper->update($submission);
+                ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s']]
+            )
+        ) {
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
+        $submission = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
+        $submission->observations = $observations;
+        $submissionMapper->update($submission);
 
-        foreach ($files as $type => $file) {
+
+        foreach ($request->getUploadedFiles() as $type => $file) {
             if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
                 $fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
