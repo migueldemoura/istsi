@@ -1,28 +1,30 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Middleware;
+namespace ISTSI\Middleware\Auth;
 
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class Auth
+class PasswordLess
 {
     protected $c;
+    private $method;
 
-    public function __construct(ContainerInterface $c)
+    public function __construct(ContainerInterface $c, $method)
     {
         $this->c = $c;
+        $this->method = $method;
     }
 
     public function __invoke(Request $request, Response $response, $next)
     {
         $session = $this->c->get('session');
 
-        if (!$session->isLogged()) {
+        if (!$session->isLogged($this->method)) {
             //TODO:
-            $response->getBody()->write('E_FENIX_INVALID');
+            $response->getBody()->write('E_AUTH_INVALID');
             return $response;
         }
 
