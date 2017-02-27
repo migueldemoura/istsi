@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 use ISTSI\Middleware\Auth;
 use ISTSI\Middleware\CSRF;
+use ISTSI\Middleware\Period;
 
 $c = $app->getContainer();
 
@@ -30,8 +31,8 @@ $app->group('/submission', function () use ($app, $c) {
     $app->get('/get/list', 'ISTSI\Controllers\Submission:getList');
     $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Submission:getData');
     $app->get('/get/file/{proposal}/{file}', 'ISTSI\Controllers\Submission:getFile');
-    $app->post('/create/{proposal}', 'ISTSI\Controllers\Submission:create');
-    $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update');
-    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete');
+    $app->post('/create/{proposal}', 'ISTSI\Controllers\Submission:create')->add(new Period($c));
+    $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update')->add(new Period($c));
+    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete')->add(new Period($c));
 })->add(new CSRF($c))
   ->add(new Auth($c));

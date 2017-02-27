@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
-use \ISTSI\Helpers\Registration;
+use ISTSI\Helpers\DateTime;
 use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
@@ -63,9 +63,9 @@ class User
             'logoutPath'  => '/fenix/logout?csrf_token=' . $session->getToken(),
             'observationsMaxSize' => $settingsProgram['observationsMaxSize'],
             'token'       => $session->getToken(),
-            'registrationOpen' => Registration::isOpen(
-                $settingsProgram['registrationStart'],
-                $settingsProgram['registrationEnd']
+            'onPeriod' => DateTime::isBetween(
+                $settingsProgram['period']['start'],
+                $settingsProgram['period']['end']
             )
         ];
 

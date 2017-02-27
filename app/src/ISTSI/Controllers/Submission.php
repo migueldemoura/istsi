@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
-use ISTSI\Helpers\Registration;
 use ISTSI\Identifiers\Error;
 use ISTSI\Identifiers\Notice;
 use ISTSI\Identifiers\Info;
@@ -137,12 +136,6 @@ class Submission
         $user = $userMapper->get($uid);
         $proposals = $proposalMapper->all();
 
-        // Check whether registration is open
-        if (!Registration::isOpen($settingsProgram['registrationStart'], $settingsProgram['registrationEnd'])) {
-            //TODO: throw new IException(E_REGISTRATION_CLOSED, null, 'registration');
-            die('E_REGISTRATION_CLOSED');
-        }
-
         $proposal = $args['proposal'];
 
         // Validate given proposal
@@ -220,12 +213,6 @@ class Submission
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
-        // Check whether registration is open
-        if (!Registration::isOpen($settingsProgram['registrationStart'], $settingsProgram['registrationEnd'])) {
-            //TODO: throw new IException(E_REGISTRATION_CLOSED, null, 'registration');
-            die('E_REGISTRATION_CLOSED');
-        }
-
         $proposal = $args['proposal'];
         $observations = $request->getParsedBodyParam('observations');
 
@@ -277,12 +264,6 @@ class Submission
         $uid = $session->getUid();
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
-
-        // Check whether registration is open
-        if (!Registration::isOpen($settingsProgram['registrationStart'], $settingsProgram['registrationEnd'])) {
-            //TODO: throw new IException(E_REGISTRATION_CLOSED, null, 'registration');
-            die('E_REGISTRATION_CLOSED');
-        }
 
         $proposal = $args['proposal'];
 

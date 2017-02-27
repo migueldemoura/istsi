@@ -54,8 +54,10 @@ return [
             'courses'     => [], // ARRAY STRING
             'years'       => [], // ARRAY INTS
 
-            'registrationStart'   => '', //YYYY-MM-DD
-            'registrationEnd'     => '', //YYYY-MM-DD
+            'period' => [
+                'start'   => '', //YYYY-MM-DD
+                'end'     => ''  //YYYY-MM-DD
+            ],
 
             'uidMaxSize'          => , // Int
             'nameMaxSize'         => , // Int

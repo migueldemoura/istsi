@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace ISTSI\Helpers;
 
-class Registration
+class DateTime
 {
-    public static function isOpen($start, $end)
+    public static function isBetween($start, $end)
     {
         $now = new \DateTime();
         $start = new \DateTime($start);
