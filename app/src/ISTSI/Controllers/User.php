@@ -29,13 +29,13 @@ class User
         $user = $userMapper->get($uid);
 
         $templateArgs = [
-            'programName' => $settingsProgram['name'],
-            'programYear' => $settingsProgram['year'],
-            'uid'         => $uid,
-            'logoutPath'  => '/fenix/logout?csrf_token=' . $session->getToken(),
+            'programName'  => $settingsProgram['name'],
+            'programYear'  => $settingsProgram['year'],
+            'uid'          => $uid,
+            'logout'       => '/fenix/logout',
+            'email'        => $user->email,
             'emailMaxSize' => $settingsProgram['emailMaxSize'],
-            'email'       => $user->email,
-            'token'       => $session->getToken()
+            'token'        => $session->getToken()
         ];
 
         return $this->c->get('renderer')->render($response, 'user/account.twig', $templateArgs);
@@ -59,11 +59,11 @@ class User
         $templateArgs = [
             'programName' => $settingsProgram['name'],
             'programYear' => $settingsProgram['year'],
-            'userID'      => $uid,
-            'logoutPath'  => '/fenix/logout?csrf_token=' . $session->getToken(),
+            'uid'         => $uid,
+            'logout'      => '/fenix/logout',
             'observationsMaxSize' => $settingsProgram['observationsMaxSize'],
             'token'       => $session->getToken(),
-            'onPeriod' => DateTime::isBetween(
+            'onPeriod'    => DateTime::isBetween(
                 $settingsProgram['period']['start'],
                 $settingsProgram['period']['end']
             )
