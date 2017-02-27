@@ -27,13 +27,13 @@ return [
         ],
 
         'database' => [
-            'driver'      => '',
-            'host'        => '',
+            'driver'      => 'pdo_mysql',
+            'host'        => 'db',
             'database'    => '',
             'username'    => '',
             'password'    => '',
-            'charset'     => '',
-            'collation'   => '',
+            'charset'     => 'utf8mb4',
+            'collation'   => 'utf8mb4_unicode_ci',
         ],
 
         'files' => [
