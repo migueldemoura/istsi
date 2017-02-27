@@ -7,13 +7,9 @@ class Registration
 {
     public static function isOpen($start, $end)
     {
-        try {
-            $now = new \DateTime();
-            $start = new \DateTime($start);
-            $end = new \DateTime($end);
-        } catch (\Exception $exception) {
-            return false;
-        }
+        $now = new \DateTime();
+        $start = new \DateTime($start);
+        $end = new \DateTime($end);
 
         return ($now >= $start && $now <= $end);
     }

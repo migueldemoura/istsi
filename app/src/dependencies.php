@@ -26,6 +26,19 @@ $c['logger'] = function ($c) {
     return new ISTSI\Services\Logger($settings['name'], $settings['path'], $settings['level']);
 };
 
+$c['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        $c->get('logger')->addRecord(
+            ['ERROR', $exception->getCode() . ' - ' . $exception->getMessage()],
+            ['trace' => $exception->getTrace()]
+        );
+
+        return $c['response']->withStatus(500)
+            ->withHeader('Content-Type', 'text/html')
+            ->write('Something went wrong!');
+    };
+};
+
 $c['session'] = function () {
     return new ISTSI\Services\Session();
 };

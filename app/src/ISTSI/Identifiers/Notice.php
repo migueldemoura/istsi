@@ -3,12 +3,9 @@ declare(strict_types = 1);
 
 namespace ISTSI\Identifiers;
 
-class Exception
+class Notice
 {
-    const DB_OP = ['SERVER', 'Unable to execute the operation on the database'];
-    const DATE_FORMAT = ['SERVER', 'Invalid registration date format'];
     const FILE_UPLOAD = ['USER', 'Uploaded file is invalid'];
-    const FILE_DELETE = ['USER', 'Cannot delete file'];
     const FENIX_INVALID = ['USER', 'User isn\'t authenticated'];
     const FENIX_NOT_STUDENT = ['USER', 'User isn\'t a student'];
     const SUBMISSION_INVALID = ['USER', 'Invalid submission'];

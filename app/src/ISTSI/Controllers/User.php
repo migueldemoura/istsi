@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace ISTSI\Controllers;
 
 use \ISTSI\Helpers\Registration;
-use ISTSI\Identifiers\Information;
+use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -112,7 +112,7 @@ class User
         $user->phone = $phone;
         $userMapper->update($user);
 
-        $logger->addRecord(Information::ACCOUNT_INFO, ['uid' => $uid]);
+        $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
 
         $data = [
             'status' => 'success',

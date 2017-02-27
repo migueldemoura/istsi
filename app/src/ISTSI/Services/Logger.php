@@ -19,21 +19,11 @@ class Logger
 
     public function addRecord($error, $context = [])
     {
-        $filteredToken = preg_replace('/([?&])csrf_token=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']);
+        $path = preg_replace('/([?&])csrf_token=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']);
 
-        $url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$filteredToken}";
+        $url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
+               $_SERVER['HTTP_HOST'] . $path;
 
-        switch ($error[0]) {
-            case 'INFO':
-                $this->logger->addInfo($error[1] . ' - ' . $error[2] . ' ' . $url, $context);
-                break;
-            case 'USER':
-                $this->logger->addNotice($error[1] . ' - ' . $error[2] . ' ' . $url, $context);
-                break;
-            case 'SERVER':
-                $this->logger->addError($error[1] . ' - ' . $error[2] . ' ' . $url, $context);
-                break;
-            default:
-        }
+        $this->logger->{'add' . ucwords(strtolower($error[0]))}($error[1] . ' ' . $url, $context);
     }
 }

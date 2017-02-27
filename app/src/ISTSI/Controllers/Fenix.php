@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
-use ISTSI\Identifiers\Exception;
-use ISTSI\Identifiers\Information;
+use ISTSI\Identifiers\Error;
+use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -60,13 +60,13 @@ class Fenix
                 'course' => $course,
                 'year'   => $year
             ])) {
-                throw new \Exception(Exception::DB_OP);
+                throw new \Exception(Error::DB_OP);
             }
         }
 
         $session->create($uid);
 
-        $logger->addRecord(Information::LOGIN, ['uid' => $uid]);
+        $logger->addRecord(Info::LOGIN, ['uid' => $uid]);
 
         return $response->withStatus(302)->withHeader(
             'Location',
@@ -79,7 +79,7 @@ class Fenix
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        $logger->addRecord(Information::LOGOUT, ['uid' => $session->getUid()]);
+        $logger->addRecord(Info::LOGOUT, ['uid' => $session->getUid()]);
 
         $session->close();
 

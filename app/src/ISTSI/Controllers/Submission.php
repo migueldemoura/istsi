@@ -4,8 +4,9 @@ declare(strict_types = 1);
 namespace ISTSI\Controllers;
 
 use ISTSI\Helpers\Registration;
-use ISTSI\Identifiers\Exception;
-use ISTSI\Identifiers\Information;
+use ISTSI\Identifiers\Error;
+use ISTSI\Identifiers\Notice;
+use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -110,7 +111,7 @@ class Submission
         ]);
         $stream = new Stream(fopen($filePath, 'rb'));
 
-        $logger->addRecord(Information::SUBMISSION_VIEW, ['uid' => $uid, 'file' => $file, 'proposal' => $proposal]);
+        $logger->addRecord(Info::SUBMISSION_VIEW, ['uid' => $uid, 'file' => $file, 'proposal' => $proposal]);
 
         return $response->withHeader('Content-Type:', $settingsFiles['mimeType'])
                         ->withHeader('Content-Disposition', 'inline; filename=' . basename($filePath))
@@ -156,7 +157,7 @@ class Submission
             }
         }
         if (!$valid) {
-            throw new \Exception(Exception::SUBMISSION_INVALID);
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         // Insert new submission
@@ -169,7 +170,7 @@ class Submission
                 ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s']]
             )
         ) {
-            throw new \Exception(Exception::SUBMISSION_INVALID);
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         // File Upload
@@ -195,10 +196,10 @@ class Submission
         ]);
 
         if (!$submissionMapper->save($submission)) {
-            throw new \Exception(Exception::SUBMISSION_DUPLICATE);
+            throw new \Exception(Notice::SUBMISSION_DUPLICATE);
         }
 
-        $logger->addRecord(Information::SUBMISSION_NEW, ['uid' => $uid, 'proposal' => $proposal]);
+        $logger->addRecord(Info::SUBMISSION_NEW, ['uid' => $uid, 'proposal' => $proposal]);
 
         return $response->withJson([
             'status' => 'success',
@@ -240,7 +241,7 @@ class Submission
                 FILTER_VALIDATE_REGEXP,
                 ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s'],]
             )) {
-                throw new \Exception(Exception::SUBMISSION_INVALID);
+                throw new \Exception(Notice::SUBMISSION_INVALID);
             }
 
             $submission = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
@@ -262,7 +263,7 @@ class Submission
             }
         }
 
-        $logger->addRecord(Information::SUBMISSION_EDIT);
+        $logger->addRecord(Info::SUBMISSION_EDIT);
 
         return $response->withJson([
             'status' => 'success',
@@ -292,7 +293,7 @@ class Submission
         $proposal = $args['proposal'];
 
         if (!$submissionMapper->delete(['user_id' => $uid, 'proposal_id' => $proposal])) {
-            throw new \Exception(Exception::SUBMISSION_INVALID);
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         // Delete submission files
@@ -303,14 +304,14 @@ class Submission
             '{type}' => 'CV'
         ];
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            throw new \Exception(Exception::FILE_DELETE);
+            throw new \Exception(Error::FILE_DELETE);
         };
         $substitutions['{type}'] = 'CM';
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            throw new \Exception(Exception::FILE_DELETE);
+            throw new \Exception(Error::FILE_DELETE);
         };
 
-        $logger->addRecord(Information::SUBMISSION_DELETE, ['uid' => $uid, 'proposal' => $proposal]);
+        $logger->addRecord(Info::SUBMISSION_DELETE, ['uid' => $uid, 'proposal' => $proposal]);
 
         return $response->withJson([
             'status' => 'success',
