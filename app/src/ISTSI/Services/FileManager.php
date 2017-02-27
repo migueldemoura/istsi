@@ -31,11 +31,10 @@ class FileManager
     {
         if ($this->getExtension($file) !== $this->extension) {
             //TODO: throw new IException(E_FILE_EXTENSION, ['extension' => $this->extension], 'file' . $field);
-            die('E_FILE_EXTENSION');
         }
         if ($this->getMimeType($file) !== $this->mimeType) {
             //TODO: throw new IException(E_FILE_MIME_TYPE, ['mimeType' => $this->mimeType], 'file' . $field);
-            die('E_FILE_EXTENSION');
+            die('E_FILE_MIME_TYPE');
         }
         if ($file->getSize() >= $this->maxSize) {
             //TODO: throw new IException(E_FILE_SIZE, ['maxSizeMB' => $this->maxSize], 'file' . $field);
