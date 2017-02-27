@@ -49,11 +49,11 @@ class Fenix
 
         $data = json_decode($response->getBody()->getContents());
 
-        if ($response->getStatusCode() === 200) {
-            return $data;
-        } else {
+        if ($response->getStatusCode() !== 200) {
             throw new \Exception($data->error_description);
         }
+
+        return $data;
     }
 
     private function post(string $endpoint, array $body, bool $public = false)
@@ -65,11 +65,11 @@ class Fenix
 
         $data = json_decode($response->getBody()->getContents());
 
-        if ($response->getStatusCode() === 200) {
-            return $data;
-        } else {
+        if ($response->getStatusCode() !== 200) {
             throw new \Exception($data->error_description);
         }
+
+        return $data;
     }
 
     public function getAuthUrl()
@@ -126,11 +126,6 @@ class Fenix
     private function getCurriculum()
     {
         return $this->get('person/curriculum');
-    }
-
-    public function getCourses()
-    {
-        return $this->get('person/courses');
     }
 
     public function getUid()
