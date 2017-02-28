@@ -28,12 +28,19 @@ class PasswordLess
 
         $initTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\InitToken');
 
-        if ($initToken = $initTokenMapper->first(['token' => $args['token']])) {
-            $email = $initToken->email;
-            $initTokenMapper->delete(['email' => $email]);
-        } else {
+        if (!($initToken = $initTokenMapper->first(['token' => $args['token']]))) {
             die('E_INVALID_INIT_TOKEN');
         }
+
+        $email = $initToken->email;
+
+        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+
+        if (!($authToken = $companyMapper->create(['email' => $email]))) {
+            throw new \Exception(Error::DB_OP);
+        }
+
+        $initTokenMapper->delete(['email' => $email]);
 
         $session->create($email, Auth::PASSWORDLESS);
 
@@ -46,6 +53,7 @@ class PasswordLess
     {
         $database = $this->c->get('database');
         $logger = $this->c->get('logger');
+        $mailer = $this->c->get('mailer');
 
         $email = $request->getParam('email');
 
@@ -60,7 +68,13 @@ class PasswordLess
                 $authToken->token = bin2hex(random_bytes(64));
                 $authTokenMapper->update($authToken);
 
-                //TODO: Send email with code
+                // Send mail with new auth token
+                $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+                $company = $companyMapper->get($email);
+
+                $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
+                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
+                $mailer->sendMail($company->email, 'ISTSI Login Link', '<a href="' . $loginUrl .'">Login</a>');
 
                 $logger->addRecord(IdentifiersInfo::CODE_NEW, ['email' => $email]);
             } else {
@@ -69,13 +83,19 @@ class PasswordLess
         } else {
             $companyMapper = $database->mapper('\ISTSI\Entities\Company');
 
-            if ($companyMapper->get($email)) {
-                if (!$authTokenMapper->create([
+            if ($company = $companyMapper->first(['email' => $email])) {
+                // No auth token found, create a new one
+                if (!($authToken = $authTokenMapper->create([
                     'email' => $email,
                     'token' => bin2hex(random_bytes(64))
-                ])) {
+                ]))) {
                     throw new \Exception(Error::DB_OP);
                 }
+
+                // Send mail
+                $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
+                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
+                $mailer->sendMail($company->email, 'ISTSI Login Link', '<a href="' . $loginUrl .'">Login</a>');
             } else {
                 die('CODE_INVALID_EMAIL');
             }

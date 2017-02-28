@@ -19,6 +19,15 @@ return [
             'level'       => Logger::DEBUG,
         ],
 
+        'mailer' => [
+            'host'        => '',
+            'port'        => , //INT
+            'username'    => '',
+            'password'    => '',
+            'fromName'    => '',
+            'fromEmail'   => ''
+        ],
+
         'fenix' => [
             'clientId'    => '',
             'clientSecret'=> '',

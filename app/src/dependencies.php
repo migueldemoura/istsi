@@ -66,3 +66,16 @@ $c['database'] = function ($c) {
 $c['filemanager'] = function ($c) {
     return new ISTSI\Services\FileManager($c);
 };
+
+$c['mailer'] = function ($c) {
+    $settings = $c->get('settings')['mailer'];
+
+    return new ISTSI\Services\Mailer(
+        $settings['host'],
+        $settings['port'],
+        $settings['username'],
+        $settings['password'],
+        $settings['fromName'],
+        $settings['fromEmail']
+    );
+};
