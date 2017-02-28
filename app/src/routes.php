@@ -1,6 +1,7 @@
 <?php
 declare(strict_types = 1);
 
+use ISTSI\Identifiers\Auth as IdentifiersAuth;
 use ISTSI\Middleware\Auth;
 use ISTSI\Middleware\CSRF;
 use ISTSI\Middleware\Period;
@@ -9,22 +10,36 @@ $c = $app->getContainer();
 
 $app->get('/', 'ISTSI\Controllers\Front:showHome');
 
-$app->group('/user', function () use ($app, $c) {
-    $app->get('/account', 'ISTSI\Controllers\User:showAccount')
-        ->add(new Auth($c));
-    $app->get('/dashboard', 'ISTSI\Controllers\User:showDashboard')
-        ->add(new Auth($c));
+$app->group('/student', function () use ($app, $c) {
+    $app->get('/account', 'ISTSI\Controllers\Student:showAccount');
+    $app->get('/dashboard', 'ISTSI\Controllers\Student:showDashboard');
     //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
-    $app->post('/update', 'ISTSI\Controllers\User:update')
-        ->add(new CSRF($c))
-        ->add(new Auth($c));
-});
-
-$app->group('/fenix', function () use ($app, $c) {
-    $app->get('/connect', 'ISTSI\Controllers\Fenix:connect');
-    $app->get('/login', 'ISTSI\Controllers\Fenix:login');
-    $app->get('/logout', 'ISTSI\Controllers\Fenix:logout')
+    $app->post('/update', 'ISTSI\Controllers\Student:update')
         ->add(new CSRF($c));
+})->add(new Auth($c, IdentifiersAuth::FENIX));
+
+$app->group('/company', function () use ($app, $c) {
+    $app->get('/account', 'ISTSI\Controllers\Company:showAccount');
+    $app->get('/dashboard', 'ISTSI\Controllers\Company:showDashboard');
+    //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
+    $app->post('/update', 'ISTSI\Controllers\Company:update')
+        ->add(new CSRF($c));
+})->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+
+$app->group('/auth', function () use ($app, $c) {
+    $app->group('/fenix', function () use ($app, $c) {
+        $app->get('/connect', 'ISTSI\Controllers\Auth\Fenix:connect');
+        $app->get('/login', 'ISTSI\Controllers\Auth\Fenix:login');
+        $app->get('/logout', 'ISTSI\Controllers\Auth\Fenix:logout')
+            ->add(new CSRF($c));
+    });
+    $app->group('/passwordless', function () use ($app, $c) {
+        $app->get('/init/{token}', 'ISTSI\Controllers\Auth\PasswordLess:init');
+        $app->get('/generate', 'ISTSI\Controllers\Auth\PasswordLess:generate');
+        $app->get('/login', 'ISTSI\Controllers\Auth\PasswordLess:login');
+        $app->get('/logout', 'ISTSI\Controllers\Auth\PasswordLess:logout')
+            ->add(new CSRF($c));
+    });
 });
 
 $app->group('/submission', function () use ($app, $c) {
@@ -35,4 +50,4 @@ $app->group('/submission', function () use ($app, $c) {
     $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update')->add(new Period($c));
     $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete')->add(new Period($c));
 })->add(new CSRF($c))
-  ->add(new Auth($c));
+  ->add(new Auth($c, IdentifiersAuth::FENIX));

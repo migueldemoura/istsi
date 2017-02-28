@@ -1,7 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: moura
- * Date: 27-02-2017
- * Time: 21:12
- */
+declare(strict_types = 1);
+
+namespace ISTSI\Identifiers;
+
+class Auth
+{
+    const FENIX = 0;
+    const PASSWORDLESS = 1;
+}

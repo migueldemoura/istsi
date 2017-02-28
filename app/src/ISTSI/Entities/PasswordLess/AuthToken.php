@@ -4,19 +4,19 @@ declare(strict_types = 1);
 namespace ISTSI\Entities\PasswordLess;
 
 use Spot\Entity;
+use Spot\EntityInterface;
 use Spot\EventEmitter;
 use Spot\MapperInterface;
-use Spot\EntityInterface;
 
-class InitToken extends Entity
+class AuthToken extends Entity
 {
-    protected static $table = 'passwordless_inittokens';
+    protected static $table = 'passwordless_authtokens';
 
     public static function fields()
     {
         return [
             'email'        => ['type' => 'string', 'primary' => true],
-            'tokens'       => ['type' => 'array'],
+            'token'        => ['type' => 'string', 'unique' => true],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
         ];

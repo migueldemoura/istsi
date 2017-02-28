@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Controllers;
+namespace ISTSI\Controllers\Auth;
 
+use ISTSI\Identifiers\Auth;
 use ISTSI\Identifiers\Error;
 use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
@@ -44,16 +45,16 @@ class Fenix
         }
         $year = $fenix->getYear($course);
 
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
 
-        if ($user = $userMapper->get($uid)) {
-            $user->name = $name;
-            $user->email = $email;
-            $user->course = $course;
-            $user->year = $year;
-            $userMapper->update($user);
+        if ($student = $studentMapper->get($uid)) {
+            $student->name = $name;
+            $student->email = $email;
+            $student->course = $course;
+            $student->year = $year;
+            $studentMapper->update($student);
         } else {
-            if (!$userMapper->create([
+            if (!$studentMapper->create([
                 'id'     => $uid,
                 'name'   => $name,
                 'email'  => $email,
@@ -64,13 +65,13 @@ class Fenix
             }
         }
 
-        $session->create($uid);
+        $session->create($uid, Auth::FENIX);
 
         $logger->addRecord(Info::LOGIN, ['uid' => $uid]);
 
         return $response->withStatus(302)->withHeader(
             'Location',
-            '/user/' . (($userMapper->get($uid)->phone === null) ? 'account' : 'dashboard')
+            '/student/' . (($studentMapper->get($uid)->phone === null) ? 'account' : 'dashboard')
         );
     }
 

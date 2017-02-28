@@ -10,7 +10,7 @@
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
         "slim/twig-view": "^2.2",
-        "vlucas/spot2": "^2.2",
+        "vlucas/spot2": "dev-master",
         "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {

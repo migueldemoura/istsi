@@ -70,7 +70,7 @@ $(document).ready(function () {
             e.preventDefault();
 
             $.ajax({
-                url: '/user/update',
+                url: '/student/update',
                 type: 'POST',
                 data: $(form).serialize(),
                 async: false,
@@ -78,7 +78,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (parseResponse(response, 'infoform')) {
-                        window.location.replace('/user/dashboard');
+                        window.location.replace('/student/dashboard');
                     }
                 },
                 error: function () {

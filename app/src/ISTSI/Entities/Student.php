@@ -8,9 +8,9 @@ use Spot\EventEmitter;
 use Spot\MapperInterface;
 use Spot\EntityInterface;
 
-class User extends Entity
+class Student extends Entity
 {
-    protected static $table = 'users';
+    protected static $table = 'students';
 
     public static function fields()
     {

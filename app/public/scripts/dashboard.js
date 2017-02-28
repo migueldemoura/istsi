@@ -14,7 +14,7 @@ $(document).ready(function () {
                 window.location.replace('/');
             }
             if (response.data.info) {
-                window.location.replace('/user/account');
+                window.location.replace('/student/account');
             }
             if (form !== null) {
                 var validator = $('#' + form).validate();

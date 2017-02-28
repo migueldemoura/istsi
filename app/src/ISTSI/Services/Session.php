@@ -19,21 +19,22 @@ class Session
         session_destroy();
     }
 
-    public function create(string $uid)
+    public function create(string $uid, int $authType)
     {
         session_regenerate_id(true);
         $this->setUid($uid);
+        $this->setAuthType($authType);
         $this->setToken();
     }
 
     private function setToken()
     {
-        $_SESSION['token'] = substr(bin2hex(openssl_random_pseudo_bytes(128)), 0, 128);
+        $_SESSION['token'] = bin2hex(random_bytes(64));
     }
 
-    public function isLogged()
+    public function isLogged(int $authType)
     {
-        return isset($_SESSION['uid']);
+        return isset($_SESSION['uid']) && $_SESSION['authType'] === $authType;
     }
 
     public function getToken()
@@ -54,5 +55,15 @@ class Session
     private function setUid(string $uid)
     {
         $_SESSION['uid'] = $uid;
+    }
+
+    public function getAuthType()
+    {
+        return $_SESSION['authType'];
+    }
+
+    private function setAuthType(int $authType)
+    {
+        $_SESSION['authType'] = $authType;
     }
 }

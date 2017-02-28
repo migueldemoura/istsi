@@ -3,15 +3,14 @@
 {% block title %}{{ programName }} {{ programYear }}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,700">
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/user.css">
+    <link rel="stylesheet" href="/styles/student.css">
 {% endblock %}
 
 {% block body %}
     <span id="token" class="hidden">{{ token }}</span>
 
-    {% include('user/navbar.twig') %}
+    {% include('student/navbar.twig') %}
 
     <div class="container">
         <div class="row text-left">
@@ -43,7 +42,7 @@
         </div>
     </div>
 
-    {% include('user/footer.twig') %}
+    {% include('student/footer.twig') %}
 
     {# New Modal #}
     <div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="label-newModal">

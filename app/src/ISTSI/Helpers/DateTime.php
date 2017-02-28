@@ -11,6 +11,14 @@ class DateTime
         $start = new \DateTime($start);
         $end = new \DateTime($end);
 
-        return ($now >= $start && $now <= $end);
+        return $now >= $start && $now <= $end;
+    }
+
+    public static function isAfter($pointer)
+    {
+        $now = new \DateTime();
+        $pointer = new \DateTime($pointer);
+
+        return $now >= $pointer;
     }
 }

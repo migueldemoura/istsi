@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class User
+class Student
 {
     protected $c;
 
@@ -24,21 +24,21 @@ class User
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $uid = $session->getUid();
-        $user = $userMapper->get($uid);
+        $student = $studentMapper->get($uid);
 
         $templateArgs = [
             'programName'  => $settingsProgram['name'],
             'programYear'  => $settingsProgram['year'],
             'uid'          => $uid,
-            'logout'       => '/fenix/logout',
-            'email'        => $user->email,
+            'logout'       => '/auth/fenix/logout',
+            'email'        => $student->email,
             'emailMaxSize' => $settingsProgram['emailMaxSize'],
             'token'        => $session->getToken()
         ];
 
-        return $this->c->get('renderer')->render($response, 'user/account.twig', $templateArgs);
+        return $this->c->get('renderer')->render($response, 'student/account.twig', $templateArgs);
     }
 
     public function showDashboard(Request $request, Response $response, $args)
@@ -47,20 +47,20 @@ class User
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        // Check if user has already provided its phone
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        // Check if student has already provided its phone
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $uid = $session->getUid();
-        $user = $userMapper->get($uid);
+        $student = $studentMapper->get($uid);
 
-        if ($user->phone === null) {
-            return $response->withStatus(302)->withHeader('Location', '/user/account');
+        if ($student->phone === null) {
+            return $response->withStatus(302)->withHeader('Location', '/student/account');
         }
 
         $templateArgs = [
             'programName' => $settingsProgram['name'],
             'programYear' => $settingsProgram['year'],
             'uid'         => $uid,
-            'logout'      => '/fenix/logout',
+            'logout'      => '/auth/fenix/logout',
             'observationsMaxSize' => $settingsProgram['observationsMaxSize'],
             'token'       => $session->getToken(),
             'onPeriod'    => DateTime::isBetween(
@@ -69,7 +69,7 @@ class User
             )
         ];
 
-        return $this->c->get('renderer')->render($response, 'user/dashboard.twig', $templateArgs);
+        return $this->c->get('renderer')->render($response, 'student/dashboard.twig', $templateArgs);
     }
 
     public function update(Request $request, Response $response, $args)
@@ -98,19 +98,19 @@ class User
             !filter_var(
                 $phone,
                 FILTER_VALIDATE_REGEXP,
-                ['options' => ['regexp' => '/^[0-9]{' . $settingsProgram['phoneSize'] . '}$/']]
+                ['options' => ['regexp' => '/^[0-9]{0,' . $settingsProgram['phoneSize'] . '}$/']]
             )
         ) {
             //TODO:throw new IException(E_PHONE_INVALID, null, 'phone');
             die('PHONE_INVALID');
         }
 
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $uid = $session->getUid();
-        $user = $userMapper->get($uid);
-        $user->email = $email;
-        $user->phone = $phone;
-        $userMapper->update($user);
+        $student = $studentMapper->get($uid);
+        $student->email = $email;
+        $student->phone = $phone;
+        $studentMapper->update($student);
 
         $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
 

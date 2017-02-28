@@ -27,20 +27,20 @@ class Submission
 
         $uid = $session->getUid();
 
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
-        $user = $userMapper->get($uid);
+        $student = $studentMapper->get($uid);
 
-        $doneProposals = array_column($submissionMapper->where(['user_id'=> $uid])->toArray(), 'proposal_id');
+        $doneProposals = array_column($submissionMapper->where(['student_id'=> $uid])->toArray(), 'proposal_id');
 
         $availableProposals = [];
 
         foreach ($proposalMapper->all() as $proposalData) {
             if (!in_array($proposalData->id, $doneProposals) &&
-                in_array($user->course, $proposalData->courses) &&
-                in_array($user->year, $proposalData->years)
+                in_array($student->course, $proposalData->courses) &&
+                in_array($student->year, $proposalData->years)
             ) {
                 array_push($availableProposals, $proposalData->id);
             }
@@ -65,7 +65,7 @@ class Submission
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
-        $result = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
+        $result = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
 
         if (!$result) {
             //TODO:
@@ -98,7 +98,7 @@ class Submission
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
-        if (!$submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal])) {
+        if (!$submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal])) {
             return $response->withStatus(400)->write('Bad Request');
         }
 
@@ -120,7 +120,7 @@ class Submission
 
     public function create(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -129,11 +129,11 @@ class Submission
 
         $uid = $session->getUid();
 
-        $userMapper = $database->mapper('\ISTSI\Entities\User');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
         $submissionMapper->migrate();
-        $user = $userMapper->get($uid);
+        $student = $studentMapper->get($uid);
         $proposals = $proposalMapper->all();
 
         $proposal = $args['proposal'];
@@ -142,8 +142,8 @@ class Submission
         $valid = false;
         foreach ($proposals as $proposalData) {
             if ($proposalData->id === $proposal &&
-                in_array($user->course, $proposalData->courses) &&
-                in_array($user->year, $proposalData->years)
+                in_array($student->course, $proposalData->courses) &&
+                in_array($student->year, $proposalData->years)
             ) {
                 $valid = true;
                 break;
@@ -183,7 +183,7 @@ class Submission
 
         // Database Update
         $submission = $submissionMapper->build([
-            'user_id'      => $uid,
+            'student_id'      => $uid,
             'proposal_id'  => $proposal,
             'observations' => $observations,
         ]);
@@ -202,7 +202,7 @@ class Submission
 
     public function update(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -225,7 +225,7 @@ class Submission
         ) {
             throw new \Exception(Notice::SUBMISSION_INVALID);
         }
-        $submission = $submissionMapper->first(['user_id' => $uid, 'proposal_id' => $proposal]);
+        $submission = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
         $submission->observations = $observations;
         $submissionMapper->update($submission);
 
@@ -254,7 +254,7 @@ class Submission
 
     public function delete(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY USER HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -267,7 +267,7 @@ class Submission
 
         $proposal = $args['proposal'];
 
-        if (!$submissionMapper->delete(['user_id' => $uid, 'proposal_id' => $proposal])) {
+        if (!$submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal])) {
             throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 

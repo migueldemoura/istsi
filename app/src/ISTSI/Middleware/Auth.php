@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace ISTSI\Middleware\Auth;
+namespace ISTSI\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class PasswordLess
+class Auth
 {
     protected $c;
     private $method;
