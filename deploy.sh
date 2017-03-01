@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd docker/
+source .env
 
 case $1 in
   "up") args="up -d" ;;
@@ -10,4 +11,4 @@ case $1 in
    *) exit -1 ;;
 esac
 
-docker-compose $args
+docker-compose -f $ENV.yml $args

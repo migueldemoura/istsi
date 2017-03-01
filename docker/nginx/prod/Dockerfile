@@ -1,9 +1,12 @@
 FROM debian:jessie
 
-RUN apt-get update && apt-get install -y nginx
+RUN apt update && apt install -y nginx
 
 ADD nginx.conf /etc/nginx/
 ADD istsi.conf /etc/nginx/sites-available/
+
+ADD tls/istsi.pem /etc/nginx/ssl/istsi.pem
+ADD tls/istsi.key /etc/nginx/ssl/istsi.key
 
 RUN ln -s /etc/nginx/sites-available/istsi.conf /etc/nginx/sites-enabled/istsi
 RUN rm /etc/nginx/sites-enabled/default
@@ -14,5 +17,4 @@ RUN usermod -u 1000 www-data
 
 CMD ["nginx"]
 
-EXPOSE 80
 EXPOSE 443

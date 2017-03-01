@@ -1,9 +1,8 @@
-FROM php:7.0-fpm
+FROM php:7.1-fpm
 
-RUN apt-get update && apt-get install -y git unzip
+RUN apt update && apt install -y git unzip
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer --version
 
 RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/London /etc/localtime

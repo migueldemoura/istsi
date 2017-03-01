@@ -3,6 +3,8 @@ app/composer.lock
 app/vendor/
 docker/.data/
 docker/.env
+docker/nginx/prod/tls/istsi.key
+docker/nginx/prod/tls/istsi.pem
 cache/
 data/
 logs/

@@ -4,38 +4,28 @@ services:
     db:
         image: mysql
         volumes:
-            - './.data/db:/var/lib/mysql'
+            - ./.data/db:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        command: '--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci'
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     php:
-        build: php7-fpm
+        build: php/dev
         volumes:
-            - ${APP_PATH}:/var/www/istsi
+            - ../app:/var/www/istsi
             - ../cache:/var/www/cache
             - ../logs:/var/www/logs
             - ../data:/var/www/data
     nginx:
-        build: nginx
+        build: nginx/dev
         ports:
             - 80:80
         volumes_from:
             - php
         volumes:
             - ../logs/nginx/:/var/log/nginx
-    elk:
-        image: willdurand/elk
-        ports:
-            - 81:80
-        volumes:
-            - ./elk/logstash:/etc/logstash
-            - ./elk/logstash/patterns:/opt/logstash/patterns
-        volumes_from:
-            - php
-            - nginx
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
