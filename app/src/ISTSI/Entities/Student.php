@@ -7,6 +7,7 @@ use Spot\Entity;
 use Spot\EventEmitter;
 use Spot\MapperInterface;
 use Spot\EntityInterface;
+use Valitron\Validator;
 
 class Student extends Entity
 {
@@ -38,6 +39,18 @@ class Student extends Entity
         $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
             $mapper->save($entity);
+        });
+        $eventEmitter->once('afterValidate', function (EntityInterface $entity) {
+            $validator = new Validator([
+                'email' => $entity->email,
+                'courses' => $entity->courses,
+                'years' => $entity->years,
+            ]);
+            $validator->rules([
+                'email' => 'email'
+                //TODO: VALIDATE COURSE AND YEAR
+            ]);
+            return $validator->validate();
         });
     }
 }

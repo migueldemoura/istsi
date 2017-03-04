@@ -7,6 +7,7 @@ use Spot\Entity;
 use Spot\EventEmitter;
 use Spot\MapperInterface;
 use Spot\EntityInterface;
+use Valitron\Validator;
 
 class Company extends Entity
 {
@@ -37,6 +38,15 @@ class Company extends Entity
         $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
             $mapper->save($entity);
+        });
+        $eventEmitter->once('afterValidate', function (EntityInterface $entity) {
+            $validator = new Validator([
+                'email' => $entity->email,
+            ]);
+            $validator->rules([
+                'email' => 'email'
+            ]);
+            return $validator->validate();
         });
     }
 }
