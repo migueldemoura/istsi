@@ -26,6 +26,13 @@ class Student extends Entity
         ];
     }
 
+    public static function relations(MapperInterface $mapper, EntityInterface $entity)
+    {
+        return [
+            'submissions' => $mapper->hasMany($entity, 'ISTSI\Entities\Submission', 'id')
+        ];
+    }
+
     public static function events(EventEmitter $eventEmitter)
     {
         $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {

@@ -15,9 +15,15 @@ class Proposal extends Entity
     public static function fields()
     {
         return [
-            'id'           => ['type' => 'string', 'primary' => true],
-            'company'      => ['type' => 'string'],
+            'id'           => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
+            'company_id'   => ['type' => 'integer'],
             'description'  => ['type' => 'string'],
+            'project'      => ['type' => 'text'],
+            'requirements' => ['type' => 'text'],
+            'observations' => ['type' => 'text'],
+            'duration'     => ['type' => 'string'],
+            'location'     => ['type' => 'string'],
+            'vacancies'    => ['type' => 'integer'],
             'courses'      => ['type' => 'array'],
             'years'        => ['type' => 'array'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
@@ -28,8 +34,8 @@ class Proposal extends Entity
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            'submission' => $mapper->hasMany($entity, 'ISTSI\Entities\Submission', 'proposal_id')
-                                   ->order(['created_at' => 'ASC']),
+            'company' => $mapper->belongsTo($entity, 'ISTSI\Entities\Company', 'company_id'),
+            'submissions' => $mapper->hasMany($entity, 'ISTSI\Entities\Submission', 'id')
         ];
     }
 

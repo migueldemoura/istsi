@@ -18,9 +18,17 @@ class Company extends Entity
             'id'             => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
             'name'           => ['type' => 'string'],
             'representative' => ['type' => 'string'],
-            'email'          => ['type' => 'string'],
+            'email'          => ['type' => 'string', 'unique' => true],
+            'phone'          => ['type' => 'string'],
             'created_at'     => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'     => ['type' => 'datetime', 'value' => new \DateTime()]
+        ];
+    }
+
+    public static function relations(MapperInterface $mapper, EntityInterface $entity)
+    {
+        return [
+            'proposals' => $mapper->hasMany($entity, 'ISTSI\Entities\Proposal', 'id')
         ];
     }
 

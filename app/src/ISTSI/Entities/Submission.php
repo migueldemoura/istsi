@@ -17,7 +17,7 @@ class Submission extends Entity
         return [
             'id'           => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
             'student_id'   => ['type' => 'string', 'unique' => 'student_idProposal_id'],
-            'proposal_id'  => ['type' => 'string', 'unique' => 'student_idProposal_id'],
+            'proposal_id'  => ['type' => 'integer', 'unique' => 'student_idProposal_id'],
             'observations' => ['type' => 'text'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
@@ -27,7 +27,8 @@ class Submission extends Entity
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            'proposal' => $mapper->belongsTo($entity, 'ISTSI\Entities\Proposal', 'proposal_id')
+            'proposal' => $mapper->belongsTo($entity, 'ISTSI\Entities\Proposal', 'proposal_id'),
+            'student' => $mapper->belongsTo($entity, 'ISTSI\Entities\Student', 'student_id')
         ];
     }
 
