@@ -115,6 +115,7 @@ $(document).ready(function () {
                     modal.find('#description').val(response.data.description);
                     modal.find('#project').val(response.data.project);
                     modal.find('#requirements').val(response.data.requirements);
+                    modal.find('#salary').val(response.data.salary);
                     modal.find('#observations').val(response.data.observations);
                     modal.find('#duration').val(response.data.duration);
                     modal.find('#location').val(response.data.location);
@@ -146,6 +147,7 @@ $(document).ready(function () {
                     modal.find('#description').val(response.data.description);
                     modal.find('#project').val(response.data.project);
                     modal.find('#requirements').val(response.data.requirements);
+                    modal.find('#salary').val(response.data.salary);
                     modal.find('#observations').val(response.data.observations);
                     modal.find('#duration').val(response.data.duration);
                     modal.find('#location').val(response.data.location);
@@ -205,6 +207,7 @@ $(document).ready(function () {
             description: 'required',
             project: 'required',
             requirements: 'required',
+            salary: 'required',
             observations: 'required',
             duration: 'required',
             location: 'required',
@@ -217,6 +220,7 @@ $(document).ready(function () {
             description: 'Coloque uma breve descrição do estágio.',
             project: 'Coloque uma descrição do projeto a realizar.',
             requirements: 'Coloque os requisitos que o candidato deverá cumprir.',
+            salary: 'Coloque o financiamento que será dado ao estagiário.',
             observations: 'Coloque algumas observações pertinentes.',
             duration: 'Coloque a duraçao do estagio.',
             location: 'Coloque o local onde se realizará o estágio.',
@@ -259,6 +263,7 @@ $(document).ready(function () {
             description: 'required',
             project: 'required',
             requirements: 'required',
+            salary: 'required',
             observations: 'required',
             duration: 'required',
             location: 'required',
@@ -271,6 +276,7 @@ $(document).ready(function () {
             description: 'Coloque uma breve descrição do estágio.',
             project: 'Coloque uma descrição do projeto a realizar.',
             requirements: 'Coloque os requisitos que o candidato deverá cumprir.',
+            salary: 'Coloque o financiamento que será dado ao estagiário.',
             observations: 'Coloque algumas observações pertinentes.',
             duration: 'Coloque a duraçao do estagio.',
             location: 'Coloque o local onde se realizará o estágio.',

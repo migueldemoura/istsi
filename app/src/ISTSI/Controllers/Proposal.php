@@ -67,6 +67,7 @@ class Proposal
                 'description' => $data->description,
                 'project' => $data->project,
                 'requirements' => $data->requirements,
+                'salary' => $data->salary,
                 'observations' => $data->observations,
                 'duration' => $data->duration,
                 'location' => $data->location,
@@ -93,6 +94,7 @@ class Proposal
             'description' => $request->getParsedBodyParam('description'),
             'project' => $request->getParsedBodyParam('project'),
             'requirements' => $request->getParsedBodyParam('requirements'),
+            'salary' => $request->getParsedBodyParam('salary'),
             'observations' => $request->getParsedBodyParam('observations'),
             'duration' => $request->getParsedBodyParam('duration'),
             'location' => $request->getParsedBodyParam('location'),
@@ -133,6 +135,7 @@ class Proposal
         $proposal->description = $request->getParsedBodyParam('description');
         $proposal->project = $request->getParsedBodyParam('project');
         $proposal->requirements = $request->getParsedBodyParam('requirements');
+        $proposal->salary = $request->getParsedBodyParam('salary');
         $proposal->observations = $request->getParsedBodyParam('observations');
         $proposal->duration = $request->getParsedBodyParam('duration');
         $proposal->location = $request->getParsedBodyParam('location');

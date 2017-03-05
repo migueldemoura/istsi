@@ -21,6 +21,7 @@ class Proposal extends Entity
             'description'  => ['type' => 'string'],
             'project'      => ['type' => 'text'],
             'requirements' => ['type' => 'text'],
+            'salary'       => ['type' => 'string'],
             'observations' => ['type' => 'text'],
             'duration'     => ['type' => 'string'],
             'location'     => ['type' => 'string'],
