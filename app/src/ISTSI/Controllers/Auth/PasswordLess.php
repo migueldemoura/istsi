@@ -68,7 +68,7 @@ class PasswordLess
                 $mailer->sendMail(
                     $company->email,
                     'ISTSI Login Link',
-                    '<p>O link abaixo é apenas pode ser utilizado uma vez.</p></p>
+                    '<p>O link abaixo pode ser utilizado somente uma vez.</p></p>
                      <a href="' . $loginUrl .'">Login</a>'
                 );
             } else {
