@@ -10,7 +10,7 @@ class Notice
     const CODE_DUPLICATE = ['INFO', 'An auth code has already been issued during the last minutes'];
     const FILE_UPLOAD = ['USER', 'Uploaded file is invalid'];
     const FENIX_INVALID = ['USER', 'Student isn\'t authenticated'];
-    const FENIX_NOT_STUDENT = ['USER', 'Student isn\'t a student'];
+    const FENIX_NOT_STUDENT = ['USER', 'User isn\'t a student'];
     const SUBMISSION_INVALID = ['USER', 'Invalid submission'];
     const SUBMISSION_DUPLICATE = ['USER', 'Duplicate submission'];
     const PROPOSAL_INVALID = ['USER', 'Invalid proposal'];
