@@ -74,6 +74,7 @@ $(document).ready(function () {
 
     function createSubmittedProposals(proposals) {
         var itemTemplate = $('#proposalrow').html().trim();
+        $('#proposalslist').empty();
 
         for (var i = 0; i < proposals.length; i++) {
             var item = $(itemTemplate);
