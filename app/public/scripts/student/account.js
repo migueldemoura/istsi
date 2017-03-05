@@ -36,35 +36,18 @@ $(document).ready(function () {
         xhr.setRequestHeader('X-CSRF-Token', getTokenValue());
     });
 
-
     $('#submit').on('click', function () {
         $('#infoform').submit();
     });
 
-    $.validator.addMethod('exactlength', function (value, element, param) {
-        return this.optional(element) || value.length === param;
-    });
-
     $('#infoform').validate({
         rules: {
-            email: {
-                required: true
-            },
-            phone: {
-                required: true,
-                digits: true,
-                exactlength: 9
-            }
+            email: 'required',
+            phone: 'required'
         },
         messages: {
-            email: {
-                required: 'Coloque um email.'
-            },
-            phone: {
-                required: 'Coloque um número de telemóvel.',
-                digits: 'Coloque apenas dígitos',
-                exactlength: 'Coloque {0} dígitos.'
-            }
+            email: 'Coloque um email.',
+            phone: 'Coloque um número de telemóvel.'
         },
         submitHandler: function (form, e) {
             e.preventDefault();

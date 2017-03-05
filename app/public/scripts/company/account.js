@@ -19,34 +19,16 @@ $(document).ready(function () {
 
     $('#infoform').validate({
         rules: {
-            name: {
-                required: true
-            },
-            representative: {
-                required: true
-            },
-            email: {
-                required: true
-            },
-            phone: {
-                required: true,
-                digits: true
-            }
+            name: 'required',
+            representative: 'required',
+            email: 'required',
+            phone: 'required'
         },
         messages: {
-            name: {
-                required: 'Coloque o nome da empresa.'
-            },
-            representative: {
-                required: 'Coloque o nome do responsável pelo estágio.'
-            },
-            email: {
-                required: 'Coloque o email do responsável pelo estágio.'
-            },
-            phone: {
-                required: 'Coloque o número de telemóvel do responsável pelo estágio.',
-                digits: 'Coloque apenas dígitos'
-            }
+            name: 'Coloque o nome da empresa.',
+            representative: 'Coloque o nome do responsável pelo estágio.',
+            email: 'Coloque o email do responsável pelo estágio.',
+            phone: 'Coloque o número de telemóvel do responsável pelo estágio.'
         },
         submitHandler: function (form, e) {
             e.preventDefault();
