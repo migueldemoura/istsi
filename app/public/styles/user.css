@@ -23,6 +23,10 @@ input.input-file {
     display: none;
 }
 
+.placeholder {
+    color: #999
+}
+
 .btn-info {
     color: rgba(248, 250, 255, 0.99);
     background-color: rgba(62, 68, 89, 0.9);

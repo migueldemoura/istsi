@@ -61,6 +61,7 @@
                             <label class="col-md-4 control-label" for="newdescription">Descrição</label>
                             <div class="col-md-6">
                                 <textarea id="newdescription" name="description" rows="3" class="form-control"
+                                          placeholder="Breve descrição do projeto. Será colocado na página inicial!"
                                           maxlength="255"></textarea>
                             </div>
                         </div>
@@ -69,6 +70,7 @@
                             <label class="col-md-4 control-label" for="newproject">Projeto</label>
                             <div class="col-md-6">
                                 <textarea id="newproject" name="project" rows="6" class="form-control"
+                                          placeholder="Descrição do projeto a realizar pelo aluno durante o estágio."
                                           maxlength="65535"></textarea>
                             </div>
                         </div>
@@ -77,6 +79,7 @@
                             <label class="col-md-4 control-label" for="newrequirements">Requisitos</label>
                             <div class="col-md-6">
                                 <textarea id="newrequirements" name="requirements" rows="6" class="form-control"
+                                          placeholder="Requisitos que o aluno deverá cumprir."
                                           maxlength="65535"></textarea>
                             </div>
                         </div>
@@ -85,6 +88,7 @@
                             <label class="col-md-4 control-label" for="newsalary">Financiamento</label>
                             <div class="col-md-6">
                                 <textarea id="newsalary" name="salary" rows="3" class="form-control"
+                                          placeholder="Bolsa de estágio, subsídio de alimentação, entre outros."
                                           maxlength="255"></textarea>
                             </div>
                         </div>
@@ -93,6 +97,7 @@
                             <label class="col-md-4 control-label" for="newobservations">Observações</label>
                             <div class="col-md-6">
                                 <textarea id="newobservations" name="observations" rows="6" class="form-control"
+                                          placeholder="Alguma observação adicional."
                                           maxlength="65535"></textarea>
                             </div>
                         </div>
@@ -100,27 +105,34 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="newduration">Duração</label>
                             <div class="col-md-6">
-                                <input id="newduration" name="duration" class="form-control" maxlength="255">
+                                <input id="newduration" name="duration" class="form-control"
+                                       placeholder="Duração do estágio e as datas de início e término do mesmo."
+                                       maxlength="255">
                             </div>
                         </div>
                         {# Location #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="newlocation">Localização</label>
                             <div class="col-md-6">
-                                <input id="newlocation" name="location" class="form-control" maxlength="255">
+                                <input id="newlocation" name="location" class="form-control"
+                                       placeholder="Local onde se realizará o estágio."
+                                       maxlength="255">
                             </div>
                         </div>
                         {# Vacancies #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="newvacancies">Vagas</label>
                             <div class="col-md-6">
-                                <input type="number" id="newvacancies" name="vacancies" class="form-control">
+                                <input type="number" id="newvacancies" name="vacancies" class="form-control"
+                                       placeholder="Número de vagas para este estágio.">
                             </div>
                         </div>
                         {# Courses #}
                         <div class="form-group">
                             <label class="col-md-4 control-label">Cursos</label>
-                            <div class="col-md-6 courses"></div>
+                            <div class="col-md-6 courses">
+                                <p class="placeholder">Cursos-alvo. Apenas os alunos dos cursos selecionados se poderão candidatar.</p>
+                            </div>
                         </div>
                     </form>
                 </div>
