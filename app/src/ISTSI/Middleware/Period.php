@@ -25,11 +25,10 @@ class Period
         $periodStart = $settingsProgram['period']['start'];
         $periodEnd = $settingsProgram['period']['end'];
 
-
         if ($this->inRange && !DateTime::isBetween($periodStart, $periodEnd) ||
-            !$this->inRange && !DateTime::isAfter($periodEnd)
+            !$this->inRange && !DateTime::isBefore($periodEnd)
         ) {
-            //TODO: Better handling
+            //TODO
             $response->getBody()->write('E_PERIOD_OUTSIDE');
             return $response;
         }

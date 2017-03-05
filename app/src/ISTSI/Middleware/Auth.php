@@ -23,7 +23,7 @@ class Auth
         $session = $this->c->get('session');
 
         if (!$session->isLogged($this->method)) {
-            //TODO:
+            //TODO
             $response->getBody()->write('E_AUTH_INVALID');
             return $response;
         }

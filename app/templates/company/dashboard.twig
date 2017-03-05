@@ -1,0 +1,321 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ programName }} {{ programYear }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/user.css">
+{% endblock %}
+
+{% block body %}
+    <span id="token" class="hidden">{{ token }}</span>
+
+    {% include('shared/navbar.twig') %}
+
+    <div class="container">
+        <div class="row text-left">
+            <div class="col-md-12">
+                <h3>Propostas Submetidas</h3>
+            </div>
+        </div>
+        <div class="row text-left">
+            <div class="col-md-12">
+                <div id="noproposals" class='hidden'>
+                    <ul class="list-group">
+                        <li class="list-group-item clearfix text-center">Nenhuma proposta encontrada.</li>
+                    </ul>
+                </div>
+                <ul id="proposalslist" class="list-group">
+                </ul>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-12">
+                        <button type="button" id="newbutton" class="btn btn-primary btn-large"
+                                data-toggle="modal"
+                                data-target="#newmodal"
+                                {% if not onPeriod %}disabled{% endif %}
+                        >
+                        <span class="glyphicon glyphicon-plus"></span> Nova Proposta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include('shared/footer.twig') %}
+
+    {# New Modal #}
+    <div class="modal fade" id="newmodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title" id="label-newModal">Nova Proposta</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="newform" class="form-horizontal" method="POST">
+                        {# Description #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newdescription">Descrição</label>
+                            <div class="col-md-6">
+                                <textarea id="newdescription" name="description" rows="3" class="form-control"
+                                          maxlength="255"></textarea>
+                            </div>
+                        </div>
+                        {# Project #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newproject">Projeto</label>
+                            <div class="col-md-6">
+                                <textarea id="newproject" name="project" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Requirements #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newrequirements">Requisitos</label>
+                            <div class="col-md-6">
+                                <textarea id="newrequirements" name="requirements" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Observations #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newobservations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="newobservations" name="observations" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Duration #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newduration">Duração</label>
+                            <div class="col-md-6">
+                                <input id="newduration" name="duration" class="form-control" maxlength="255">
+                            </div>
+                        </div>
+                        {# Location #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newlocation">Localização</label>
+                            <div class="col-md-6">
+                                <input id="newlocation" name="location" class="form-control" maxlength="255">
+                            </div>
+                        </div>
+                        {# Vacancies #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="newvacancies">Vagas</label>
+                            <div class="col-md-6">
+                                <input type="number" id="newvacancies" name="vacancies" class="form-control">
+                            </div>
+                        </div>
+                        {# Courses #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Cursos</label>
+                            <div class="col-md-6 courses"></div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="newformSubmit">Submeter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Edit Modal #}
+    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title" id="label-editModal">Editar Proposta</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="editform" class="form-horizontal" method="POST">
+                        <span class="hidden" id="proposal"></span>
+                        {# Description #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="description">Descrição</label>
+                            <div class="col-md-6">
+                                <textarea id="description" name="description" rows="3" class="form-control"
+                                          maxlength="255"></textarea>
+                            </div>
+                        </div>
+                        {# Project #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="project">Projeto</label>
+                            <div class="col-md-6">
+                                <textarea id="project" name="project" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Requirements #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="requirements">Requisitos</label>
+                            <div class="col-md-6">
+                                <textarea id="requirements" name="requirements" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Observations #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="observations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="observations" name="observations" rows="6" class="form-control"
+                                          maxlength="65535"></textarea>
+                            </div>
+                        </div>
+                        {# Duration #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="duration">Duração</label>
+                            <div class="col-md-6">
+                                <input id="duration" name="duration" class="form-control" maxlength="255">
+                            </div>
+                        </div>
+                        {# Location #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="location">Localização</label>
+                            <div class="col-md-6">
+                                <input id="location" name="location" class="form-control" maxlength="255">
+                            </div>
+                        </div>
+                        {# Vacancies #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="vacancies">Vagas</label>
+                            <div class="col-md-6">
+                                <input type="number" id="vacancies" name="vacancies" class="form-control">
+                            </div>
+                        </div>
+                        {# Courses #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Cursos</label>
+                            <div class="col-md-6 courses"></div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="editformSubmit">Gravar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# View Modal #}
+    <div class="modal fade" id="viewmodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title" id="label-viewModal">Visualizar Proposta</h4>
+                </div>
+                {# Modal Body #}
+                <div class="modal-body">
+                    <form id="viewform" class="form-horizontal">
+                        {# Description #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="description">Descrição</label>
+                            <div class="col-md-6">
+                                <textarea id="description" name="description" rows="3" class="form-control"
+                                          maxlength="255" disabled></textarea>
+                            </div>
+                        </div>
+                        {# Project #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="project">Projeto</label>
+                            <div class="col-md-6">
+                                <textarea id="project" name="project" rows="6" class="form-control"
+                                          maxlength="65535" disabled></textarea>
+                            </div>
+                        </div>
+                        {# Requirements #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="requirements">Requisitos</label>
+                            <div class="col-md-6">
+                                <textarea id="requirements" name="requirements" rows="6" class="form-control"
+                                          maxlength="65535" disabled></textarea>
+                            </div>
+                        </div>
+                        {# Observations #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="observations">Observações</label>
+                            <div class="col-md-6">
+                                <textarea id="observations" name="observations" rows="6" class="form-control"
+                                          maxlength="65535" disabled></textarea>
+                            </div>
+                        </div>
+                        {# Duration #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="duration">Duração</label>
+                            <div class="col-md-6">
+                                <input id="duration" name="duration" class="form-control" maxlength="255" disabled>
+                            </div>
+                        </div>
+                        {# Location #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="location">Localização</label>
+                            <div class="col-md-6">
+                                <input id="location" name="location" class="form-control" maxlength="255" disabled>
+                            </div>
+                        </div>
+                        {# Vacancies #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="vacancies">Vagas</label>
+                            <div class="col-md-6">
+                                <input type="number" id="vacancies" name="vacancies" class="form-control" disabled>
+                            </div>
+                        </div>
+                        {# Courses #}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Cursos</label>
+                            <div class="col-md-6 courses"></div>
+                        </div>
+                    </form>
+                </div>
+                {# Modal Footer #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="proposalrow">
+        <li class="list-group-item clearfix">
+            <span class="glyphicon glyphicon-align-justify"></span>
+            <span>Proposta </span><span class="proposal"></span>
+            <span class="pull-right">
+        <button type="button" id="viewbutton" class="btn btn-xs btn-info"
+                data-item="">
+            Visualizar
+        </button>
+        <button type="button" id="editbutton" class="btn btn-xs btn-info"
+                data-item="">
+            Editar
+        </button>
+        <button type="button" id="delete" class="btn btn-xs btn-danger"
+                data-item="">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </span>
+        </li>
+    </template>
+    <template id="checkboxrow">
+        <div class="checkbox">
+            <label><input type="checkbox" name="" value=""></label>
+        </div>
+    </template>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="/scripts/company/dashboard.js"></script>
+{% endblock %}

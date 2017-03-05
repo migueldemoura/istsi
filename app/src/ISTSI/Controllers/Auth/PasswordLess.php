@@ -20,35 +20,6 @@ class PasswordLess
         $this->c = $c;
     }
 
-    public function init(Request $request, Response $response, $args)
-    {
-        $database = $this->c->get('database');
-        $logger = $this->c->get('logger');
-        $session = $this->c->get('session');
-
-        $initTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\InitToken');
-
-        if (!($initToken = $initTokenMapper->first(['token' => $args['token']]))) {
-            die('E_INVALID_INIT_TOKEN');
-        }
-
-        $email = $initToken->email;
-
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-
-        if (!($authToken = $companyMapper->create(['email' => $email]))) {
-            throw new \Exception(Error::DB_OP);
-        }
-
-        $initTokenMapper->delete(['email' => $email]);
-
-        $session->create($email, Auth::PASSWORDLESS);
-
-        $logger->addRecord(Info::LOGIN, ['email' => $email]);
-
-        return $response->withStatus(302)->withHeader('Location', '/company/account');
-    }
-
     public function generate(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
@@ -59,7 +30,6 @@ class PasswordLess
 
         $authTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\AuthToken');
 
-        $authTokenMapper->migrate();
         if ($authTokenMapper->get($email)) {
             if ($authToken = $authTokenMapper->first(
                 ['email' => $email, 'updated_at <' => new \DateTime('-15 minutes')]

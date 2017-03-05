@@ -36,19 +36,15 @@ class Student extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
-            $mapper->save($entity);
         });
-        $eventEmitter->once('afterValidate', function (EntityInterface $entity) {
+        $eventEmitter->once('beforeValidate', function (EntityInterface $entity) {
             $validator = new Validator([
                 'email' => $entity->email,
-                'courses' => $entity->courses,
-                'years' => $entity->years,
             ]);
             $validator->rules([
                 'email' => 'email'
-                //TODO: VALIDATE COURSE AND YEAR
             ]);
             return $validator->validate();
         });

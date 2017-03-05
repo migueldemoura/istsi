@@ -23,7 +23,7 @@ class CSRF
         if (!$session->hasValidToken($request->getParam('csrf_token')) &&
             !$session->hasValidToken($request->getHeaderLine('X-CSRF-Token'))
         ) {
-            //TODO: Better handling
+            //TODO
             $response->getBody()->write('E_CSRF_TOKEN_INVALID');
             return $response;
         }

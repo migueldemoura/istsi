@@ -34,9 +34,8 @@ class Submission extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
-            $mapper->save($entity);
         });
     }
 }

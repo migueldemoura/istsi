@@ -4,13 +4,13 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/student.css">
+    <link rel="stylesheet" href="/styles/user.css">
 {% endblock %}
 
 {% block body %}
     <span id="token" class="hidden">{{ token }}</span>
 
-    {% include('student/navbar.twig') %}
+    {% include('shared/navbar.twig') %}
 
     <div class="container">
         <div class="row text-left">
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    {% include('student/footer.twig') %}
+    {% include('shared/footer.twig') %}
 
     {# New Modal #}
     <div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="label-newModal">
@@ -69,7 +69,7 @@
                             <label class="col-md-4 control-label" for="newobservations">Observações</label>
                             <div class="col-md-6">
                                 <textarea id="newobservations" name="observations" rows="6" class="form-control"
-                                          maxlength="{$observationsMaxSize}"></textarea>
+                                          maxlength="65535"></textarea>
                             </div>
                         </div>
                         {# CV File #}
@@ -120,7 +120,7 @@
                             <label class="col-md-4 control-label" for="editobservations">Observações</label>
                             <div class="col-md-6">
                                 <textarea id="editobservations" name="observations" rows="6" class="form-control"
-                                          maxlength="{$observationsMaxSize}"></textarea>
+                                          maxlength="65535"></textarea>
                             </div>
                         </div>
                         {# CV File #}
@@ -171,7 +171,7 @@
                             <label class="col-md-4 control-label" for="viewobservations">Observações</label>
                             <div class="col-md-6">
                                 <textarea id="viewobservations" name="observations" rows="6" class="form-control"
-                                          maxlength="{$observationsMaxSize}" disabled></textarea>
+                                          maxlength="65535" disabled></textarea>
                             </div>
                         </div>
                         {# CV File #}
@@ -226,5 +226,5 @@
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.additional-methods.min.js"></script>
-    <script src="/scripts/dashboard.js"></script>
+    <script src="/scripts/student/dashboard.js"></script>
 {% endblock %}

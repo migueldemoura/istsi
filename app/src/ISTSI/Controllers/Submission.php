@@ -39,8 +39,7 @@ class Submission
 
         foreach ($proposalMapper->all() as $proposalData) {
             if (!in_array($proposalData->id, $doneProposals) &&
-                in_array($student->course, $proposalData->courses) &&
-                in_array($student->year, $proposalData->years)
+                in_array($student->course, $proposalData->courses)
             ) {
                 array_push($availableProposals, $proposalData->id);
             }
@@ -66,10 +65,8 @@ class Submission
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         $result = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
-
         if (!$result) {
-            //TODO:
-            die('E_INVALID_PROPOSAL');
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         return $response->withJson([
@@ -93,13 +90,13 @@ class Submission
         $file = $args['file'];
 
         if (!in_array($file, ['CV', 'CM'])) {
-            return $response->withStatus(400)->write('Bad Request');
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         if (!$submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal])) {
-            return $response->withStatus(400)->write('Bad Request');
+            throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
         $filePath = $fileManager->getFilePath([
@@ -108,19 +105,18 @@ class Submission
             '{uid}' => $uid,
             '{type}' => $file
         ]);
-        $stream = new Stream(fopen($filePath, 'rb'));
 
         $logger->addRecord(Info::SUBMISSION_VIEW, ['uid' => $uid, 'file' => $file, 'proposal' => $proposal]);
 
         return $response->withHeader('Content-Type:', $settingsFiles['mimeType'])
                         ->withHeader('Content-Disposition', 'inline; filename=' . basename($filePath))
                         ->withHeader('Content-Length', filesize($filePath))
-                        ->withBody($stream);
+                        ->withBody(new Stream(fopen($filePath, 'rb')));
     }
 
     public function create(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -129,40 +125,18 @@ class Submission
 
         $uid = $session->getUid();
 
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
-        $submissionMapper->migrate();
-        $student = $studentMapper->get($uid);
-        $proposals = $proposalMapper->all();
 
         $proposal = $args['proposal'];
 
-        // Validate given proposal
-        $valid = false;
-        foreach ($proposals as $proposalData) {
-            if ($proposalData->id === $proposal &&
-                in_array($student->course, $proposalData->courses) &&
-                in_array($student->year, $proposalData->years)
-            ) {
-                $valid = true;
-                break;
-            }
-        }
-        if (!$valid) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
-        }
+        // Database Update
+        $submission = $submissionMapper->build([
+            'student_id' => $uid,
+            'proposal_id' => $proposal,
+            'observations' => $request->getParsedBodyParam('observations')
+        ]);
 
-        // Insert new submission
-        $observations = $request->getParsedBodyParam('observations');
-
-        if ($observations !== '' &&
-            !filter_var(
-                $observations,
-                FILTER_VALIDATE_REGEXP,
-                ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s']]
-            )
-        ) {
+        if (!$submissionMapper->save($submission)) {
             throw new \Exception(Notice::SUBMISSION_INVALID);
         }
 
@@ -181,17 +155,6 @@ class Submission
             }
         }
 
-        // Database Update
-        $submission = $submissionMapper->build([
-            'student_id'      => $uid,
-            'proposal_id'  => $proposal,
-            'observations' => $observations,
-        ]);
-
-        if (!$submissionMapper->save($submission)) {
-            throw new \Exception(Notice::SUBMISSION_DUPLICATE);
-        }
-
         $logger->addRecord(Info::SUBMISSION_NEW, ['uid' => $uid, 'proposal' => $proposal]);
 
         return $response->withJson([
@@ -202,7 +165,7 @@ class Submission
 
     public function update(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -214,21 +177,12 @@ class Submission
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         $proposal = $args['proposal'];
-        $observations = $request->getParsedBodyParam('observations');
 
-        if ($observations !== '' &&
-            !filter_var(
-                $observations,
-                FILTER_VALIDATE_REGEXP,
-                ['options' => ['regexp' => '/^(.){0,' . $settingsProgram['observationsMaxSize'] . '}$/s']]
-            )
-        ) {
+        $submission = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
+        $submission->observations = $request->getParsedBodyParam('observations');
+        if (!$submissionMapper->update($submission)) {
             throw new \Exception(Notice::SUBMISSION_INVALID);
         }
-        $submission = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
-        $submission->observations = $observations;
-        $submissionMapper->update($submission);
-
 
         foreach ($request->getUploadedFiles() as $type => $file) {
             if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
@@ -254,7 +208,7 @@ class Submission
 
     public function delete(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY STUDENT HAS HIS ACCOUNT WITH ALL INFO
+        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');

@@ -1,6 +1,5 @@
 $(document).ready(function () {
-
-    "use strict";
+    'use strict';
 
     $('.dropdown a[href="#"]').on('click', function (event) {
         event.preventDefault();
@@ -58,7 +57,6 @@ $(document).ready(function () {
         xhr.setRequestHeader('X-CSRF-Token', getTokenValue());
     });
 
-
     function getSubmittedProposals() {
         var proposals = [];
 
@@ -82,10 +80,10 @@ $(document).ready(function () {
 
         var field = $('#newproposal');
         field.empty();
-        field.append("<option value=''>Seleciona uma opção</option>");
+        field.append('<option value="">Seleciona uma opção</option>');
 
         for (var i = 0; i < proposals.length; i++) {
-            field.append("<option value='" + proposals[i] + "'>" + proposals[i] + "</option>");
+            field.append('<option value="' + proposals[i] + '">' + proposals[i] + '</option>');
         }
     }
 
@@ -112,14 +110,12 @@ $(document).ready(function () {
     }
 
     $('#newmodal').on('hidden.bs.modal', function () {
-        var validator = $("#newform").validate();
-        validator.resetForm();
+        $('#newform').validate().resetForm();
         $(this).find('span#pathnewCV').empty();
         $(this).find('span#pathnewCM').empty();
     });
     $('#editmodal').on('hidden.bs.modal', function () {
-        var validator = $("#editform").validate();
-        validator.resetForm();
+        $('#editform').validate().resetForm();
         $(this).find('span#patheditCV').empty();
         $(this).find('span#patheditCM').empty();
     });
@@ -129,16 +125,16 @@ $(document).ready(function () {
         var filename = input.val();
 
         if (filename !== '') {
-            $("label#" + input.attr('id') + '-error').remove();
+            $('label#' + input.attr('id') + '-error').remove();
         }
 
         filename = filename.replace('C:\\fakepath\\', '');
 
-        $("span#path" + input.attr('id')).text(filename);
+        $('span#path' + input.attr('id')).text(filename);
     });
 
 
-    $(document).on('click', "#viewbutton", function () {
+    $(document).on('click', '#viewbutton', function () {
         var proposal = $(this).data('item');
         var modal = $('#viewmodal');
 
@@ -162,7 +158,7 @@ $(document).ready(function () {
         modal.modal('show');
     });
 
-    $(document).on('click', "#editbutton", function () {
+    $(document).on('click', '#editbutton', function () {
         var proposal = $(this).data('item');
         var modal = $('#editmodal');
 

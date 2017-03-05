@@ -51,3 +51,16 @@ $app->group('/submission', function () use ($app, $c) {
     $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete')->add(new Period($c));
 })->add(new CSRF($c))
   ->add(new Auth($c, IdentifiersAuth::FENIX));
+
+$app->group('/proposal', function () use ($app, $c) {
+    $app->get('/get/list', 'ISTSI\Controllers\Proposal:getList');
+    $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Proposal:getData');
+    $app->post('/create', 'ISTSI\Controllers\Proposal:create')->add(new Period($c, false));
+    $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update')->add(new Period($c, false));
+    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete')->add(new Period($c, false));
+})->add(new CSRF($c))
+  ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+
+$app->get('/course/get', 'ISTSI\Controllers\Course:get')
+    ->add(new CSRF($c))
+    ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));

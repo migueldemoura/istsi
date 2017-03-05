@@ -32,7 +32,6 @@ class Fenix
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        //TODO: THIS MAY TROW AN EXCEPTION
         $fenix->getAccessTokenFromCode($request->getQueryParam('code'));
 
         $uid = $fenix->getUid();
@@ -40,7 +39,7 @@ class Fenix
         $email = $fenix->getEmail();
         $course = $fenix->getCourse();
         if ($course === null) {
-            //TODO: throw new IException(E_FENIX_NOT_STUDENT);
+            //TODO
             die('E_FENIX_NOT_STUDENT');
         }
         $year = $fenix->getYear($course);

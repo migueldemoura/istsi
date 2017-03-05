@@ -15,14 +15,28 @@
     <div class="container">
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-10 col-md-offset-1">
-                <h3 style="margin-bottom: 15px;">Informação Candidato</h3>
-                <p>Antes de poderes submeter candidaturas às várias propostas, terás que preencher os campos abaixo.
-                    Confirma que os dados estão atualizados, pois serão utilizados pelas empresas para te contactar.</p>
+                <h3 style="margin-bottom: 15px;">Informação Empresa</h3>
             </div>
         </div>
         <div class="row">
             <div class="col-md-10">
                 <form id="infoform" class="form-horizontal">
+                    {# Name #}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="name">Empresa</label>
+                        <div class="col-md-6">
+                            <input type="text" id="name" name="name" class="form-control" maxlength="65535"
+                                   value="{{ name }}">
+                        </div>
+                    </div>
+                    {# Representative #}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="representative">Responsável</label>
+                        <div class="col-md-6">
+                            <input type="text" id="representative" name="representative" class="form-control"
+                                   maxlength="255" value="{{ representative }}">
+                        </div>
+                    </div>
                     {# Email #}
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="email">Email</label>
@@ -35,7 +49,8 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="phone">Telemóvel</label>
                         <div class="col-md-6">
-                            <input type="number" id="phone" name="phone" class="form-control">
+                            <input type="number" id="phone" name="phone" class="form-control"
+                                   value="{{ phone }}">
                         </div>
                     </div>
                 </form>
@@ -56,5 +71,5 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.min.js"></script>
-    <script src="/scripts/student/account.js"></script>
+    <script src="/scripts/company/account.js"></script>
 {% endblock %}

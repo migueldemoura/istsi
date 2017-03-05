@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    "use strict";
+    'use strict';
 
     $('.dropdown a[href="#"]').on('click', function (event) {
         event.preventDefault();
@@ -41,7 +41,7 @@ $(document).ready(function () {
         $('#infoform').submit();
     });
 
-    $.validator.addMethod("exactlength", function (value, element, param) {
+    $.validator.addMethod('exactlength', function (value, element, param) {
         return this.optional(element) || value.length === param;
     });
 

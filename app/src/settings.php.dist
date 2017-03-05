@@ -60,22 +60,10 @@ return [
             'year'        => '',
             'email'       => '',
             'facebook'    => '',
-            'courses'     => [], // ARRAY STRING
-            'years'       => [], // ARRAY INTS
-
             'period' => [
                 'start'   => '', //YYYY-MM-DD
                 'end'     => ''  //YYYY-MM-DD
-            ],
-
-            'uidMaxSize'          => , // Int
-            'nameMaxSize'         => , // Int
-            'yearMaxSize'         => , // Int
-            'courseMaxSize'       => , // Int
-            'emailMaxSize'        => , // Int
-            'phoneSize'           => , // Int
-            'proposalMaxSize'     => , // Int
-            'observationsMaxSize' =>   // Int
+            ]
         ]
     ],
 ];

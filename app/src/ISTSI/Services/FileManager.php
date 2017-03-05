@@ -23,22 +23,30 @@ class FileManager
         $this->extension = $settings['extension'];
         $this->mimeType  = $settings['mimeType'];
         $this->maxSize   = $settings['maxSize'] * 1048576;
-        $this->directory   = $settings['directory'];
+        $this->directory = $settings['directory'];
         $this->filename  = $settings['filename'];
     }
 
     public function parseUpload(UploadedFile $file, string $path)
     {
         if ($this->getExtension($file) !== $this->extension) {
-            //TODO: throw new IException(E_FILE_EXTENSION, ['extension' => $this->extension], 'file' . $field);
+            //TODO
         }
         if ($this->getMimeType($file) !== $this->mimeType) {
-            //TODO: throw new IException(E_FILE_MIME_TYPE, ['mimeType' => $this->mimeType], 'file' . $field);
+            //TODO
             die('E_FILE_MIME_TYPE');
         }
         if ($file->getSize() >= $this->maxSize) {
-            //TODO: throw new IException(E_FILE_SIZE, ['maxSizeMB' => $this->maxSize], 'file' . $field);
+            //TODO
             die('E_FILE_SIZE');
+        }
+
+        // Create directory if it doesn't exist
+        if (!is_dir(dirname($path))) {
+            if (!mkdir(dirname($path), 0755, true)) {
+                //TODO
+                die('E_DIR_CREATE');
+            }
         }
 
         $file->moveTo($path);

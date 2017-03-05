@@ -14,11 +14,11 @@ class DateTime
         return $now >= $start && $now <= $end;
     }
 
-    public static function isAfter($pointer)
+    public static function isBefore($pointer)
     {
         $now = new \DateTime();
         $pointer = new \DateTime($pointer);
 
-        return $now >= $pointer;
+        return $now <= $pointer;
     }
 }

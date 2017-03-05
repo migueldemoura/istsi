@@ -26,7 +26,6 @@ class Proposal extends Entity
             'location'     => ['type' => 'string'],
             'vacancies'    => ['type' => 'integer'],
             'courses'      => ['type' => 'array'],
-            'years'        => ['type' => 'array'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
         ];
@@ -36,25 +35,21 @@ class Proposal extends Entity
     {
         return [
             'company' => $mapper->belongsTo($entity, 'ISTSI\Entities\Company', 'company_id'),
-            'submissions' => $mapper->hasMany($entity, 'ISTSI\Entities\Submission', 'id')
+            'submissions' => $mapper->hasMany($entity, 'ISTSI\Entities\Submission', 'id'),
+            'courses' => $mapper->hasManyThrough(
+                $entity,
+                'ISTSI\Entities\Course',
+                'ISTSI\Entities\ProposalCourse',
+                'course_id',
+                'proposal_id'
+            )
         ];
     }
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
-            $mapper->save($entity);
-        });
-        $eventEmitter->once('afterValidate', function (EntityInterface $entity) {
-            $validator = new Validator([
-                'courses' => $entity->courses,
-                'years' => $entity->years,
-            ]);
-            $validator->rules([
-                //TODO: VALIDATE COURSES AND YEARS
-            ]);
-            return $validator->validate();
         });
     }
 }
