@@ -65,7 +65,12 @@ class PasswordLess
                 // Send mail
                 $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
                     $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
-                $mailer->sendMail($company->email, 'ISTSI Login Link', '<a href="' . $loginUrl .'">Login</a>');
+                $mailer->sendMail(
+                    $company->email,
+                    'ISTSI Login Link',
+                    '<p>O link abaixo é apenas pode ser utilizado uma vez.</p></p>
+                     <a href="' . $loginUrl .'">Login</a>'
+                );
             } else {
                 die('CODE_INVALID_EMAIL');
             }
@@ -97,12 +102,7 @@ class PasswordLess
 
         $logger->addRecord(Info::LOGIN, ['email' => $email]);
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $company = $companyMapper->get($email);
-        return $response->withStatus(302)->withHeader(
-            'Location',
-            '/company/' . (($company->name === null && $company->representative === null) ? 'account' : 'dashboard')
-        );
+        return $response->withStatus(302)->withHeader('Location', '/company/dashboard');
     }
 
     public function logout(Request $request, Response $response, $args)
