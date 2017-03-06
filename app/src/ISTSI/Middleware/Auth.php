@@ -23,9 +23,7 @@ class Auth
         $session = $this->c->get('session');
 
         if (!$session->isLogged($this->method)) {
-            //TODO
-            $response->getBody()->write('E_AUTH_INVALID');
-            return $response;
+            return $response->withStatus(302)->withHeader('Location', '/session/expired');
         }
 
         return $next($request, $response);

@@ -64,3 +64,5 @@ $app->group('/proposal', function () use ($app, $c) {
 $app->get('/course/get', 'ISTSI\Controllers\Course:get')
     ->add(new CSRF($c))
     ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+
+$app->get('/session/expired', 'ISTSI\Controllers\Session:expired');
