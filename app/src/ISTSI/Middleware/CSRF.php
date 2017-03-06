@@ -23,6 +23,12 @@ class CSRF
         if (!$session->hasValidToken($request->getParam('csrf_token')) &&
             !$session->hasValidToken($request->getHeaderLine('X-CSRF-Token'))
         ) {
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'status' => 'fail',
+                    'data'   => 'csrf'
+                ]);
+            }
             //TODO
             $response->getBody()->write('E_CSRF_TOKEN_INVALID');
             return $response;

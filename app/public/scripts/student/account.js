@@ -41,14 +41,6 @@ $(document).ready(function () {
     });
 
     $('#infoform').validate({
-        rules: {
-            email: 'required',
-            phone: 'required'
-        },
-        messages: {
-            email: 'Coloque um email.',
-            phone: 'Coloque um número de telemóvel.'
-        },
         submitHandler: function (form, e) {
             e.preventDefault();
 

@@ -23,6 +23,13 @@ class Auth
         $session = $this->c->get('session');
 
         if (!$session->isLogged($this->method)) {
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'status' => 'fail',
+                    'data'   => 'auth'
+                ]);
+            }
+
             return $response->withStatus(302)->withHeader('Location', '/session/expired');
         }
 

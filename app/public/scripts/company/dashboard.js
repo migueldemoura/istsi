@@ -5,6 +5,29 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    function parseResponse(response, form) {
+        if (response.status === 'success') {
+            return true;
+        } else if (response.status === 'fail') {
+            if (response.data === 'auth') {
+                window.location.replace('/session/expired');
+            }
+            if (response.data === 'period') {
+                window.alert('O período de candidaturas está encerrado.');
+            }
+            if (response.data === 'info') {
+                window.location.replace('/company/account');
+            }
+            if (form !== null) {
+                //TODO: Show general error
+                window.alert('Erro');
+            }
+        } else {
+            window.alert('Erro');
+        }
+        return false;
+    }
+
     function getTokenValue() {
         return $('#token').text();
     }
@@ -92,10 +115,7 @@ $(document).ready(function () {
 
     createCourseList(getCourses());
 
-    $('#newmodal').on('hidden.bs.modal', function () {
-        $(this).validate().resetForm();
-    });
-    $('#editmodal').on('hidden.bs.modal', function () {
+    $('form').on('hidden.bs.modal', function () {
         $(this).validate().resetForm();
     });
 
@@ -111,7 +131,7 @@ $(document).ready(function () {
             url: '/proposal/get/data/' + proposal,
             dataType: 'json',
             success: function (response) {
-                if (response.status === 'success') {
+                if (parseResponse(response, null)) {
                     modal.find('#description').val(response.data.description);
                     modal.find('#project').val(response.data.project);
                     modal.find('#requirements').val(response.data.requirements);
@@ -121,8 +141,6 @@ $(document).ready(function () {
                     modal.find('#location').val(response.data.location);
                     modal.find('#vacancies').val(response.data.vacancies);
                     updateSelectedCourses(response.data.courses, true);
-                } else {
-                    window.alert('Erro');
                 }
             },
             error: function () {
@@ -143,7 +161,7 @@ $(document).ready(function () {
             url: '/proposal/get/data/' + proposal,
             dataType: 'json',
             success: function (response) {
-                if (response.status === 'success') {
+                if (parseResponse(response, null)) {
                     modal.find('#description').val(response.data.description);
                     modal.find('#project').val(response.data.project);
                     modal.find('#requirements').val(response.data.requirements);
@@ -153,8 +171,6 @@ $(document).ready(function () {
                     modal.find('#location').val(response.data.location);
                     modal.find('#vacancies').val(response.data.vacancies);
                     updateSelectedCourses(response.data.courses, false);
-                } else {
-                    window.alert('Erro');
                 }
             },
             error: function () {
@@ -177,7 +193,7 @@ $(document).ready(function () {
             type: 'DELETE',
             dataType: 'json',
             success: function (response) {
-                if (response.status === 'success') {
+                if (parseResponse(response, null)) {
                     $('#newbutton').prop('disabled', false);
                     me.closest('li').remove();
                     if (getSubmittedProposals().length === 0) {
@@ -203,32 +219,6 @@ $(document).ready(function () {
     });
 
     $('#newform').validate({
-        rules: {
-            description: 'required',
-            project: 'required',
-            requirements: 'required',
-            salary: 'required',
-            observations: 'required',
-            duration: 'required',
-            location: 'required',
-            vacancies: {
-                required: true,
-                digits: true
-            }
-        },
-        messages: {
-            description: 'Coloque uma breve descrição do estágio.',
-            project: 'Coloque uma descrição do projeto a realizar.',
-            requirements: 'Coloque os requisitos que o candidato deverá cumprir.',
-            salary: 'Coloque o financiamento que será dado ao estagiário.',
-            observations: 'Coloque algumas observações pertinentes.',
-            duration: 'Coloque a duraçao do estagio.',
-            location: 'Coloque o local onde se realizará o estágio.',
-            vacancies: {
-                required: 'Coloque o número de vagas disponível.',
-                digits: 'O número de vagas tem que ser um inteiro.'
-            }
-        },
         submitHandler: function (form, e) {
             e.preventDefault();
 
@@ -242,13 +232,11 @@ $(document).ready(function () {
                 processData: false,
                 dataType: 'json',
                 success: function (response) {
-                    if (response.status === 'success') {
+                    if (parseResponse(response, 'newform')) {
                         var proposals = getSubmittedProposals();
                         createSubmittedProposals(proposals);
                         $('#noproposals').addClass('hidden');
                         $('#newmodal').modal('hide');
-                    } else {
-                        window.alert('Erro');
                     }
                 },
                 error: function () {
@@ -259,39 +247,11 @@ $(document).ready(function () {
     });
 
     $('#editform').validate({
-        rules: {
-            description: 'required',
-            project: 'required',
-            requirements: 'required',
-            salary: 'required',
-            observations: 'required',
-            duration: 'required',
-            location: 'required',
-            vacancies: {
-                required: true,
-                digits: true
-            }
-        },
-        messages: {
-            description: 'Coloque uma breve descrição do estágio.',
-            project: 'Coloque uma descrição do projeto a realizar.',
-            requirements: 'Coloque os requisitos que o candidato deverá cumprir.',
-            salary: 'Coloque o financiamento que será dado ao estagiário.',
-            observations: 'Coloque algumas observações pertinentes.',
-            duration: 'Coloque a duraçao do estagio.',
-            location: 'Coloque o local onde se realizará o estágio.',
-            vacancies: {
-                required: 'Coloque o número de vagas disponível.',
-                digits: 'O número de vagas tem que ser um inteiro.'
-            }
-        },
         submitHandler: function (form, e) {
             e.preventDefault();
 
-            var proposal = [$(form).find('#proposal').text()];
-
             $.ajax({
-                url: '/proposal/update/' + proposal,
+                url: '/proposal/update/' + $(form).find('#proposal').text(),
                 type: 'POST',
                 data: new FormData($(form)[0]),
                 async: false,
@@ -300,10 +260,8 @@ $(document).ready(function () {
                 processData: false,
                 dataType: 'json',
                 success: function (response) {
-                    if (response.status === 'success') {
+                    if (parseResponse(response, 'editform')) {
                         $('#editmodal').modal('hide');
-                    } else {
-                        window.alert('Erro');
                     }
                 },
                 error: function () {

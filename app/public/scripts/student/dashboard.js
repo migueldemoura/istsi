@@ -9,40 +9,19 @@ $(document).ready(function () {
         if (response.status === 'success') {
             return true;
         } else if (response.status === 'fail') {
-            if (response.data.auth) {
-                window.location.replace('/');
+            if (response.data === 'auth') {
+                window.location.replace('/session/expired');
             }
-            if (response.data.info) {
+            if (response.data === 'period') {
+                window.alert('O período de candidaturas está encerrado.');
+            }
+            if (response.data === 'info') {
                 window.location.replace('/student/account');
             }
             if (form !== null) {
-                var validator = $('#' + form).validate();
-
-                validator.showErrors({
-                    proposal: response.data.proposal,
-                    observations: response.data.observations,
-                    CV: response.data.fileCV,
-                    CM: response.data.fileCM
-                });
-                if (response.data.files) {
-                    validator.showErrors({
-                        CV: response.data.files,
-                        CM: response.data.files
-                    });
-                }
-                if (response.data.all) {
-                    validator.showErrors({
-                        observations: response.data.all,
-                        CV: response.data.all,
-                        CM: response.data.all
-                    });
-                }
+                //TODO: Show general error
+                window.alert('Erro');
             }
-            if (response.data.registration) {
-                window.alert('O período de candidaturas está encerrado.');
-            }
-        } else if (response.status === 'error') {
-            window.alert('Erro: ' + response.message);
         } else {
             window.alert('Erro');
         }
@@ -226,28 +205,23 @@ $(document).ready(function () {
 
 
     $('#newform').validate({
+        ignore: '',
         rules: {
-            proposal: 'required',
             CV: {
-                required: true,
                 extension: 'pdf',
                 filesize: 3145728
             },
             CM: {
-                required: true,
                 extension: 'pdf',
                 filesize: 3145728
             }
         },
         messages: {
-            proposal: 'Seleciona uma proposta',
             CV: {
-                required: 'Nenhum ficheiro selecionado',
                 extension: 'Ficheiro não tem extensão .pdf',
                 filesize: 'Ficheiro demasiado grande'
             },
             CM: {
-                required: 'Nenhum ficheiro selecionado',
                 extension: 'Ficheiro não tem extensão .pdf',
                 filesize: 'Ficheiro demasiado grande'
             }
@@ -255,15 +229,10 @@ $(document).ready(function () {
         submitHandler: function (form, e) {
             e.preventDefault();
 
-            var formData = new FormData($(form)[0]);
-            formData.append('type', 'new');
-
-            var proposal = [$(form).find('select#newproposal').val()];
-
             $.ajax({
-                url: '/submission/create/' + proposal,
+                url: '/submission/create/' + $(form).find('select#newproposal').val(),
                 type: 'POST',
-                data: formData,
+                data: new FormData($(form)[0]),
                 async: false,
                 cache: false,
                 contentType: false,
@@ -289,10 +258,8 @@ $(document).ready(function () {
     });
 
     $('#editform').validate({
+        ignore: '',
         rules: {
-            observations: {
-                maxlength: 1024
-            },
             CV: {
                 extension: 'pdf',
                 filesize: 3145728
@@ -303,9 +270,6 @@ $(document).ready(function () {
             }
         },
         messages: {
-            observations: {
-                maxlength: 'Observações inválidas ou demasiado extensas. Tamanho máximo permitido: 1024 caracteres.'
-            },
             CV: {
                 extension: 'Ficheiro não tem extensão .pdf',
                 filesize: 'Ficheiro demasiado grande'
@@ -318,15 +282,10 @@ $(document).ready(function () {
         submitHandler: function (form, e) {
             e.preventDefault();
 
-            var formData = new FormData($(form)[0]);
-            formData.append('type', 'edit');
-
-            var proposal = [$(form).find('#proposal').text()];
-
             $.ajax({
-                url: '/submission/update/' + proposal,
+                url: '/submission/update/' + $(form).find('#proposal').text(),
                 type: 'POST',
-                data: formData,
+                data: new FormData($(form)[0]),
                 async: false,
                 cache: false,
                 contentType: false,

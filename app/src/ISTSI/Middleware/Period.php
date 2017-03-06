@@ -28,6 +28,12 @@ class Period
         if ($this->inRange && !DateTime::isBetween($periodStart, $periodEnd) ||
             !$this->inRange && !DateTime::isBefore($periodEnd)
         ) {
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'status' => 'fail',
+                    'data'   => 'period'
+                ]);
+            }
             //TODO
             $response->getBody()->write('E_PERIOD_OUTSIDE');
             return $response;

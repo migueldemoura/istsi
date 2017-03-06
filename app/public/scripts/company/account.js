@@ -18,18 +18,6 @@ $(document).ready(function () {
     });
 
     $('#infoform').validate({
-        rules: {
-            name: 'required',
-            representative: 'required',
-            email: 'required',
-            phone: 'required'
-        },
-        messages: {
-            name: 'Coloque o nome da empresa.',
-            representative: 'Coloque o nome do responsável pelo estágio.',
-            email: 'Coloque o email do responsável pelo estágio.',
-            phone: 'Coloque o número de telemóvel do responsável pelo estágio.'
-        },
         submitHandler: function (form, e) {
             e.preventDefault();
 

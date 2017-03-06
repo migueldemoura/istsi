@@ -62,7 +62,7 @@
                             <div class="col-md-6">
                                 <textarea id="newdescription" name="description" rows="3" class="form-control"
                                           placeholder="Breve descrição do projeto. Será colocado na página inicial!"
-                                          maxlength="255"></textarea>
+                                          maxlength="255" required></textarea>
                             </div>
                         </div>
                         {# Project #}
@@ -71,7 +71,7 @@
                             <div class="col-md-6">
                                 <textarea id="newproject" name="project" rows="6" class="form-control"
                                           placeholder="Descrição do projeto a realizar pelo aluno durante o estágio."
-                                          maxlength="65535"></textarea>
+                                          maxlength="65535" required></textarea>
                             </div>
                         </div>
                         {# Requirements #}
@@ -80,7 +80,7 @@
                             <div class="col-md-6">
                                 <textarea id="newrequirements" name="requirements" rows="6" class="form-control"
                                           placeholder="Requisitos que o aluno deverá cumprir."
-                                          maxlength="65535"></textarea>
+                                          maxlength="65535" required></textarea>
                             </div>
                         </div>
                         {# Salary #}
@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <textarea id="newsalary" name="salary" rows="3" class="form-control"
                                           placeholder="Bolsa de estágio, subsídio de alimentação, entre outros."
-                                          maxlength="255"></textarea>
+                                          maxlength="255" required></textarea>
                             </div>
                         </div>
                         {# Observations #}
@@ -107,7 +107,7 @@
                             <div class="col-md-6">
                                 <input id="newduration" name="duration" class="form-control"
                                        placeholder="Duração do estágio e as datas de início e término do mesmo."
-                                       maxlength="255">
+                                       maxlength="255" required>
                             </div>
                         </div>
                         {# Location #}
@@ -116,7 +116,7 @@
                             <div class="col-md-6">
                                 <input id="newlocation" name="location" class="form-control"
                                        placeholder="Local onde se realizará o estágio."
-                                       maxlength="255">
+                                       maxlength="255" required>
                             </div>
                         </div>
                         {# Vacancies #}
@@ -124,7 +124,7 @@
                             <label class="col-md-4 control-label" for="newvacancies">Vagas</label>
                             <div class="col-md-6">
                                 <input type="number" id="newvacancies" name="vacancies" class="form-control"
-                                       placeholder="Número de vagas para este estágio.">
+                                       placeholder="Número de vagas para este estágio." required>
                             </div>
                         </div>
                         {# Courses #}
@@ -163,7 +163,7 @@
                             <label class="col-md-4 control-label" for="description">Descrição</label>
                             <div class="col-md-6">
                                 <textarea id="description" name="description" rows="3" class="form-control"
-                                          maxlength="255"></textarea>
+                                          maxlength="255" required></textarea>
                             </div>
                         </div>
                         {# Project #}
@@ -171,7 +171,7 @@
                             <label class="col-md-4 control-label" for="project">Projeto</label>
                             <div class="col-md-6">
                                 <textarea id="project" name="project" rows="6" class="form-control"
-                                          maxlength="65535"></textarea>
+                                          maxlength="65535" required></textarea>
                             </div>
                         </div>
                         {# Requirements #}
@@ -179,7 +179,7 @@
                             <label class="col-md-4 control-label" for="requirements">Requisitos</label>
                             <div class="col-md-6">
                                 <textarea id="requirements" name="requirements" rows="6" class="form-control"
-                                          maxlength="65535"></textarea>
+                                          maxlength="65535" required></textarea>
                             </div>
                         </div>
                         {# Salary #}
@@ -187,7 +187,7 @@
                             <label class="col-md-4 control-label" for="salary">Financiamento</label>
                             <div class="col-md-6">
                                 <textarea id="salary" name="salary" rows="3" class="form-control"
-                                          maxlength="255"></textarea>
+                                          maxlength="255" required></textarea>
                             </div>
                         </div>
                         {# Observations #}
@@ -202,21 +202,21 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="duration">Duração</label>
                             <div class="col-md-6">
-                                <input id="duration" name="duration" class="form-control" maxlength="255">
+                                <input id="duration" name="duration" class="form-control" maxlength="255" required>
                             </div>
                         </div>
                         {# Location #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="location">Localização</label>
                             <div class="col-md-6">
-                                <input id="location" name="location" class="form-control" maxlength="255">
+                                <input id="location" name="location" class="form-control" maxlength="255" required>
                             </div>
                         </div>
                         {# Vacancies #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="vacancies">Vagas</label>
                             <div class="col-md-6">
-                                <input type="number" id="vacancies" name="vacancies" class="form-control">
+                                <input type="number" id="vacancies" name="vacancies" class="form-control" required>
                             </div>
                         </div>
                         {# Courses #}
@@ -276,7 +276,7 @@
                             <label class="col-md-4 control-label" for="salary">Financiamento</label>
                             <div class="col-md-6">
                                 <textarea id="salary" name="salary" rows="3" class="form-control"
-                                          maxlength="255"></textarea>
+                                          maxlength="255" disabled></textarea>
                             </div>
                         </div>
                         {# Observations #}

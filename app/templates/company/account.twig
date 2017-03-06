@@ -26,7 +26,7 @@
                         <label class="col-md-4 control-label" for="name">Empresa</label>
                         <div class="col-md-6">
                             <input type="text" id="name" name="name" class="form-control" maxlength="65535"
-                                   value="{{ name }}">
+                                   value="{{ name }}" required>
                         </div>
                     </div>
                     {# Representative #}
@@ -34,7 +34,7 @@
                         <label class="col-md-4 control-label" for="representative">Responsável</label>
                         <div class="col-md-6">
                             <input type="text" id="representative" name="representative" class="form-control"
-                                   maxlength="255" value="{{ representative }}">
+                                   maxlength="255" value="{{ representative }}" required>
                         </div>
                     </div>
                     {# Email #}
@@ -42,7 +42,7 @@
                         <label class="col-md-4 control-label" for="email">Email</label>
                         <div class="col-md-6">
                             <input type="email" id="email" name="email" class="form-control" maxlength="255"
-                                   value="{{ email }}">
+                                   value="{{ email }}" required>
                         </div>
                     </div>
                     {# Phone #}
@@ -50,7 +50,7 @@
                         <label class="col-md-4 control-label" for="phone">Telemóvel</label>
                         <div class="col-md-6">
                             <input type="text" id="phone" name="phone" class="form-control"
-                                   value="{{ phone }}">
+                                   value="{{ phone }}" required>
                         </div>
                     </div>
                 </form>
