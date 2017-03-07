@@ -29,60 +29,53 @@ class PasswordLess
         $email = $request->getParsedBodyParam('email');
 
         $authTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\AuthToken');
+        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
 
-        if ($authTokenMapper->get($email)) {
-            if ($authToken = $authTokenMapper->first(
-                ['email' => $email, 'updated_at <' => new \DateTime('-15 minutes')]
-            )) {
-                // Auth token has expired, create a new one
-                $authToken->token = bin2hex(random_bytes(64));
-                $authTokenMapper->update($authToken);
-
-                // Send mail with new auth token
-                $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-                $company = $companyMapper->get($email);
-
-                $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
-                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
-                $mailer->sendMail($company->email, 'ISTSI Login Link', '<a href="' . $loginUrl .'">Login</a>');
-
-                $logger->addRecord(IdentifiersInfo::CODE_NEW, ['email' => $email]);
+        // Check if email belongs to a company
+        if ($company = $companyMapper->first(['email' => $email])) {
+            // Check if a token exits
+            if ($authTokenMapper->get($email)) {
+                // Check if token has expired
+                if ($authToken = $authTokenMapper->first(
+                    ['email' => $email, 'updated_at <' => new \DateTime('-15 minutes')]
+                )) {
+                    // Update existing token
+                    $authToken->token = bin2hex(random_bytes(64));
+                    $authTokenMapper->update($authToken);
+                } else {
+                    $data = [
+                        'status' => 'fail',
+                        'data'   => 'duplicate'
+                    ];
+                    return $response->withJson($data);
+                }
             } else {
-                $data = [
-                    'status' => 'fail',
-                    'data'   => 'duplicate'
-                ];
-                return $response->withJson($data);
-            }
-        } else {
-            $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-
-            if ($company = $companyMapper->first(['email' => $email])) {
-                // No auth token found, create a new one
-                if (!($authToken = $authTokenMapper->create([
-                    'email' => $email,
-                    'token' => bin2hex(random_bytes(64))
-                ]))) {
+                // Create new token
+                if (!($authToken = $authTokenMapper->create(
+                    ['email' => $email, 'token' => bin2hex(random_bytes(64))]
+                ))) {
                     throw new \Exception(Error::DB_OP);
                 }
-
-                // Send mail
-                $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
-                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
-                $mailer->sendMail(
-                    $company->email,
-                    'ISTSI Login Link',
-                    '<p>O link abaixo pode ser utilizado somente uma vez.</p></p>
-                     <a href="' . $loginUrl .'">Login</a>'
-                );
-            } else {
-                $data = [
-                    'status' => 'fail',
-                    'data'   => 'email'
-                ];
-                return $response->withJson($data);
             }
+        } else {
+            $data = [
+                'status' => 'fail',
+                'data'   => 'email'
+            ];
+            return $response->withJson($data);
         }
+
+        // Send mail
+        $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
+                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
+        $mailer->sendMail(
+            $email,
+            'ISTSI Login Link',
+            '<p>O link abaixo pode ser utilizado somente uma vez.</p>
+             <a href="' . $loginUrl .'">Login</a>'
+        );
+
+        $logger->addRecord(IdentifiersInfo::CODE_NEW, ['email' => $email]);
 
         $data = [
             'status' => 'success',
