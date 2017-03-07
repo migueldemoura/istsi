@@ -26,7 +26,7 @@ class PasswordLess
         $logger = $this->c->get('logger');
         $mailer = $this->c->get('mailer');
 
-        $email = $request->getParam('email');
+        $email = $request->getParsedBodyParam('email');
 
         $authTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\AuthToken');
 
@@ -48,7 +48,11 @@ class PasswordLess
 
                 $logger->addRecord(IdentifiersInfo::CODE_NEW, ['email' => $email]);
             } else {
-                die('CODE_DUPLICATE');
+                $data = [
+                    'status' => 'fail',
+                    'data'   => 'duplicate'
+                ];
+                return $response->withJson($data);
             }
         } else {
             $companyMapper = $database->mapper('\ISTSI\Entities\Company');
@@ -72,11 +76,19 @@ class PasswordLess
                      <a href="' . $loginUrl .'">Login</a>'
                 );
             } else {
-                die('CODE_INVALID_EMAIL');
+                $data = [
+                    'status' => 'fail',
+                    'data'   => 'email'
+                ];
+                return $response->withJson($data);
             }
         }
 
-        return $response->withStatus(302)->withHeader('Location', '/');
+        $data = [
+            'status' => 'success',
+            'data'   => null
+        ];
+        return $response->withJson($data);
     }
 
     public function login(Request $request, Response $response, $args)

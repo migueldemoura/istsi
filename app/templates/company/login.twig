@@ -1,0 +1,53 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ programName }} {{ programYear }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/user.css">
+{% endblock %}
+
+{% block body %}
+    {% include('shared/navbar.empty.twig') %}
+
+    <div class="container">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-10 col-md-offset-1">
+                <h3 style="margin-bottom: 15px;">Login</h3>
+                <p>Introduza o email associado à sua conta.<br>
+                   Ser-lhe-à enviado uma mensagem para o mesmo com um link de login.<br>
+                   O envio poderá demorar até 3minutos, e deverá verificar a sua caixa de spam pela mensagem.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <form id="loginform" class="form-horizontal">
+                    {# Email #}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="email">Email</label>
+                        <div class="col-md-6">
+                            <input type="email" id="email" name="email" class="form-control" maxlength="255" required>
+                        </div>
+                    </div>
+                    <p class="message"></p>
+                </form>
+            </div>
+        </div>
+        {# Submit Button #}
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-3 col-md-offset-4">
+                <button type="submit" class="btn btn-primary btn-block" id="submit">Enviar Link Login</button>
+            </div>
+        </div>
+    </div>
+
+    {% include('shared/footer.twig') %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="/scripts/company/login.js"></script>
+{% endblock %}

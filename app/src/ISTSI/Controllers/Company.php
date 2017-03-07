@@ -72,6 +72,18 @@ class Company
         return $this->c->get('renderer')->render($response, 'company/dashboard.twig', $templateArgs);
     }
 
+    public function showLogin(Request $request, Response $response, $args)
+    {
+        $settingsProgram = $this->c->get('settings')['program'];
+
+        $templateArgs = [
+            'programName' => $settingsProgram['name'],
+            'programYear' => $settingsProgram['year'],
+        ];
+
+        return $this->c->get('renderer')->render($response, 'company/login.twig', $templateArgs);
+    }
+
     public function update(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');

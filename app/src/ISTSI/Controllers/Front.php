@@ -27,6 +27,6 @@ class Front
             'facebook'    => $settingsProgram['facebook']
         ];
 
-        return $this->c->get('renderer')->render($response, 'home/home.twig', $templateArgs);
+        return $this->c->get('renderer')->render($response, 'front/home.twig', $templateArgs);
     }
 }

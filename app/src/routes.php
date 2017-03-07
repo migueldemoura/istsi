@@ -19,12 +19,16 @@ $app->group('/student', function () use ($app, $c) {
 })->add(new Auth($c, IdentifiersAuth::FENIX));
 
 $app->group('/company', function () use ($app, $c) {
-    $app->get('/account', 'ISTSI\Controllers\Company:showAccount');
-    $app->get('/dashboard', 'ISTSI\Controllers\Company:showDashboard');
+    $app->get('/account', 'ISTSI\Controllers\Company:showAccount')
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+    $app->get('/dashboard', 'ISTSI\Controllers\Company:showDashboard')
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+    $app->get('/login', 'ISTSI\Controllers\Company:showLogin');
     //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
     $app->post('/update', 'ISTSI\Controllers\Company:update')
-        ->add(new CSRF($c));
-})->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+        ->add(new CSRF($c))
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+});
 
 $app->group('/auth', function () use ($app, $c) {
     $app->group('/fenix', function () use ($app, $c) {
@@ -35,7 +39,7 @@ $app->group('/auth', function () use ($app, $c) {
     });
     $app->group('/passwordless', function () use ($app, $c) {
         $app->get('/init/{token}', 'ISTSI\Controllers\Auth\PasswordLess:init');
-        $app->get('/generate', 'ISTSI\Controllers\Auth\PasswordLess:generate');
+        $app->post('/generate', 'ISTSI\Controllers\Auth\PasswordLess:generate');
         $app->get('/login', 'ISTSI\Controllers\Auth\PasswordLess:login');
         $app->get('/logout', 'ISTSI\Controllers\Auth\PasswordLess:logout')
             ->add(new CSRF($c));
