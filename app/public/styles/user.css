@@ -39,6 +39,10 @@ input.input-file {
     border-color: rgb(62, 68, 89);
 }
 
+.message {
+    margin-top: 10px;
+}
+
 label.error {
     color: #d43f3a;
 }
