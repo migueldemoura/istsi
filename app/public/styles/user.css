@@ -43,6 +43,10 @@ input.input-file {
     margin-top: 10px;
 }
 
+.label-hidden {
+    display: none;
+}
+
 label.error {
     color: #d43f3a;
 }

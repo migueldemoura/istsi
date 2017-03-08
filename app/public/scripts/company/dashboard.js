@@ -219,6 +219,9 @@ $(document).ready(function () {
     });
 
     $('#newform').validate({
+        rules: {
+            'courses[]': 'required'
+        },
         submitHandler: function (form, e) {
             e.preventDefault();
 
@@ -247,6 +250,9 @@ $(document).ready(function () {
     });
 
     $('#editform').validate({
+        rules: {
+            courses: 'required'
+        },
         submitHandler: function (form, e) {
             e.preventDefault();
 
