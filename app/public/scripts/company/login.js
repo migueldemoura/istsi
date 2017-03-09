@@ -2,7 +2,7 @@ $(document).ready(function () {
     'use strict';
 
     $('#submit').on('click', function () {
-        $('.message').text('...').addClass('text-success').removeClass('text-danger');
+        $('.message').text('A processar...').addClass('text-success').removeClass('text-danger');
         $('#loginform').submit();
     });
 
@@ -26,7 +26,7 @@ $(document).ready(function () {
                                          .addClass('text-danger').removeClass('text-success');
                         } else if (response.data === 'duplicate') {
                             $('.message').text(
-                                'Um link de login foi criado há menos de 15 minutos. ' +
+                                'Um link de login foi criado há menos de 30 minutos. ' +
                                 'Utilize o link enviado.'
                             ).addClass('text-danger').removeClass('text-success');
                         } else {

@@ -37,7 +37,7 @@ class PasswordLess
             if ($authTokenMapper->get($email)) {
                 // Check if token has expired
                 if ($authToken = $authTokenMapper->first(
-                    ['email' => $email, 'updated_at <' => new \DateTime('-15 minutes')]
+                    ['email' => $email, 'updated_at <' => new \DateTime('-30 minutes')]
                 )) {
                     // Update existing token
                     $authToken->token = bin2hex(random_bytes(64));
@@ -94,7 +94,7 @@ class PasswordLess
 
         if (!($authToken = $authTokenMapper->first([
             'token' => $request->getParam('token'),
-            'updated_at >=' => new \DateTime('-15 minutes')])
+            'updated_at >=' => new \DateTime('-30 minutes')])
         )) {
             die('TOKEN_INVALID');
         }
