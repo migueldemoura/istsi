@@ -37,7 +37,6 @@ class Company
             'logout'         => '/auth/passwordless/logout',
             'name'           => $company->name,
             'representative' => $company->representative,
-            'email'          => $company->email,
             'phone'          => $company->phone,
             'token'          => $session->getToken()
         ];
@@ -56,7 +55,7 @@ class Company
         $uid = $session->getUid();
         $company = $companyMapper->first(['email' => $uid]);
 
-        if ($company->name === null) {
+        if ($company->name === null || $company->representative === null || $company->phone === null) {
             return $response->withStatus(302)->withHeader('Location', '/company/account');
         }
 
@@ -96,7 +95,6 @@ class Company
         $company = $companyMapper->first(['email' => $uid]);
         $company->name = $request->getParsedBody()['name'];
         $company->representative = $request->getParsedBody()['representative'];
-        $company->email = $request->getParsedBody()['email'];
         $company->phone = $request->getParsedBody()['phone'];
         if (!$companyMapper->update($company)) {
             die('INVALID_DATA');

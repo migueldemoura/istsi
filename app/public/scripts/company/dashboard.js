@@ -13,7 +13,7 @@ $(document).ready(function () {
                 window.location.replace('/session/expired');
             }
             if (response.data === 'period') {
-                window.alert('O período de candidaturas está encerrado.');
+                window.alert('O período de submissões está encerrado.');
             }
             if (response.data === 'info') {
                 window.location.replace('/company/account');
