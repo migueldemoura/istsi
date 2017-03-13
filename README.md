@@ -20,7 +20,7 @@ This project includes config files to create an environment with Nginx, PHP-FPM,
 
 * Install [Docker] and [Docker Compose]
 * Go to `docker/`, rename `.env.dist` to `.env` and fill all the options.
-The available options for the ENV variable are: `dev` and `prod`.
+The available options for the ENV variable are: `dev`, `staging` and `prod`.
 
 * Start environment:
 
@@ -36,7 +36,7 @@ container# chown -R www-data:www-data /var/www/cache /var/www/data /var/www/logs
 container# exit
 ```
 
-To access the dev webpage go to [istsi.dev](http://istsi.dev).
+To access the dev webpage go to [istsi.localhost](http://istsi.localhost).
 
 * Stop environment:
 
