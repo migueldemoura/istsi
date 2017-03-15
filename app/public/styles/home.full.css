@@ -1,0 +1,219 @@
+@import 'fonts.css';
+body {
+    font-family: 'Ubuntu', sans-serif;
+    color: #777;
+    line-height: 1.6em;
+    text-shadow: none;
+    background: #f7f7f7;
+    word-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Ubuntu Condensed', sans-serif;
+    margin: 0 0 20px;
+}
+
+h1 {
+    font-size: 55px;
+    font-weight: 900;
+    margin-bottom: 50px;
+    color: #242424;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+.home .container {
+    margin-top: 50px;
+}
+
+:focus {
+    outline: 0;
+}
+
+.proposals-banner {
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(/images/backgrounds/proposals.jpg) center;
+    background-size: cover;
+    padding: 110px 0;
+}
+
+@media (min-height: 655px) {
+    .home {
+        height: 100vh;
+    }
+    .home .container {
+        /* Vertical align */
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.login {
+    padding: 80px 0;
+    background-color: #009DE0;
+}
+
+.social {
+    margin-bottom: 40px;
+}
+
+.social i {
+    color: white;
+}
+
+.social ul {
+    list-style: none;
+    display: inline;
+    margin-left: 0 !important;
+    padding: 0;
+}
+
+.social li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.social li a {
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    margin: 0 auto;
+    background-color: #777;
+}
+
+.social li a:hover {
+    background-color: #333;
+}
+
+.social li i {
+    line-height: 50px;
+    text-align: center;
+    margin: 0;
+}
+
+.center-block {
+    float: none;
+}
+
+a {
+    color: #009de0;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+.btn {
+    text-shadow: none;
+    box-shadow: none;
+    outline: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.table td {
+    cursor: pointer;
+}
+
+.filterable-header,
+.filterable-course {
+    display: none;
+}
+
+.btn-login {
+    padding: 15px 100px;
+    margin: 15px 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.btn-login:hover {
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: silver;
+}
+
+.btn-primary {
+    background-color: #009de0;
+}
+
+.btn:hover {
+    background-color: #337ab7;
+}
+
+.footer {
+    margin: 0;
+    padding: 40px 0;
+    background: #242424;
+}
+
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+    background-color: #337ab7;
+    color: white;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-menu li {
+    text-align: center;
+}
+
+.dropdown-menu li a {
+    font-size: 16px;
+}
+
+.white {
+    color: white;
+}
+
+.stats {
+    background-color: #242424;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.stats-val {
+    color: white;
+}
+
+.stats-val p {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.stats-val h3 {
+    margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+    .stats-val-middle {
+        margin: 30px 0;
+    }
+}
+
+.logo {
+    max-width: 300px;
+}

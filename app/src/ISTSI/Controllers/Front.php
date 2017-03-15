@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
+use ISTSI\Helpers\DateTime;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -20,13 +21,51 @@ class Front
     {
         $settingsProgram = $this->c->get('settings')['program'];
 
-        $templateArgs = [
-            'programName' => $settingsProgram['name'],
-            'programYear' => $settingsProgram['year'],
-            'email'       => $settingsProgram['email'],
-            'facebook'    => $settingsProgram['facebook']
-        ];
+        if (DateTime::isBefore($settingsProgram['period']['start'])) {
+            $templateName = 'home.teaser';
+            $templateArgs = [
+                'programName' => $settingsProgram['name'],
+                'programYear' => $settingsProgram['year'],
+                'email'       => $settingsProgram['email'],
+                'facebook'    => $settingsProgram['facebook']
+            ];
+        } else {
+            $database = $this->c->get('database');
 
-        return $this->c->get('renderer')->render($response, 'front/home.twig', $templateArgs);
+            $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+            $courseMapper = $database->mapper('\ISTSI\Entities\Course');
+            $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+
+            $proposals = $proposalMapper->all()->toArray();
+
+            $noCompanies = count($companyMapper->all());
+            $noProposals = $noVacancies = 0;
+
+            foreach ($proposals as $key => $proposal) {
+                $noProposals++;
+                $noVacancies += $proposals[$key]['vacancies'];
+                $proposals[$key]['company_id'] = $companyMapper->get($proposal['company_id'])->name;
+            }
+
+            $templateName = 'home.full';
+            $templateArgs = [
+                'programName' => $settingsProgram['name'],
+                'programYear' => $settingsProgram['year'],
+                'email'       => $settingsProgram['email'],
+                'facebook'    => $settingsProgram['facebook'],
+                'courses'     => $courseMapper->all()->toArray(),
+                'proposals'   => $proposals,
+                'noCompanies' => $noCompanies,
+                'noProposals' => $noProposals,
+                'noVacancies' => $noVacancies,
+                'periodStart' => $settingsProgram['period']['start'],
+                'periodEnd'   => $settingsProgram['period']['end'],
+                'onPeriod'    => DateTime::isBetween(
+                    $settingsProgram['period']['start'],
+                    $settingsProgram['period']['end']
+                )
+            ];
+        }
+        return $this->c->get('renderer')->render($response, 'front/' . $templateName . '.twig', $templateArgs);
     }
 }

@@ -1,0 +1,30 @@
+.mtb45 {
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+.mb60 {
+    margin-bottom: 60px;
+}
+
+.mb40 {
+    margin-bottom: 40px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb0 {
+    margin-bottom: 0;
+}
+
+::selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(49, 54, 75, 0.99);
+}
+
+::-moz-selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(49, 54, 75, 0.99);
+}

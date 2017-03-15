@@ -1,5 +1,4 @@
 @import 'fonts.css';
-
 html,
 body {
     height: 100%;
@@ -9,8 +8,7 @@ body {
 body {
     letter-spacing: 1px;
     line-height: 1.75;
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
-                url(../images/background.jpg) no-repeat center center fixed;
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url(/images/backgrounds/featured.jpg) no-repeat center center fixed;
     background-size: cover;
     font-size: 18px;
     font-family: 'Ubuntu Condensed', sans-serif;
@@ -38,15 +36,6 @@ a:hover {
 i {
     display: inline-block;
     letter-spacing: 0;
-}
-
-::selection {
-    color: rgba(255, 255, 255, 0.99);
-    background-color: rgba(0, 0, 0, 0.99);
-}
-::-moz-selection {
-    color: rgba(255, 255, 255, 0.99);
-    background-color: rgba(0, 0, 0, 0.99);
 }
 
 .wrap {
@@ -102,7 +91,8 @@ i {
     color: #f8faff;
 }
 
-.contacts, .organizers {
+.contacts,
+.organizers {
     margin-top: 20px;
     text-align: center;
 }
@@ -149,4 +139,3 @@ i {
         font-size: 50px;
     }
 }
-

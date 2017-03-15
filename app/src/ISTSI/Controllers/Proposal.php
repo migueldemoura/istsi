@@ -43,19 +43,13 @@ class Proposal
     public function getData(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
-        $session = $this->c->get('session');
-
-        $uid = $session->getUid();
 
         $proposal = $args['proposal'];
 
         $companyMapper = $database->mapper('\ISTSI\Entities\Company');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
 
-        $data = $proposalMapper->first([
-            'id' => $proposal,
-            'company_id' => $companyMapper->first(['email' => $uid])->id
-        ]);
+        $data = $proposalMapper->get($proposal);
         if (!$data) {
             die('E_INVALID_PROPOSAL');
         }
@@ -64,6 +58,7 @@ class Proposal
             'status' => 'success',
             'data'   => [
                 'id' => $data->id,
+                'company' => $companyMapper->get($data->company_id)->name,
                 'description' => $data->description,
                 'project' => $data->project,
                 'requirements' => $data->requirements,

@@ -57,13 +57,24 @@ $app->group('/submission', function () use ($app, $c) {
   ->add(new Auth($c, IdentifiersAuth::FENIX));
 
 $app->group('/proposal', function () use ($app, $c) {
-    $app->get('/get/list', 'ISTSI\Controllers\Proposal:getList');
+    $app->get('/get/list', 'ISTSI\Controllers\Proposal:getList')
+        ->add(new CSRF($c))
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
+        ->add(new Period($c, false));
     $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Proposal:getData');
-    $app->post('/create', 'ISTSI\Controllers\Proposal:create')->add(new Period($c, false));
-    $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update')->add(new Period($c, false));
-    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete')->add(new Period($c, false));
-})->add(new CSRF($c))
-  ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
+    $app->post('/create', 'ISTSI\Controllers\Proposal:create')
+        ->add(new CSRF($c))
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
+        ->add(new Period($c, false));
+    $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update')
+        ->add(new CSRF($c))
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
+        ->add(new Period($c, false));
+    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete')
+        ->add(new CSRF($c))
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
+        ->add(new Period($c, false));
+});
 
 $app->get('/course/get', 'ISTSI\Controllers\Course:get')
     ->add(new CSRF($c))

@@ -1,14 +1,13 @@
 @import 'fonts.css';
-
 html {
     position: relative;
     min-height: 100%;
 }
 
 body {
+    font-family: 'Ubuntu', sans-serif;
     background-color: #f1f1f1;
     margin: 0 0 55px; /* bottom = footer height */
-    font-family: 'Ubuntu', sans-serif;
 }
 
 .navbar-inverse .navbar-brand {
@@ -65,12 +64,12 @@ footer {
 }
 
 /* Remove scroll wheel from number inputs */
-input[type = 'number']::-webkit-inner-spin-button,
-input[type = 'number']::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type = 'number'] {
+input[type='number'] {
     -moz-appearance: textfield !important;
 }

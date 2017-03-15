@@ -3,13 +3,7 @@
     font-weight: 300;
     font-style: normal;
     src: url('fonts/Ubuntu-300/Ubuntu-300.eot');
-    src: url('fonts/Ubuntu-300/Ubuntu-300.eot?#iefix') format('embedded-opentype'),
-    local('Ubuntu Light'),
-    local('Ubuntu-300'),
-    url('fonts/Ubuntu-300/Ubuntu-300.woff2') format('woff2'),
-    url('fonts/Ubuntu-300/Ubuntu-300.woff') format('woff'),
-    url('fonts/Ubuntu-300/Ubuntu-300.ttf') format('truetype'),
-    url('fonts/Ubuntu-300/Ubuntu-300.svg#Ubuntu') format('svg');
+    src: url('fonts/Ubuntu-300/Ubuntu-300.eot?#iefix') format('embedded-opentype'), local('Ubuntu Light'), local('Ubuntu-300'), url('fonts/Ubuntu-300/Ubuntu-300.woff2') format('woff2'), url('fonts/Ubuntu-300/Ubuntu-300.woff') format('woff'), url('fonts/Ubuntu-300/Ubuntu-300.ttf') format('truetype'), url('fonts/Ubuntu-300/Ubuntu-300.svg#Ubuntu') format('svg');
 }
 
 @font-face {
@@ -17,13 +11,7 @@
     font-weight: 400;
     font-style: normal;
     src: url('fonts/Ubuntu-regular/Ubuntu-regular.eot');
-    src: url('fonts/Ubuntu-regular/Ubuntu-regular.eot?#iefix') format('embedded-opentype'),
-    local('Ubuntu'),
-    local('Ubuntu-regular'),
-    url('fonts/Ubuntu-regular/Ubuntu-regular.woff2') format('woff2'),
-    url('fonts/Ubuntu-regular/Ubuntu-regular.woff') format('woff'),
-    url('fonts/Ubuntu-regular/Ubuntu-regular.ttf') format('truetype'),
-    url('fonts/Ubuntu-regular/Ubuntu-regular.svg#Ubuntu') format('svg');
+    src: url('fonts/Ubuntu-regular/Ubuntu-regular.eot?#iefix') format('embedded-opentype'), local('Ubuntu'), local('Ubuntu-regular'), url('fonts/Ubuntu-regular/Ubuntu-regular.woff2') format('woff2'), url('fonts/Ubuntu-regular/Ubuntu-regular.woff') format('woff'), url('fonts/Ubuntu-regular/Ubuntu-regular.ttf') format('truetype'), url('fonts/Ubuntu-regular/Ubuntu-regular.svg#Ubuntu') format('svg');
 }
 
 @font-face {
@@ -31,13 +19,7 @@
     font-weight: 700;
     font-style: normal;
     src: url('fonts/Ubuntu-700/Ubuntu-700.eot');
-    src: url('fonts/Ubuntu-700/Ubuntu-700.eot?#iefix') format('embedded-opentype'),
-    local('Ubuntu Bold'),
-    local('Ubuntu-700'),
-    url('fonts/Ubuntu-700/Ubuntu-700.woff2') format('woff2'),
-    url('fonts/Ubuntu-700/Ubuntu-700.woff') format('woff'),
-    url('fonts/Ubuntu-700/Ubuntu-700.ttf') format('truetype'),
-    url('fonts/Ubuntu-700/Ubuntu-700.svg#Ubuntu') format('svg');
+    src: url('fonts/Ubuntu-700/Ubuntu-700.eot?#iefix') format('embedded-opentype'), local('Ubuntu Bold'), local('Ubuntu-700'), url('fonts/Ubuntu-700/Ubuntu-700.woff2') format('woff2'), url('fonts/Ubuntu-700/Ubuntu-700.woff') format('woff'), url('fonts/Ubuntu-700/Ubuntu-700.ttf') format('truetype'), url('fonts/Ubuntu-700/Ubuntu-700.svg#Ubuntu') format('svg');
 }
 
 @font-face {
@@ -45,11 +27,5 @@
     font-weight: 400;
     font-style: normal;
     src: url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.eot');
-    src: url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.eot?#iefix') format('embedded-opentype'),
-    local('Ubuntu Condensed'),
-    local('Ubuntu-Condensed-regular'),
-    url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.woff2') format('woff2'),
-    url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.woff') format('woff'),
-    url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.ttf') format('truetype'),
-    url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.svg#UbuntuCondensed') format('svg');
+    src: url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.eot?#iefix') format('embedded-opentype'), local('Ubuntu Condensed'), local('Ubuntu-Condensed-regular'), url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.woff2') format('woff2'), url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.woff') format('woff'), url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.ttf') format('truetype'), url('fonts/Ubuntu-Condensed-regular/Ubuntu-Condensed-regular.svg#UbuntuCondensed') format('svg');
 }

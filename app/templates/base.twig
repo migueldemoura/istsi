@@ -10,7 +10,7 @@
 
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
+<body {% block bodyProps %}{% endblock %}>
     {% block body %}{% endblock %}
 
     {% block javascripts %}{% endblock %}
