@@ -33,11 +33,9 @@ $app->group('/company', function () use ($app, $c) {
 $app->group('/auth', function () use ($app, $c) {
     $app->group('/fenix', function () use ($app, $c) {
         $app->get('/connect', 'ISTSI\Controllers\Auth\Fenix:connect');
-        $app->get('/login', 'ISTSI\Controllers\Auth\Fenix:login')
-            ->add(new CSRF($c));
-        $app->get('/logout', 'ISTSI\Controllers\Auth\Fenix:logout')
-            ->add(new CSRF($c));
-    });
+        $app->get('/login', 'ISTSI\Controllers\Auth\Fenix:login');
+        $app->get('/logout', 'ISTSI\Controllers\Auth\Fenix:logout');
+    })->add(new CSRF($c));
     $app->group('/passwordless', function () use ($app, $c) {
         $app->get('/init/{token}', 'ISTSI\Controllers\Auth\PasswordLess:init');
         $app->post('/generate', 'ISTSI\Controllers\Auth\PasswordLess:generate');
