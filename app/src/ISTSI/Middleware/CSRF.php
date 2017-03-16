@@ -21,6 +21,7 @@ class CSRF
         $session = $this->c->get('session');
 
         if (!$session->hasValidToken($request->getParam('csrf_token')) &&
+            !$session->hasValidToken($request->getParam('state')) &&
             !$session->hasValidToken($request->getHeaderLine('X-CSRF-Token'))
         ) {
             if ($request->isXhr()) {

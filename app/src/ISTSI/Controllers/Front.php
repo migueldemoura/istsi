@@ -31,6 +31,11 @@ class Front
             ];
         } else {
             $database = $this->c->get('database');
+            $session = $this->c->get('session');
+
+            if ($session->getToken() === null) {
+                $session->setToken();
+            }
 
             $companyMapper = $database->mapper('\ISTSI\Entities\Company');
             $courseMapper = $database->mapper('\ISTSI\Entities\Course');
@@ -63,7 +68,8 @@ class Front
                 'onPeriod'    => DateTime::isBetween(
                     $settingsProgram['period']['start'],
                     $settingsProgram['period']['end']
-                )
+                ),
+                'token'       => $session->getToken()
             ];
         }
         return $this->c->get('renderer')->render($response, 'front/' . $templateName . '.twig', $templateArgs);

@@ -22,7 +22,11 @@ class Fenix
     public function connect(Request $request, Response $response, $args)
     {
         $fenix = $this->c->get('fenix');
-        return $response->withStatus(302)->withHeader('Location', $fenix->getAuthUrl());
+
+        return $response->withStatus(302)->withHeader(
+            'Location',
+            $fenix->getAuthUrl($request->getQueryParam('csrf_token'))
+        );
     }
 
     public function login(Request $request, Response $response, $args)

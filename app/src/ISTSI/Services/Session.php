@@ -27,7 +27,7 @@ class Session
         $this->setToken();
     }
 
-    private function setToken()
+    public function setToken()
     {
         $_SESSION['token'] = bin2hex(random_bytes(64));
     }
@@ -39,7 +39,7 @@ class Session
 
     public function getToken()
     {
-        return $_SESSION['token'];
+        return isset($_SESSION['token']) ? $_SESSION['token'] : null;
     }
 
     public function hasValidToken($token)

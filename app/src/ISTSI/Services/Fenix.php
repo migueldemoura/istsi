@@ -72,11 +72,12 @@ class Fenix
         return $data;
     }
 
-    public function getAuthUrl()
+    public function getAuthUrl($state)
     {
         $query = http_build_query([
             'client_id'    => $this->clientId,
-            'redirect_uri' => $this->redirectUri
+            'redirect_uri' => $this->redirectUri,
+            'state'        => $state
         ], '', '&');
 
         return $this->apiBaseUrl . '/oauth/userdialog?' . $query;

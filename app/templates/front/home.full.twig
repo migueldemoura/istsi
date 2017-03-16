@@ -147,7 +147,9 @@
         <div class="row text-center">
             <div class="col-md-6 center-block">
                 {% if onPeriod %}
-                    <a href="/auth/fenix/connect" class="btn btn-block btn-lg btn-login">Candidatar</a>
+                    <a href="/auth/fenix/connect?csrf_token={{ token }}" class="btn btn-block btn-lg btn-login">
+                        Candidatar
+                    </a>
                 {% else %}
                     <p class="white">As incrições já fecharam!</p>
                 {% endif %}
