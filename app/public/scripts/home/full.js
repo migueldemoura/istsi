@@ -63,7 +63,7 @@ $(document).ready(function() {
                 window.alert('Erro');
             }
         });
-        modal.find('.modal-title').text('Proposa ' + proposal);
+        modal.find('.modal-title').text('Proposta ' + proposal);
         modal.modal('show');
     });
 });
