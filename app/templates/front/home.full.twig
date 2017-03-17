@@ -161,19 +161,11 @@
     <div class="container">
         <div class="row text-center mb20">
             <p>Uma iniciativa dos Núcleos de Estudantes do IST</p>
-            <a href="https://fb.com/AeroTecnico" title="AeroTéc">AeroTéc</a>
-            <a href="https://fb.com/ForumMecanica" title="Fórum Mecânica">Fórum Mecânica</a>
-            <a href="https://fb.com/NAENaval" title="NAEN">NAEN</a>
-            <a href="https://fb.com/NEBIST" title="NEB">NEB</a>
-            <a href="https://fb.com/nebmist" title="NEBM">NEBM</a>
-            <a href="https://fb.com/neeamb" title="NEEA">NEEA</a>
-            <a href="https://fb.com/NEECIST" title="NEECIST">NEECIST</a>
-            <a href="https://fb.com/neegi.tecnico" title="NEEGI">NEEGI</a>
-            <a href="https://fb.com/gce.neiist" title="NEIIST">NEIIST</a>
-            <a href="https://fb.com/NEMateriais" title="NEMat">NEMat</a>
-            <a href="https://fb.com/neqist" title="NEQ">NEQ</a>
-            <a href="https://fb.com/NucleoFisicaIST" title="NFIST">NFIST</a>
-            <a href="https://fb.com/minasIST" title="NUMIST">NUMIST</a>
+            {% for society in societies %}
+                <a href="https://www.facebook.com/{{ society.facebook }}" title="{{ society.name }}">
+                    {{ society.name }}
+                </a>
+            {% endfor %}
         </div>
         <div class="row text-center mb40">
             <p>Com o apoio</p>
@@ -181,8 +173,16 @@
         </div>
         <div class="row social text-center">
             <ul>
-                <li><a href="https://fb.com/{{ facebook }}" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="mailto:{{ email }}" title="Email"><i class="fa fa-envelope"></i></a></li>
+                <li>
+                    <a href="https://www.facebook.com/{{ facebook }}" title="Facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:{{ email }}" title="Email">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="row text-center">

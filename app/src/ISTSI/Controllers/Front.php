@@ -27,7 +27,8 @@ class Front
                 'programName' => $settingsProgram['name'],
                 'programYear' => $settingsProgram['year'],
                 'email'       => $settingsProgram['email'],
-                'facebook'    => $settingsProgram['facebook']
+                'facebook'    => $settingsProgram['facebook'],
+                'societies'   => $settingsProgram['societies']
             ];
         } else {
             $database = $this->c->get('database');
@@ -58,6 +59,7 @@ class Front
                 'programYear' => $settingsProgram['year'],
                 'email'       => $settingsProgram['email'],
                 'facebook'    => $settingsProgram['facebook'],
+                'societies'   => $settingsProgram['societies'],
                 'courses'     => $courseMapper->all()->toArray(),
                 'proposals'   => $proposals,
                 'noCompanies' => $noCompanies,

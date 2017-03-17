@@ -51,20 +51,11 @@
                 </div>
                 <div class="organizers">
                     <p class="subtitle">Uma iniciativa dos Núcleos de Estudantes:</p>
-
-                    <a href="https://www.facebook.com/AeroTecnico" title="AeroTéc">AeroTéc</a>
-                    <a href="https://www.facebook.com/ForumMecanica" title="Fórum Mecânica">Fórum Mecânica</a>
-                    <a href="https://www.facebook.com/NAENaval" title="NAEN">NAEN</a>
-                    <a href="https://www.facebook.com/NEBIST" title="NEB">NEB</a>
-                    <a href="https://www.facebook.com/nebmist" title="NEBM">NEBM</a>
-                    <a href="https://www.facebook.com/neeamb" title="NEEA">NEEA</a>
-                    <a href="https://www.facebook.com/NEECIST" title="NEECIST">NEECIST</a>
-                    <a href="https://www.facebook.com/neegi.tecnico" title="NEEGI">NEEGI</a>
-                    <a href="https://www.facebook.com/gce.neiist" title="NEIIST">NEIIST</a>
-                    <a href="https://www.facebook.com/NEMateriais" title="NEMat">NEMat</a>
-                    <a href="https://www.facebook.com/neqist" title="NEQ">NEQ</a>
-                    <a href="https://www.facebook.com/NucleoFisicaIST" title="NFIST">NFIST</a>
-                    <a href="https://www.facebook.com/minasIST" title="NUMIST">NUMIST</a>
+                    {% for society in societies %}
+                        <a href="https://www.facebook.com/{{ society.facebook }}" title="{{ society.name }}">
+                            {{ society.name }}
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>

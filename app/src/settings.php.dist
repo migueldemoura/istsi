@@ -63,6 +63,9 @@ return [
             'period' => [
                 'start'   => '', //YYYY-MM-DD
                 'end'     => ''  //YYYY-MM-DD
+            ],
+            'societies' => [
+                ['name' => '', 'facebook' => ''],
             ]
         ]
     ],
