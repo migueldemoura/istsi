@@ -43,15 +43,12 @@
     <div class="modal fade" id="newmodal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title" id="label-newModal">Nova Proposta</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="newform" method="POST">
-                        {# Description #}
                         <div class="form-group">
                             <label class="control-label" for="newdescription">Descrição</label>
                             <textarea id="newdescription" name="description" rows="3" class="form-control"
@@ -59,55 +56,47 @@
                                       maxlength="255" required></textarea>
 
                         </div>
-                        {# Project #}
                         <div class="form-group">
                             <label class="control-label" for="newproject">Projeto</label>
                             <textarea id="newproject" name="project" rows="6" class="form-control"
                                       placeholder="Descrição do projeto a realizar pelo aluno durante o estágio."
                                       maxlength="65535" required></textarea>
                         </div>
-                        {# Requirements #}
                         <div class="form-group">
                             <label class="control-label" for="newrequirements">Requisitos</label>
                             <textarea id="newrequirements" name="requirements" rows="6" class="form-control"
                                       placeholder="Requisitos que o aluno deverá cumprir."
                                       maxlength="65535" required></textarea>
                         </div>
-                        {# Salary #}
                         <div class="form-group">
                             <label class="control-label" for="newsalary">Financiamento</label>
                             <textarea id="newsalary" name="salary" rows="3" class="form-control"
                                       placeholder="Bolsa de estágio, subsídio de alimentação, entre outros."
                                       maxlength="255" required></textarea>
                         </div>
-                        {# Observations #}
                         <div class="form-group">
                             <label class="control-label" for="newobservations">Observações</label>
                             <textarea id="newobservations" name="observations" rows="6" class="form-control"
                                       placeholder="Alguma observação adicional."
                                       maxlength="65535"></textarea>
                         </div>
-                        {# Duration #}
                         <div class="form-group">
                             <label class="control-label" for="newduration">Duração</label>
                             <input id="newduration" name="duration" class="form-control"
                                    placeholder="Duração do estágio e as datas de início e término do mesmo."
                                    maxlength="255" required>
                         </div>
-                        {# Location #}
                         <div class="form-group">
                             <label class="control-label" for="newlocation">Localização</label>
                             <input id="newlocation" name="location" class="form-control"
                                    placeholder="Local onde se realizará o estágio."
                                    maxlength="255" required>
                         </div>
-                        {# Vacancies #}
                         <div class="form-group">
                             <label class="control-label" for="newvacancies">Vagas</label>
                             <input type="number" id="newvacancies" name="vacancies" class="form-control"
                                    placeholder="Número de vagas para este estágio." required>
                         </div>
-                        {# Courses #}
                         <div class="form-group">
                             <label class="control-label">Cursos</label>
                             <div class="courses">
@@ -117,7 +106,6 @@
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="submit" class="btn btn-primary" id="newformSubmit">Submeter</button>
@@ -130,61 +118,50 @@
     <div class="modal fade" id="editmodal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title" id="label-editModal">Editar Proposta</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="editform" method="POST">
                         <span class="hidden" id="proposal"></span>
-                        {# Description #}
                         <div class="form-group">
                             <label class="control-label" for="description">Descrição</label>
                             <textarea id="description" name="description" rows="3" class="form-control"
                                       maxlength="255" required></textarea>
                         </div>
-                        {# Project #}
                         <div class="form-group">
                             <label class="control-label" for="project">Projeto</label>
                             <textarea id="project" name="project" rows="6" class="form-control"
                                       maxlength="65535" required></textarea>
                         </div>
-                        {# Requirements #}
                         <div class="form-group">
                             <label class="control-label" for="requirements">Requisitos</label>
                             <textarea id="requirements" name="requirements" rows="6" class="form-control"
                                       maxlength="65535" required></textarea>
                         </div>
-                        {# Salary #}
                         <div class="form-group">
                             <label class="control-label" for="salary">Financiamento</label>
                             <textarea id="salary" name="salary" rows="3" class="form-control"
                                       maxlength="255" required></textarea>
                         </div>
-                        {# Observations #}
                         <div class="form-group">
                             <label class="control-label" for="observations">Observações</label>
                             <textarea id="observations" name="observations" rows="6" class="form-control"
                                       maxlength="65535"></textarea>
                         </div>
-                        {# Duration #}
                         <div class="form-group">
                             <label class="control-label" for="duration">Duração</label>
                             <input id="duration" name="duration" class="form-control" maxlength="255" required>
                         </div>
-                        {# Location #}
                         <div class="form-group">
                             <label class="control-label" for="location">Localização</label>
                             <input id="location" name="location" class="form-control" maxlength="255" required>
                         </div>
-                        {# Vacancies #}
                         <div class="form-group">
                             <label class="control-label" for="vacancies">Vagas</label>
                             <input type="number" id="vacancies" name="vacancies" class="form-control" required>
                         </div>
-                        {# Courses #}
                         <div class="form-group">
                             <label class="control-label">Cursos</label>
                             <div class="courses">
@@ -194,7 +171,6 @@
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="submit" class="btn btn-primary" id="editformSubmit">Gravar</button>
@@ -207,67 +183,55 @@
     <div class="modal fade" id="viewmodal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title" id="label-viewModal">Visualizar Proposta</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="viewform">
-                        {# Description #}
                         <div class="form-group">
                             <label class="control-label" for="description">Descrição</label>
                             <textarea id="description" name="description" rows="3" class="form-control"
                                       maxlength="255" disabled></textarea>
                         </div>
-                        {# Project #}
                         <div class="form-group">
                             <label class="control-label" for="project">Projeto</label>
                             <textarea id="project" name="project" rows="6" class="form-control"
                                           maxlength="65535" disabled></textarea>
                         </div>
-                        {# Requirements #}
                         <div class="form-group">
                             <label class="control-label" for="requirements">Requisitos</label>
                             <textarea id="requirements" name="requirements" rows="6" class="form-control"
                                           maxlength="65535" disabled></textarea>
                         </div>
-                        {# Salary #}
                         <div class="form-group">
                             <label class="control-label" for="salary">Financiamento</label>
                             <textarea id="salary" name="salary" rows="3" class="form-control"
                                           maxlength="255" disabled></textarea>
                         </div>
-                        {# Observations #}
                         <div class="form-group">
                             <label class="control-label" for="observations">Observações</label>
                             <textarea id="observations" name="observations" rows="6" class="form-control"
                                           maxlength="65535" disabled></textarea>
                         </div>
-                        {# Duration #}
                         <div class="form-group">
                             <label class="control-label" for="duration">Duração</label>
                             <input id="duration" name="duration" class="form-control" maxlength="255" disabled>
                         </div>
-                        {# Location #}
                         <div class="form-group">
                             <label class="control-label" for="location">Localização</label>
                             <input id="location" name="location" class="form-control" maxlength="255" disabled>
                         </div>
-                        {# Vacancies #}
                         <div class="form-group">
                             <label class="control-label" for="vacancies">Vagas</label>
                             <input type="number" id="vacancies" name="vacancies" class="form-control" disabled>
                         </div>
-                        {# Courses #}
                         <div class="form-group">
                             <label class="control-label">Cursos</label>
                             <div class="courses"></div>
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 </div>

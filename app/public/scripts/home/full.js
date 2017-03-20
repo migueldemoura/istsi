@@ -1,4 +1,11 @@
 $(document).ready(function() {
+
+    updateProposalListStatus();
+
+    function updateProposalListStatus() {
+        $('#noproposals')[(($('td')[0].offsetParent === null) ? 'remove' : 'add') + 'Class']('hidden');
+    }
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $('nav a[href*="#"]').on('click', function(e) {
@@ -24,6 +31,7 @@ $(document).ready(function() {
                 function() {$this.parent()[($this.text().indexOf(course) !== -1) ? 'show' : 'hide']()}
             )();
         });
+        updateProposalListStatus();
     });
 
     $('.nav a').on('click', function() {
