@@ -44,7 +44,7 @@ class Session
 
     public function hasValidToken($token)
     {
-        return ($_SESSION['token'] === $token);
+        return isset($_SESSION['token']) && ($_SESSION['token'] === $token);
     }
 
     public function getUid()
