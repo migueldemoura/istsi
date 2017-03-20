@@ -5,6 +5,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/common.css">
     <link rel="stylesheet" href="/styles/user.css">
 {% endblock %}
 
@@ -14,32 +15,25 @@
     {% include('shared/navbar.twig') %}
 
     <div class="container">
-        <div class="row text-left">
-            <div class="col-md-12">
-                <h3>Propostas Submetidas</h3>
-            </div>
+        <div class="mb20">
+            <h3>Propostas Submetidas</h3>
         </div>
-        <div class="row text-left">
-            <div class="col-md-12">
-                <div id="noproposals" class='hidden'>
-                    <ul class="list-group">
-                        <li class="list-group-item clearfix text-center">Nenhuma proposta encontrada.</li>
-                    </ul>
-                </div>
-                <ul id="proposalslist" class="list-group">
+        <div>
+            <div id="noproposals" class="hidden">
+                <ul class="list-group">
+                    <li class="list-group-item clearfix text-center">Nenhuma proposta encontrada.</li>
                 </ul>
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-12">
-                        <button type="button" id="newbutton" class="btn btn-primary btn-large"
-                                data-toggle="modal"
-                                data-target="#newmodal"
-                                {% if not onPeriod %}disabled{% endif %}
-                        >
-                        <span class="glyphicon glyphicon-plus"></span> Nova Proposta
-                        </button>
-                    </div>
-                </div>
             </div>
+            <ul id="proposalslist" class="list-group">
+            </ul>
+        </div>
+        <div class="mb20">
+            <button type="button" id="newbutton" class="btn btn-primary btn-large"
+                    data-toggle="modal"
+                    data-target="#newmodal"
+                    {% if not onPeriod %}disabled{% endif %}>
+                <span class="glyphicon glyphicon-plus"></span> Nova Proposta
+            </button>
         </div>
     </div>
 
@@ -280,6 +274,7 @@
             </div>
         </div>
     </div>
+
     <template id="proposalrow">
         <li class="list-group-item clearfix">
             <span class="glyphicon glyphicon-align-justify"></span>

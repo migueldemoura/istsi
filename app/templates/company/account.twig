@@ -5,6 +5,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/common.css">
     <link rel="stylesheet" href="/styles/user.css">
 {% endblock %}
 
@@ -14,9 +15,9 @@
     {% include('shared/navbar.twig') %}
 
     <div class="container">
-        <div class="row" style="margin-bottom: 30px;">
-            <div class="col-md-10 col-md-offset-1">
-                <h3 style="margin-bottom: 15px;">Informação Empresa</h3>
+        <div class="row mb20">
+            <div class="col-md-10 center-block">
+                <h3>Informação Empresa</h3>
             </div>
         </div>
         <div class="row">
@@ -50,7 +51,7 @@
             </div>
         </div>
         {# Submit Button #}
-        <div class="row text-center" style="margin-bottom: 20px;">
+        <div class="row text-center mb20">
             <div class="col-md-3 col-md-offset-4">
                 <button type="submit" class="btn btn-primary btn-block" id="submit">Enviar</button>
             </div>

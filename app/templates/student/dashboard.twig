@@ -5,6 +5,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/common.css">
     <link rel="stylesheet" href="/styles/user.css">
 {% endblock %}
 
@@ -14,32 +15,25 @@
     {% include('shared/navbar.twig') %}
 
     <div class="container">
-        <div class="row text-left">
-            <div class="col-md-12">
-                <h3>Candidaturas Submetidas</h3>
-            </div>
+        <div class="mb20">
+            <h3>Candidaturas Submetidas</h3>
         </div>
-        <div class="row text-left">
-            <div class="col-md-12">
-                <div id="nosubmissions" class='hidden'>
-                    <ul class="list-group">
-                        <li class="list-group-item clearfix text-center">Nenhuma candidatura encontrada :(</li>
-                    </ul>
-                </div>
-                <ul id="submissionslist" class="list-group">
+        <div>
+            <div id="nosubmissions" class="hidden">
+                <ul class="list-group">
+                    <li class="list-group-item clearfix text-center">Nenhuma candidatura encontrada :(</li>
                 </ul>
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-12">
-                        <button type="button" id="newbutton" class="btn btn-primary btn-large"
-                                data-toggle="modal"
-                                data-target="#newmodal"
-                                {% if not onPeriod %}disabled{% endif %}
-                        >
-                        <span class="glyphicon glyphicon-plus"></span> Nova Candidatura
-                        </button>
-                    </div>
-                </div>
             </div>
+            <ul id="submissionslist" class="list-group">
+            </ul>
+        </div>
+        <div class="mb20">
+            <button type="button" id="newbutton" class="btn btn-primary btn-large"
+                    data-toggle="modal"
+                    data-target="#newmodal"
+                    {% if not onPeriod %}disabled{% endif %}>
+                <span class="glyphicon glyphicon-plus"></span> Nova Candidatura
+            </button>
         </div>
     </div>
 
@@ -49,23 +43,19 @@
     <div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="label-newModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="label-newModal">Nova Candidatura</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="newform" class="form-horizontal" method="POST">
-                        {# Proposal #}
                         <div class="form-group ">
                             <label class="col-md-4 control-label" for="newproposal">Proposta</label>
                             <div class="col-md-6">
                                 <select id="newproposal" name="proposal" class="form-control" required></select>
                             </div>
                         </div>
-                        {# Observations #}
                         <div class="form-group ">
                             <label class="col-md-4 control-label" for="newobservations">Observações</label>
                             <div class="col-md-6">
@@ -73,7 +63,6 @@
                                           maxlength="65535"></textarea>
                             </div>
                         </div>
-                        {# CV File #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="newCV">Curriculum Vitae (CV)</label>
                             <div class="col-md-6">
@@ -82,7 +71,6 @@
                                 <span class="label label-info" id="pathnewCV"></span>
                             </div>
                         </div>
-                        {# CM File #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="newCM">Carta de Motivação (CM)</label>
                             <div class="col-md-6">
@@ -93,7 +81,6 @@
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="submit" class="btn btn-primary" id="newformSubmit">Submeter</button>
@@ -106,17 +93,14 @@
     <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="label-editModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="label-editModal">Editar Candidatura</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="editform" class="form-horizontal" method="POST">
                         <span class="hidden" id="proposal"></span>
-                        {# Observations #}
                         <div class="form-group ">
                             <label class="col-md-4 control-label" for="editobservations">Observações</label>
                             <div class="col-md-6">
@@ -124,7 +108,6 @@
                                           maxlength="65535"></textarea>
                             </div>
                         </div>
-                        {# CV File #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="editCV">Curriculum Vitae (CV)</label>
                             <div class="col-md-6">
@@ -133,7 +116,6 @@
                                 <span class="label label-info" id="patheditCV"></span>
                             </div>
                         </div>
-                        {# CM File #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="editCM">Carta de Motivação (CM)</label>
                             <div class="col-md-6">
@@ -144,7 +126,6 @@
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="submit" class="btn btn-primary" id="editformSubmit">Gravar</button>
@@ -158,16 +139,13 @@
          aria-labelledby="label-viewModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {# Modal Header #}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="label-viewModal">Visualizar Candidatura</h4>
                 </div>
-                {# Modal Body #}
                 <div class="modal-body">
                     <form id="viewform" class="form-horizontal">
-                        {# Observations #}
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="viewobservations">Observações</label>
                             <div class="col-md-6">
@@ -175,7 +153,6 @@
                                           maxlength="65535" disabled></textarea>
                             </div>
                         </div>
-                        {# CV File #}
                         <div class="form-group">
                             <div class="col-md-offset-4 col-sm-10">
                                 <a id="viewCV" class="btn btn-info" href="" target="_blank" rel="noopener">
@@ -183,7 +160,6 @@
                                 </a>
                             </div>
                         </div>
-                        {# CV File #}
                         <div class="form-group">
                             <div class="col-md-offset-4 col-sm-10">
                                 <a id="viewCM" class="btn btn-info" href="" target="_blank" rel="noopener">
@@ -193,13 +169,13 @@
                         </div>
                     </form>
                 </div>
-                {# Modal Footer #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
+
     <template id="submissionrow">
         <li class="list-group-item clearfix">
             <span class="glyphicon glyphicon-align-justify"></span>

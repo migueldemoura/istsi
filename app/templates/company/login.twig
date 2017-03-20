@@ -5,6 +5,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/common.css">
     <link rel="stylesheet" href="/styles/user.css">
 {% endblock %}
 
@@ -12,9 +13,9 @@
     {% include('shared/navbar.empty.twig') %}
 
     <div class="container">
-        <div class="row" style="margin-bottom: 30px;">
-            <div class="col-md-10 col-md-offset-1">
-                <h3 style="margin-bottom: 15px;">Login</h3>
+        <div class="row mb20">
+            <div class="col-md-10 center-block">
+                <h3 class="mb20">Login</h3>
                 <p>Introduza o email associado à sua conta.<br>
                    Ser-lhe-à enviado um email para o mesmo com um link de login válido por apenas 30 minutos.<br>
                    O envio poderá demorar até 3 minutos, e deverá verificar a sua caixa de spam pela mensagem.<br>
@@ -37,7 +38,7 @@
             </div>
         </div>
         {# Submit Button #}
-        <div class="row text-center" style="margin-bottom: 20px;">
+        <div class="row text-center mb20">
             <div class="col-md-3 col-md-offset-4">
                 <button type="submit" class="btn btn-primary btn-block" id="submit">Enviar Link Login</button>
             </div>

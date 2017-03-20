@@ -1,3 +1,83 @@
+@import 'fonts.css';
+body {
+    font-family: 'Ubuntu', sans-serif;
+    text-shadow: none;
+    background-color: #F1F1F1;
+    word-wrap: break-word;
+}
+
+::selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(49, 54, 75, 0.99);
+}
+
+::-moz-selection {
+    color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(49, 54, 75, 0.99);
+}
+
+select:active, select:hover {
+    outline-color: rgba(49, 54, 75, 0.99);
+}
+
+.center-block {
+    float: none;
+}
+
+a {
+    color: #009DE0;
+}
+
+a:hover {
+    color: #008ACB;
+    text-decoration: none;
+}
+
+.btn {
+    text-shadow: none;
+    box-shadow: none;
+    outline: 0;
+    border-radius: 0;
+}
+
+.btn-primary {
+    background-color: #009DE0;
+    border-color: #0093D6;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: #008ACB;
+    color: white;
+}
+
+.btn-primary:active:hover {
+    background-color: #005880;
+}
+
+.navbar {
+    border-color: #333;
+}
+
+.navbar-collapse {
+    border: none;
+}
+
+.form-control, .modal-content, .dropdown-menu, .navbar-toggle, .list-group-item {
+    border-radius: 0;
+}
+
+.close {
+    font-size: 25px;
+}
+
+.modal-header .close {
+    margin-top: -7px;
+}
+
+textarea {
+    resize: vertical;
+}
+
 .mtb45 {
     margin-top: 45px;
     margin-bottom: 45px;
@@ -17,14 +97,4 @@
 
 .mb0 {
     margin-bottom: 0;
-}
-
-::selection {
-    color: rgba(255, 255, 255, 0.99);
-    background-color: rgba(49, 54, 75, 0.99);
-}
-
-::-moz-selection {
-    color: rgba(255, 255, 255, 0.99);
-    background-color: rgba(49, 54, 75, 0.99);
 }
