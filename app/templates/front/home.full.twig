@@ -83,7 +83,9 @@
                 <p class="text-center">Filtrar por curso:</p>
                 <div class="dropdown">
                     <button class="btn btn-block btn-lg btn-primary dropdown-toggle"
-                            data-toggle="dropdown" type="button">Todos <span class=caret></span>
+                            data-toggle="dropdown" type="button">
+                        <span id="selected-course">Todos</span>
+                        <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" class="filter-course active" data-filter="All">Todos</a>
@@ -111,7 +113,7 @@
                             <th>Proposta</th>
                             <th>Empresa</th>
                             <th>Descrição</th>
-                            <th class="filterable-header">Cursos</th>
+                            <th class="hidden">Cursos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,7 +123,7 @@
                                 <td>{{ proposal.id }}</td>
                                 <td>{{ proposal.company_id }}</td>
                                 <td>{{ proposal.description }}</td>
-                                <td class="filterable-course">
+                                <td class="filterable-course hidden">
                                     {% for course in proposal.courses %}{{ course }},{% endfor %}
                                 </td>
                             </tr>
@@ -256,5 +258,6 @@
 {% block javascripts %}
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/scripts/common.js"></script>
     <script src="/scripts/home/full.js"></script>
 {% endblock %}

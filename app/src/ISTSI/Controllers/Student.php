@@ -34,6 +34,7 @@ class Student
             'uid'          => $uid,
             'logout'       => '/auth/fenix/logout',
             'email'        => $student->email,
+            'phone'        => $student->phone,
             'token'        => $session->getToken()
         ];
 

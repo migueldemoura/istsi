@@ -181,20 +181,23 @@
             <span class="glyphicon glyphicon-align-justify"></span>
             <span>Proposta </span><span class="proposal"></span>
             <span class="pull-right">
-        <button type="button" id="viewbutton" class="btn btn-xs btn-info"
-                data-item="">
-            Visualizar
-        </button>
-        <button type="button" id="editbutton" class="btn btn-xs btn-info"
-                data-item="">
-            Editar
-        </button>
-        <button type="button" id="delete" class="btn btn-xs btn-danger"
-                data-item="">
-            <span class="glyphicon glyphicon-trash"></span>
-        </button>
-    </span>
+                <button type="button" id="viewbutton" class="btn btn-xs btn-info"
+                        data-item="">
+                    Visualizar
+                </button>
+                <button type="button" id="editbutton" class="btn btn-xs btn-info"
+                        data-item="">
+                    Editar
+                </button>
+                <button type="button" id="delete" class="btn btn-xs btn-danger"
+                        data-item="">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
         </li>
+    </template>
+    <template id="optionrow">
+        <option value="">Seleciona uma opção</option>
     </template>
 {% endblock %}
 
@@ -203,5 +206,6 @@
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.additional-methods.min.js"></script>
+    <script src="/scripts/common.js"></script>
     <script src="/scripts/student/dashboard.js"></script>
 {% endblock %}

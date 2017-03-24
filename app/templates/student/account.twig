@@ -35,7 +35,8 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="phone">Telemóvel</label>
                         <div class="col-md-6">
-                            <input type="text" id="phone" name="phone" class="form-control" required>
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                   value="{{ phone }}" required>
                         </div>
                     </div>
                 </form>
@@ -43,7 +44,7 @@
         </div>
         <div class="row text-center mb20">
             <div class="col-md-3 col-md-offset-4">
-                <button type="submit" class="btn btn-primary btn-block" id="submit">Enviar</button>
+                <button type="submit" class="btn btn-primary btn-block" id="infoformSubmit">Enviar</button>
             </div>
         </div>
     </div>
@@ -55,5 +56,6 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="/scripts/common.js"></script>
     <script src="/scripts/student/account.js"></script>
 {% endblock %}
