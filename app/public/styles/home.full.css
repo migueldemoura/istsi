@@ -4,7 +4,8 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
     font-family: 'Ubuntu Condensed', sans-serif;
     margin: 0 0 20px;
 }
@@ -99,11 +100,6 @@ h2 {
     cursor: pointer;
 }
 
-.filterable-header,
-.filterable-course {
-    display: none;
-}
-
 .btn-login {
     padding: 15px 100px;
     margin: 15px 0;
@@ -120,14 +116,6 @@ h2 {
     margin: 0;
     padding: 40px 0;
     background-color: #242424;
-}
-
-.table tbody tr:hover td,
-.table tbody tr:hover th,
-.table tbody tr:active td,
-.table tbody tr:active th {
-    background-color: #008ACB;
-    color: white;
 }
 
 .dropdown-menu {

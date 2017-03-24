@@ -19,18 +19,6 @@ input.input-file {
     color: #999;
 }
 
-.btn-info {
-    color: rgba(248, 250, 255, 0.99);
-    background-color: rgba(62, 68, 89, 0.9);
-    border-color: #3e4459;
-}
-
-.btn-info:hover {
-    color: rgba(248, 250, 255, 0.99);
-    background-color: rgba(49, 54, 75, 0.9);
-    border-color: rgb(62, 68, 89);
-}
-
 .message {
     margin-top: 10px;
 }

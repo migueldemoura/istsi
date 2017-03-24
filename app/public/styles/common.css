@@ -41,29 +41,57 @@ a:hover {
 }
 
 .btn-primary {
+    color: white;
     background-color: #009DE0;
     border-color: #0093D6;
 }
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-    background-color: #008ACB;
     color: white;
+    background-color: #008ACB;
 }
 
-.btn-primary:active:hover {
+.btn-primary:active:hover, .btn-primary:active:focus {
+    color: white;
     background-color: #005880;
 }
 
-.navbar {
-    border-color: #333;
+.btn-info {
+    color: white;
+    background-color: #3e4459;
+    border-color: #3E4459;
+}
+
+.btn-info:hover, .btn-info:active, .btn-info:focus {
+    color: white;
+    background-color: #31364b;
+    border-color: #3E4459;
+}
+
+.btn-info:active:hover, .btn-info:active:focus{
+    color: white;
+    background-color: #242424;
+}
+
+.label-info {
+    background-color: #008ACB;
 }
 
 .navbar-collapse {
     border: none;
 }
 
-.form-control, .modal-content, .dropdown-menu, .navbar-toggle, .list-group-item {
+.form-control, .modal-content, .dropdown-menu, .navbar-toggle, .label,
+.list-group-item:first-child, .list-group-item:last-child {
     border-radius: 0;
+}
+
+.table tbody tr:hover td,
+.table tbody tr:hover th,
+.table tbody tr:active td,
+.table tbody tr:active th {
+    background-color: #008ACB;
+    color: white;
 }
 
 .close {
