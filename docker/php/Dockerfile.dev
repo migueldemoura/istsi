@@ -1,0 +1,14 @@
+FROM php:7.1-fpm
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+COPY shared/php.ini /usr/local/etc/php/php.ini
+COPY dev/php.ini /usr/local/etc/php/php.ini.dev
+RUN cd /usr/local/etc/php && cat php.ini.dev >> php.ini
+
+RUN pecl install -o -f xdebug && docker-php-ext-enable xdebug
+COPY dev/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+WORKDIR /var/www/istsi

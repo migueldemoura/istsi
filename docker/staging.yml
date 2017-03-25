@@ -12,14 +12,18 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     php:
-        build: php/prod
+        build:
+            context: php
+            dockerfile: Dockerfile.staging
         volumes:
             - ../app:/var/www/istsi
             - ../cache:/var/www/cache
             - ../logs:/var/www/logs
             - ../data:/var/www/data
     nginx:
-        build: nginx/staging
+        build:
+            context: nginx
+            dockerfile: Dockerfile.staging
         ports:
             - 443:443
         volumes_from:

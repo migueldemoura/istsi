@@ -8,7 +8,6 @@ class Session
     public function __construct()
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_set_cookie_params(null, '/', $_SERVER['SERVER_NAME'], isset($_SERVER['HTTPS']), true);
             session_start();
         }
     }

@@ -1,0 +1,15 @@
+FROM debian:jessie
+
+RUN apt update && apt install -y nginx
+
+COPY shared/nginx.conf /etc/nginx/
+COPY dev/istsi.conf /etc/nginx/sites-available/
+
+RUN ln -s /etc/nginx/sites-available/istsi.conf /etc/nginx/sites-enabled/istsi
+RUN rm /etc/nginx/sites-enabled/default
+
+RUN usermod -u 1000 www-data
+
+CMD ["nginx"]
+
+EXPOSE 80
