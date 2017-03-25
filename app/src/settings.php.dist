@@ -56,17 +56,18 @@ return [
         ],
 
         'program' => [
-            'name'        => '',
-            'year'        => '',
-            'email'       => '',
-            'facebook'    => '',
-            'period' => [
-                'start'   => '', //YYYY-MM-DD
-                'end'     => ''  //YYYY-MM-DD
+            'name'      => '',
+            'year'      => '',
+            'email'     => '',
+            'facebook'  => '',
+            'period'    => [
+                'start' => '', //YYYY-MM-DD
+                'end'   => ''  //YYYY-MM-DD
             ],
             'societies' => [
                 ['name' => '', 'facebook' => ''],
-            ]
+            ],
+            'termsPath' => ''
         ]
     ],
 ];

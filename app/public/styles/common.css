@@ -16,6 +16,10 @@ body {
     background-color: rgba(49, 54, 75, 0.99);
 }
 
+:focus {
+    outline: 0;
+}
+
 select:active, select:hover {
     outline-color: rgba(49, 54, 75, 0.99);
 }
@@ -31,6 +35,14 @@ a {
 a:hover {
     color: #008ACB;
     text-decoration: none;
+}
+
+a.inverse {
+    color: #31364B;
+}
+
+a.inverse:hover {
+    color: #242424;
 }
 
 .btn {
@@ -58,13 +70,13 @@ a:hover {
 
 .btn-info {
     color: white;
-    background-color: #3e4459;
+    background-color: #3E4459;
     border-color: #3E4459;
 }
 
 .btn-info:hover, .btn-info:active, .btn-info:focus {
     color: white;
-    background-color: #31364b;
+    background-color: #31364B;
     border-color: #3E4459;
 }
 

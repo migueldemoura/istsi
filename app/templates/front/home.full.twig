@@ -157,6 +157,9 @@
                     <a href="/auth/fenix/connect?csrf_token={{ token }}" class="btn btn-block btn-lg btn-login">
                         Candidatar
                     </a>
+                    <p class="white">Ao clicares em "Candidatar", estás a aceitar os termos do
+                        <a class="inverse" href="{{ termsPath }}">regulamento</a> do programa.
+                    </p>
                 {% else %}
                     <p class="white">As incrições já fecharam!</p>
                 {% endif %}

@@ -28,10 +28,6 @@ h2 {
     margin-top: 50px;
 }
 
-:focus {
-    outline: 0;
-}
-
 .proposals-banner {
     background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(/images/backgrounds/proposals.jpg) center;
     background-size: cover;

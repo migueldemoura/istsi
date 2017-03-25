@@ -60,6 +60,7 @@ class Front
                 'email'       => $settingsProgram['email'],
                 'facebook'    => $settingsProgram['facebook'],
                 'societies'   => $settingsProgram['societies'],
+                'termsPath'   => $settingsProgram['termsPath'],
                 'courses'     => $courseMapper->all()->toArray(),
                 'proposals'   => $proposals,
                 'noCompanies' => $noCompanies,
