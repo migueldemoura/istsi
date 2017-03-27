@@ -53,40 +53,38 @@ a.inverse:hover {
 }
 
 .btn-primary {
-    color: white;
     background-color: #009DE0;
     border-color: #0093D6;
 }
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-    color: white;
     background-color: #008ACB;
 }
 
 .btn-primary:active:hover, .btn-primary:active:focus {
-    color: white;
     background-color: #005880;
 }
 
 .btn-info {
-    color: white;
     background-color: #3E4459;
     border-color: #3E4459;
 }
 
 .btn-info:hover, .btn-info:active, .btn-info:focus {
-    color: white;
     background-color: #31364B;
     border-color: #3E4459;
 }
 
 .btn-info:active:hover, .btn-info:active:focus{
-    color: white;
     background-color: #242424;
 }
 
 .label-info {
     background-color: #008ACB;
+}
+
+.navbar-inverse {
+    border-color: #242424;
 }
 
 .navbar-collapse {
