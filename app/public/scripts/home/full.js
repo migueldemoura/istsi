@@ -47,7 +47,7 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var modal = $('.modal');
 
-        ajaxRequest('/proposal/get/data/' + proposal, 'GET', true, null, null, function(response) {
+        ajaxRequest('/proposal/get/data/' + proposal, 'GET', true, null, function(response) {
             for (var i = 0; i < fields.length; ++i) {
                 modal.find('#' + fields[i]).val(response.data[fields[i]]);
             }
