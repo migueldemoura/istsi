@@ -1,8 +1,6 @@
 $(document).ready(function () {
     'use strict';
 
-    var user = 'student';
-
     var fileRule = {
         extension: 'pdf',
         filesize: 3145728
@@ -12,7 +10,7 @@ $(document).ready(function () {
         filesize: 'Ficheiro demasiado grande'
     };
 
-    var proposals = ajaxRequest('/submission/get/list', 'GET', false, user, null, function () {})['proposals'];
+    var proposals = ajaxRequest('/submission/get/list', 'GET', false, null, function () {})['proposals'];
     createSubmittedProposals(proposals['done']);
     updateProposalList(proposals['available']);
     if ((proposals['available']).length === 0) {
@@ -61,7 +59,7 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var modal = $('#viewmodal');
 
-        ajaxRequest('/submission/get/data/' + proposal, 'GET', true, user, null, function(response) {
+        ajaxRequest('/submission/get/data/' + proposal, 'GET', true, null, function(response) {
             modal.find('#viewobservations').val(response.data['observations']);
         });
         modal.find('.modal-title').text('Visualizar Candidatura - Proposta ' + proposal);
@@ -74,7 +72,7 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var modal = $('#editmodal');
 
-        ajaxRequest('/submission/get/data/' + proposal, 'GET', true, user, null, function(response) {
+        ajaxRequest('/submission/get/data/' + proposal, 'GET', true, null, function(response) {
             modal.find('#editobservations').val(response.data['observations']);
         });
         modal.find('.modal-title').text('Editar Candidatura - Proposta ' + proposal);
@@ -86,8 +84,8 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var $this = $(this);
 
-        ajaxRequest('/submission/delete/' + proposal, 'DELETE', true, user, null, function () {
-            var proposals = ajaxRequest('/submission/get/list', 'GET', false, user, null, function () {})
+        ajaxRequest('/submission/delete/' + proposal, 'DELETE', true, null, function () {
+            var proposals = ajaxRequest('/submission/get/list', 'GET', false, null, function () {})
                 ['proposals'];
             updateProposalList(proposals['available']);
             if (proposals['done'].length === 0) {
@@ -102,9 +100,9 @@ $(document).ready(function () {
     registerForm('#newform', '#newformSubmit',
         {CV: fileRule, CM: fileRule}, {CV: fileMessage, CM: fileMessage},
         function () {return '/submission/create/' + $('#newform').find('#newproposal').val();}, 'POST',
-        user, function () {}, function () {
+        function () {}, function () {
             createSubmittedProposals([$('#newform').find('#newproposal').val()]);
-            var proposals = ajaxRequest('/submission/get/list', 'GET', false, user, null, function () {})['proposals'];
+            var proposals = ajaxRequest('/submission/get/list', 'GET', false, null, function () {})['proposals'];
             updateProposalList(proposals['available']);
             if (proposals['available'].length === 0) {
                 $('#newbutton').prop('disabled', true);
@@ -117,6 +115,6 @@ $(document).ready(function () {
     registerForm('#editform', '#editformSubmit',
         {CV: fileRule, CM: fileRule}, {CV: fileMessage, CM: fileMessage},
         function () {return '/submission/update/' + $('#editform').find('#proposal').text();}, 'POST',
-        user, function () {}, function () {$('#editmodal').modal('hide')}
+        function () {}, function () {$('#editmodal').modal('hide')}
     );
 });

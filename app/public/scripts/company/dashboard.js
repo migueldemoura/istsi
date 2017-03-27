@@ -1,8 +1,6 @@
 $(document).ready(function () {
     'use strict';
 
-    var user = 'company';
-
     var fields = [
         'description', 'project', 'requirements', 'salary', 'observations',
         'duration', 'location', 'vacancies'
@@ -40,13 +38,13 @@ $(document).ready(function () {
         }
     }
 
-    var proposals = ajaxRequest('/proposal/get/list', 'GET', false, user, null, function () {})['proposals'];
+    var proposals = ajaxRequest('/proposal/get/list', 'GET', false, null, function () {})['proposals'];
     createSubmittedProposals(proposals);
     if (proposals.length === 0) {
         $('#noproposals').removeClass('hidden');
     }
 
-    createCourseList(ajaxRequest('/course/get', 'GET', false, user, null, function () {}));
+    createCourseList(ajaxRequest('/course/get', 'GET', false, null, function () {}));
 
     $(document).on('click', '#newbutton', function () {
         updateSelectedCourses([], false);
@@ -56,7 +54,7 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var modal = $('#viewmodal');
 
-        ajaxRequest('/proposal/get/data/' + proposal, 'GET', false, user, null, function(response) {
+        ajaxRequest('/proposal/get/data/' + proposal, 'GET', false, null, function(response) {
             for (var i = 0; i < fields.length; ++i) {
                 modal.find('#' + fields[i]).val(response.data[fields[i]]);
             }
@@ -72,7 +70,7 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var modal = $('#editmodal');
 
-        ajaxRequest('/proposal/get/data/' + proposal, 'GET', true, user, null, function(response) {
+        ajaxRequest('/proposal/get/data/' + proposal, 'GET', true, null, function(response) {
             for (var i = 0; i < fields.length; ++i) {
                 modal.find('#' + fields[i]).val(response.data[fields[i]]);
             }
@@ -89,10 +87,10 @@ $(document).ready(function () {
         var proposal = $(this).data('item');
         var $this = $(this);
 
-        ajaxRequest('/proposal/delete/' + proposal, 'DELETE', true, user, null, function () {
+        ajaxRequest('/proposal/delete/' + proposal, 'DELETE', true, null, function () {
             $('#newbutton').prop('disabled', false);
             $this.closest('li').remove();
-            if (ajaxRequest('/proposal/get/list', 'GET', false, user, null, function () {})
+            if (ajaxRequest('/proposal/get/list', 'GET', false, null, function () {})
                     ['proposals'].length === 0
             ) {
                 $('#noproposals').removeClass('hidden');
@@ -104,9 +102,9 @@ $(document).ready(function () {
     registerForm('#newform', '#newformSubmit',
         {'courses[]': 'required'}, {},
         function () {return '/proposal/create';}, 'POST',
-        user, function () {}, function () {
+        function () {}, function () {
             createSubmittedProposals(
-                ajaxRequest('/proposal/get/list', 'GET', false, user, null, function () {})['proposals']
+                ajaxRequest('/proposal/get/list', 'GET', false, null, function () {})['proposals']
             );
 
             $('#noproposals').addClass('hidden');
@@ -117,6 +115,6 @@ $(document).ready(function () {
     registerForm('#editform', '#editformSubmit',
         {'courses[]': 'required'}, {},
         function () {return '/proposal/update/' + $('#editform').find('#proposal').text();}, 'POST',
-        user, function () {}, function () {$('#editmodal').modal('hide')}
+        function () {}, function () {$('#editmodal').modal('hide')}
     );
 });

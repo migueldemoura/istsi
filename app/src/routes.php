@@ -51,6 +51,7 @@ $app->group('/submission', function () use ($app, $c) {
     $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Submission:getData');
     $app->get('/get/file/{proposal}/{file}', 'ISTSI\Controllers\Submission:getFile');
     $app->post('/create/{proposal}', 'ISTSI\Controllers\Submission:create')->add(new Period($c));
+    //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
     $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update')->add(new Period($c));
     $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete')->add(new Period($c));
 })->add(new CSRF($c))
@@ -60,6 +61,7 @@ $app->group('/proposal', function () use ($app, $c) {
     $app->group('', function () use ($app, $c) {
         $app->get('/get/list', 'ISTSI\Controllers\Proposal:getList');
         $app->post('/create', 'ISTSI\Controllers\Proposal:create');
+        //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
         $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update');
         $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete');
     })->add(new CSRF($c))
@@ -68,6 +70,9 @@ $app->group('/proposal', function () use ($app, $c) {
 
     $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Proposal:getData');
 });
+
+$app->get('/user/{page:account|dashboard|update}', 'ISTSI\Controllers\User:showPage')
+    ->add(new Auth($c, IdentifiersAuth::ALL));
 
 $app->get('/course/get', 'ISTSI\Controllers\Course:get')
     ->add(new CSRF($c))

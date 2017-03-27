@@ -4,7 +4,7 @@ function getToken() {
     return $('#token').text();
 }
 
-function parseResponse(response, user, callback) {
+function parseResponse(response, callback) {
     switch (response.status) {
         case 'success':
             return true;
@@ -18,7 +18,7 @@ function parseResponse(response, user, callback) {
                     window.alert('Fora do período.');
                     break;
                 case 'info':
-                    window.location.replace('/' + user + '/account');
+                    window.location.replace('/user/account');
                     break;
                 default:
                     (callback === undefined) ? window.alert('Ocorreu um erro.') : callback(response.data);
@@ -30,9 +30,7 @@ function parseResponse(response, user, callback) {
     return false;
 }
 
-function registerForm(
-    form, submitTrigger, valRules, valMessages, getEndpoint, verb, user, onTrigger, onSuccess, onFail
-) {
+function registerForm(form, submitTrigger, valRules, valMessages, getEndpoint, verb, onTrigger, onSuccess, onFail) {
     var $form = $(form);
 
     $.validator.addMethod('filesize', function (value, element, param) {
@@ -55,12 +53,12 @@ function registerForm(
         submitHandler: function (form, e) {
             e.preventDefault();
             onTrigger();
-            ajaxRequest(getEndpoint(), verb, false, user, form, onSuccess, onFail);
+            ajaxRequest(getEndpoint(), verb, false, form, onSuccess, onFail);
         }
     });
 }
 
-function ajaxRequest(endpoint, verb, async, user, form, onSuccess, onFail) {
+function ajaxRequest(endpoint, verb, async, form, onSuccess, onFail) {
     var output = null;
     var data = {
         url: endpoint,
@@ -72,7 +70,7 @@ function ajaxRequest(endpoint, verb, async, user, form, onSuccess, onFail) {
             request.setRequestHeader('X-CSRF-Token', getToken());
         },
         success: function (response) {
-            if (parseResponse(response, user, onFail)) {
+            if (parseResponse(response, onFail)) {
                 onSuccess(response);
                 output = response.data;
             }

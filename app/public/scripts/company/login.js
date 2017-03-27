@@ -1,14 +1,12 @@
 $(document).ready(function () {
     'use strict';
 
-    var user = 'company';
-
     var $message = $('.message');
 
     registerForm('#loginform', '#loginformsubmit',
         {}, {},
         function () {return '/auth/passwordless/generate';}, 'POST',
-        user, function () {
+        function () {
             $message.text('A processar...').addClass('text-success').removeClass('text-danger');
         }, function () {
             $message.text('Uma mensagem com link de login foi enviada.')

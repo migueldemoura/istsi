@@ -5,6 +5,7 @@ namespace ISTSI\Identifiers;
 
 class Auth
 {
-    const FENIX = 0;
-    const PASSWORDLESS = 1;
+    const ALL = 0;
+    const FENIX = 1;
+    const PASSWORDLESS = 2;
 }

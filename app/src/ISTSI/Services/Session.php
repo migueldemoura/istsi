@@ -33,7 +33,7 @@ class Session
 
     public function isLogged(int $authType)
     {
-        return isset($_SESSION['uid']) && $_SESSION['authType'] === $authType;
+        return isset($_SESSION['uid']) && ($authType === 0 || $_SESSION['authType'] === $authType);
     }
 
     public function getToken()
