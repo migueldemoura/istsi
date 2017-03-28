@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     registerForm('#infoform', '#infoformSubmit',
         {}, {},
-        function () {return '/user/update';}, 'POST',
+        function () {return '/student/update';}, 'POST',
         function () {}, function () {window.location.replace('/user/dashboard');}
     );
 });
