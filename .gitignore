@@ -3,6 +3,7 @@ app/composer.lock
 app/vendor/
 docker/.data/
 docker/.env
+docker/nginx/shared/tls/cloudflare-origin-pulls.pem
 docker/nginx/shared/tls/istsi.key
 docker/nginx/shared/tls/istsi.pem
 cache/

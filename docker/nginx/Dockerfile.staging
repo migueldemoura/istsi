@@ -7,6 +7,7 @@ COPY staging/istsi.conf /etc/nginx/sites-available/
 
 COPY shared/tls/istsi.pem /etc/nginx/ssl/istsi.pem
 COPY shared/tls/istsi.key /etc/nginx/ssl/istsi.key
+COPY shared/tls/cloudflare-origin-pulls.pem /etc/nginx/ssl/cloudflare-origin-pulls.pem
 
 RUN ln -s /etc/nginx/sites-available/istsi.conf /etc/nginx/sites-enabled/istsi
 RUN rm /etc/nginx/sites-enabled/default
