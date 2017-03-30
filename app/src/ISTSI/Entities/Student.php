@@ -17,13 +17,13 @@ class Student extends Entity
     {
         return [
             'id'           => ['type' => 'string', 'primary' => true],
-            'name'         => ['type' => 'string'],
-            'email'        => ['type' => 'string'],
+            'name'         => ['type' => 'string', 'required' => true],
+            'email'        => ['type' => 'string', 'required' => true],
             'phone'        => ['type' => 'string'],
-            'course'       => ['type' => 'string'],
-            'year'         => ['type' => 'integer'],
+            'course'       => ['type' => 'string', 'required' => true],
+            'year'         => ['type' => 'integer', 'required' => true],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
-            'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
+            'updated_at'   => ['type' => 'datetime']
         ];
     }
 
@@ -36,17 +36,21 @@ class Student extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
-            $entity->updated_at = new \DateTime();
-        });
-        $eventEmitter->once('beforeValidate', function (EntityInterface $entity) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity) {
             $validator = new Validator([
                 'email' => $entity->email,
+                'phone' => $entity->phone
             ]);
-            $validator->rules([
-                'email' => 'email'
-            ]);
+            $rules = ['email' => 'email'];
+            if ($entity->updated_at !== null) {
+                $rules = array_merge($rules, ['required' => 'phone']);
+            }
+            $validator->rules($rules);
             return $validator->validate();
+        });
+        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
+            $entity->updated_at = new \DateTime();
+            $mapper->save($entity);
         });
     }
 }

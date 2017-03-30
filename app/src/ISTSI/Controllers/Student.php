@@ -76,15 +76,17 @@ class Student
         $student->email = $request->getParsedBody()['email'];
         $student->phone = $request->getParsedBody()['phone'];
         if (!$studentMapper->update($student)) {
-            die('INVALID_DATA');
+            $data = [
+                'status' => 'fail',
+                'data'   => 'data'
+            ];
+        } else {
+            $data = [
+                'status' => 'success',
+                'data'   => ''
+            ];
+            $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
         }
-
-        $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
-
-        $data = [
-            'status' => 'success',
-            'data'   => ''
-        ];
         return $response->withJson($data);
     }
 }

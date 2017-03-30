@@ -7,6 +7,7 @@ use Spot\Entity;
 use Spot\EventEmitter;
 use Spot\MapperInterface;
 use Spot\EntityInterface;
+use Valitron\Validator;
 
 class Proposal extends Entity
 {
@@ -16,18 +17,18 @@ class Proposal extends Entity
     {
         return [
             'id'           => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
-            'company_id'   => ['type' => 'integer'],
-            'description'  => ['type' => 'string'],
-            'project'      => ['type' => 'text'],
-            'requirements' => ['type' => 'text'],
-            'salary'       => ['type' => 'string'],
+            'company_id'   => ['type' => 'integer', 'required' => true],
+            'description'  => ['type' => 'string', 'required' => true],
+            'project'      => ['type' => 'text', 'required' => true],
+            'requirements' => ['type' => 'text', 'required' => true],
+            'salary'       => ['type' => 'string', 'required' => true],
             'observations' => ['type' => 'text'],
-            'duration'     => ['type' => 'string'],
-            'location'     => ['type' => 'string'],
-            'vacancies'    => ['type' => 'integer'],
-            'courses'      => ['type' => 'array'],
+            'duration'     => ['type' => 'string', 'required' => true],
+            'location'     => ['type' => 'string', 'required' => true],
+            'vacancies'    => ['type' => 'integer', 'required' => true],
+            'courses'      => ['type' => 'array', 'required' => true],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
-            'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
+            'updated_at'   => ['type' => 'datetime']
         ];
     }
 
@@ -48,8 +49,18 @@ class Proposal extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity) {
+            $validator = new Validator([
+                'vacancies' => $entity->vacancies
+            ]);
+            $validator->rules([
+                'min' => ['vacancies', 1]
+            ]);
+            return $validator->validate();
+        });
+        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
+            $mapper->save($entity);
         });
     }
 }

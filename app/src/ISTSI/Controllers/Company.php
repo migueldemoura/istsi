@@ -89,15 +89,17 @@ class Company
         $company->representative = $request->getParsedBody()['representative'];
         $company->phone = $request->getParsedBody()['phone'];
         if (!$companyMapper->update($company)) {
-            die('INVALID_DATA');
+            $data = [
+                'status' => 'fail',
+                'data'   => 'data'
+            ];
+        } else {
+            $data = [
+                'status' => 'success',
+                'data'   => ''
+            ];
+            $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
         }
-
-        $logger->addRecord(Info::ACCOUNT_INFO, ['uid' => $uid]);
-
-        $data = [
-            'status' => 'success',
-            'data'   => ''
-        ];
         return $response->withJson($data);
     }
 }

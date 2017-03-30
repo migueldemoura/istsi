@@ -17,12 +17,12 @@ class Company extends Entity
     {
         return [
             'id'             => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
-            'name'           => ['type' => 'string'],
-            'representative' => ['type' => 'string'],
-            'email'          => ['type' => 'string', 'unique' => true],
-            'phone'          => ['type' => 'string'],
+            'name'           => ['type' => 'string', 'required' => true],
+            'representative' => ['type' => 'string', 'required' => true],
+            'email'          => ['type' => 'string', 'unique' => true, 'required' => true],
+            'phone'          => ['type' => 'string', 'required' => true],
             'created_at'     => ['type' => 'datetime', 'value' => new \DateTime()],
-            'updated_at'     => ['type' => 'datetime', 'value' => new \DateTime()]
+            'updated_at'     => ['type' => 'datetime']
         ];
     }
 
@@ -35,10 +35,7 @@ class Company extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
-            $entity->updated_at = new \DateTime();
-        });
-        $eventEmitter->once('beforeValidate', function (EntityInterface $entity) {
+        $eventEmitter->once('beforeSave', function (EntityInterface $entity) {
             $validator = new Validator([
                 'email' => $entity->email,
             ]);
@@ -46,6 +43,10 @@ class Company extends Entity
                 'email' => 'email'
             ]);
             return $validator->validate();
+        });
+        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
+            $entity->updated_at = new \DateTime();
+            $mapper->save($entity);
         });
     }
 }

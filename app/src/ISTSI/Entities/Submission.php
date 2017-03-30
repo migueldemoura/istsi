@@ -16,11 +16,11 @@ class Submission extends Entity
     {
         return [
             'id'           => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
-            'student_id'   => ['type' => 'string', 'unique' => 'student_idProposal_id'],
-            'proposal_id'  => ['type' => 'integer', 'unique' => 'student_idProposal_id'],
+            'student_id'   => ['type' => 'string', 'unique' => 'student_idProposal_id', 'required' => true],
+            'proposal_id'  => ['type' => 'integer', 'unique' => 'student_idProposal_id', 'required' => true],
             'observations' => ['type' => 'text'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
-            'updated_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
+            'updated_at'   => ['type' => 'datetime']
         ];
     }
 
@@ -34,8 +34,9 @@ class Submission extends Entity
 
     public static function events(EventEmitter $eventEmitter)
     {
-        $eventEmitter->once('beforeSave', function (EntityInterface $entity, MapperInterface $mapper) {
+        $eventEmitter->once('afterSave', function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
+            $mapper->save($entity);
         });
     }
 }
