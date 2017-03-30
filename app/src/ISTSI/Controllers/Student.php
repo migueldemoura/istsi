@@ -43,18 +43,10 @@ class Student
 
     public function showDashboard(Request $request, Response $response, $args)
     {
-        $database = $this->c->get('database');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        // Check if student has already provided its phone
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $uid = $session->getUid();
-        $student = $studentMapper->get($uid);
-
-        if ($student->phone === null) {
-            return $response->withStatus(302)->withHeader('Location', '/student/account');
-        }
 
         $templateArgs = [
             'programName' => $settingsProgram['name'],

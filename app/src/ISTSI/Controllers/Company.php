@@ -46,18 +46,10 @@ class Company
 
     public function showDashboard(Request $request, Response $response, $args)
     {
-        $database = $this->c->get('database');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        // Check if company has already provided its info
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
         $uid = $session->getUid();
-        $company = $companyMapper->first(['email' => $uid]);
-
-        if ($company->name === null || $company->representative === null || $company->phone === null) {
-            return $response->withStatus(302)->withHeader('Location', '/company/account');
-        }
 
         $templateArgs = [
             'programName' => $settingsProgram['name'],

@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
-use ISTSI\Helpers\DateTime;
 use ISTSI\Identifiers\Auth;
-use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;

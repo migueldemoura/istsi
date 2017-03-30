@@ -116,7 +116,6 @@ class Submission
 
     public function create(Request $request, Response $response, $args)
     {
-        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -165,7 +164,6 @@ class Submission
 
     public function update(Request $request, Response $response, $args)
     {
-        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');
@@ -208,7 +206,6 @@ class Submission
 
     public function delete(Request $request, Response $response, $args)
     {
-        //TODO: VERIFY STUDENT HAS HIS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $fileManager = $this->c->get('filemanager');
         $logger = $this->c->get('logger');

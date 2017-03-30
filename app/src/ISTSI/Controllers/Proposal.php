@@ -74,7 +74,6 @@ class Proposal
 
     public function create(Request $request, Response $response, $args)
     {
-        //TODO: VERIFY COMPANY HAS ITS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
@@ -110,7 +109,6 @@ class Proposal
 
     public function update(Request $request, Response $response, $args)
     {
-        //TODO: VERIFY COMPANY HAS ITS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
@@ -150,7 +148,6 @@ class Proposal
 
     public function delete(Request $request, Response $response, $args)
     {
-        //TODO: VERIFIY COMPANY HAS ITS ACCOUNT WITH ALL INFO
         $database = $this->c->get('database');
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');

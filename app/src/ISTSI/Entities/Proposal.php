@@ -7,7 +7,6 @@ use Spot\Entity;
 use Spot\EventEmitter;
 use Spot\MapperInterface;
 use Spot\EntityInterface;
-use Valitron\Validator;
 
 class Proposal extends Entity
 {
