@@ -30,11 +30,8 @@ class CSRF
                     'data'   => 'csrf'
                 ]);
             }
-            //TODO
-            $response->getBody()->write('E_CSRF_TOKEN_INVALID');
-            return $response;
+            return $response->withStatus(302)->withHeader('Location', '/session/expired');
         }
-
         return $next($request, $response);
     }
 }

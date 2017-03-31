@@ -44,7 +44,7 @@ class Fenix
         $course = $fenix->getCourse();
         if ($course === null) {
             //TODO
-            die('E_FENIX_NOT_STUDENT');
+            die('FENIX_NOT_STUDENT');
         }
         $year = $fenix->getYear($course);
 

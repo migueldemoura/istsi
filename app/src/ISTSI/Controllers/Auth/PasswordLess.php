@@ -96,6 +96,7 @@ class PasswordLess
             'token' => $request->getParam('token'),
             'updated_at >=' => new \DateTime('-30 minutes')])
         )) {
+            //TODO
             die('TOKEN_INVALID');
         }
 

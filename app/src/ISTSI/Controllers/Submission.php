@@ -142,7 +142,7 @@ class Submission
         // File Upload
         foreach ($request->getUploadedFiles() as $type => $file) {
             if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
-                $fileManager->parseUpload(
+                if (!$fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
                         '{year}' => $settingsProgram['year'],
@@ -150,7 +150,24 @@ class Submission
                         '{uid}' => $uid,
                         '{type}' => $type
                     ])
-                );
+                )) {
+                    $substitutions = [
+                        '{year}' => $settingsProgram['year'],
+                        '{proposal}' => $proposal,
+                        '{uid}' => $uid,
+                        '{type}' => 'CV'
+                    ];
+                    $fileManager->deleteFile($fileManager->getFilePath($substitutions));
+                    $substitutions['{type}'] = 'CM';
+                    $fileManager->deleteFile($fileManager->getFilePath($substitutions));
+
+                    $submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal]);
+
+                    return $response->withJson([
+                        'status' => 'fail',
+                        'data'   => 'data'
+                    ]);
+                }
             }
         }
 
@@ -184,7 +201,7 @@ class Submission
 
         foreach ($request->getUploadedFiles() as $type => $file) {
             if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
-                $fileManager->parseUpload(
+                if (!$fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
                         '{year}' => $settingsProgram['year'],
@@ -192,7 +209,12 @@ class Submission
                         '{uid}' => $uid,
                         '{type}' => $type
                     ])
-                );
+                )) {
+                    return $response->withJson([
+                        'status' => 'fail',
+                        'data'   => 'data'
+                    ]);
+                }
             }
         }
 

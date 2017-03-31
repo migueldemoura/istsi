@@ -29,10 +29,8 @@ class Auth
                     'data'   => 'auth'
                 ]);
             }
-
             return $response->withStatus(302)->withHeader('Location', '/session/expired');
         }
-
         return $next($request, $response);
     }
 }

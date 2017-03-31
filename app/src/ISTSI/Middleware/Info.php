@@ -37,7 +37,7 @@ class Info
             $companyMapper = $database->mapper('\ISTSI\Entities\Company');
             $company = $companyMapper->first(['email' => $uid]);
 
-            if ($company->name === null || $company->representative === null || $company->phone === null) {
+            if ($company->name !== null && $company->representative !== null && $company->phone !== null) {
                 $valid = true;
             }
         } else {

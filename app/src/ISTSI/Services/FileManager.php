@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Services;
 
+use ISTSI\Identifiers\Error;
 use Psr\Container\ContainerInterface;
 use \Slim\Http\UploadedFile;
 
@@ -29,27 +30,21 @@ class FileManager
 
     public function parseUpload(UploadedFile $file, string $path)
     {
-        if ($this->getExtension($file) !== $this->extension) {
-            //TODO
-        }
-        if ($this->getMimeType($file) !== $this->mimeType) {
-            //TODO
-            die('E_FILE_MIME_TYPE');
-        }
-        if ($file->getSize() >= $this->maxSize) {
-            //TODO
-            die('E_FILE_SIZE');
+        if ($this->getExtension($file) !== $this->extension ||
+            $this->getMimeType($file) !== $this->mimeType ||
+            $file->getSize() >= $this->maxSize
+        ) {
+            return false;
         }
 
         // Create directory if it doesn't exist
-        if (!is_dir(dirname($path))) {
-            if (!mkdir(dirname($path), 0755, true)) {
-                //TODO
-                die('E_DIR_CREATE');
-            }
+        if (!is_dir(dirname($path)) && !mkdir(dirname($path), 0755, true)) {
+            throw new \Exception(Error::DIR_CREATE);
         }
 
         $file->moveTo($path);
+
+        return true;
     }
 
     public function getFilePath(array $map)
@@ -69,9 +64,6 @@ class FileManager
 
     public function deleteFile(string $path)
     {
-        if (file_exists($path)) {
-            return unlink($path);
-        }
-        return true;
+        return file_exists($path) ? unlink($path) : true;
     }
 }

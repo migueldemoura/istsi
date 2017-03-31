@@ -51,7 +51,10 @@ class Proposal
 
         $data = $proposalMapper->get($proposal);
         if (!$data) {
-            die('E_INVALID_PROPOSAL');
+            return $response->withJson([
+                'status' => 'fail',
+                'data'   => 'data'
+            ]);
         }
 
         return $response->withJson([

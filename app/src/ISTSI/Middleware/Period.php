@@ -35,7 +35,7 @@ class Period
                 ]);
             }
             //TODO
-            $response->getBody()->write('E_PERIOD_OUTSIDE');
+            $response->getBody()->write('PERIOD_OUTSIDE');
             return $response;
         }
 
