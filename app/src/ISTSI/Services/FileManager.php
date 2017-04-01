@@ -13,6 +13,7 @@ class FileManager
     public $extension;
     public $mimeType;
     public $maxSize;
+    public $directoryRoot;
     public $directory;
     public $filename;
 
@@ -22,8 +23,9 @@ class FileManager
 
         $settings = $this->c->get('settings')['files'];
         $this->extension = $settings['extension'];
-        $this->mimeType  = $settings['mimeType'];
-        $this->maxSize   = $settings['maxSize'] * 1048576;
+        $this->mimeType = $settings['mimeType'];
+        $this->maxSize = $settings['maxSize'] * 1048576;
+        $this->directoryRoot = $settings['directoryRoot'];
         $this->directory = $settings['directory'];
         $this->filename  = $settings['filename'];
     }
@@ -37,17 +39,18 @@ class FileManager
             return false;
         }
 
-        // Create directory if it doesn't exist
-        if (!is_dir(dirname($path)) && !mkdir(dirname($path), 0755, true)) {
-            throw new \Exception(Error::DIR_CREATE);
-        }
-
+        $this->createDirectory(dirname($path));
         $file->moveTo($path);
 
         return true;
     }
 
     public function getFilePath(array $map)
+    {
+        return $this->directoryRoot . strtr($this->directory . $this->filename, $map) . '.' . $this->extension;
+    }
+
+    public function getRelativeFilePath(array $map)
     {
         return strtr($this->directory . $this->filename, $map) . '.' . $this->extension;
     }
@@ -60,6 +63,11 @@ class FileManager
     public function getMimeType(UploadedFile $file)
     {
         return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file->file);
+    }
+
+    public function createDirectory(string $path)
+    {
+        return is_dir($path) || mkdir($path, 0755, true);
     }
 
     public function deleteFile(string $path)

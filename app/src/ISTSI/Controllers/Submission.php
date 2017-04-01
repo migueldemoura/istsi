@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\Stream;
+use ZipArchive;
 
 class Submission
 {
@@ -18,6 +19,68 @@ class Submission
     public function __construct(ContainerInterface $c)
     {
         $this->c = $c;
+    }
+
+    public function getAll(Request $request, Response $response, $args)
+    {
+        $database = $this->c->get('database');
+        $fileManager = $this->c->get('filemanager');
+        $logger = $this->c->get('logger');
+        $session = $this->c->get('session');
+        $settingsFiles = $this->c->get('settings')['files'];
+        $settingsProgram = $this->c->get('settings')['program'];
+
+        $uid = $session->getUid();
+
+        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+
+        $companyId = $companyMapper->first(['email' => $uid])->id;
+
+        $submissions = $submissionMapper->where([
+            'proposal_id' => array_column($proposalMapper->where(['company_id' => $companyId])->toArray(), 'id')
+        ]);
+
+        $zip = new ZipArchive();
+        $directory = $settingsFiles['directoryRoot'] . 'zip/';
+        if (!$fileManager->createDirectory($directory)) {
+            throw new \Exception(Error::DIR_CREATE);
+        };
+        $filePath = realpath($directory) . '/' . $companyId;
+        if (!$fileManager->deleteFile($filePath)) {
+            throw new \Exception(Error::ZIP_DELETE);
+        }
+        if ($zip->open($filePath, ZipArchive::CREATE) !== true) {
+            throw new \Exception(Error::ZIP_CREATE);
+        }
+        sleep(5);
+        if (count($submissions) === 0) {
+            $zip->addFromString('Nenhuma candidatura submetida', '');
+        }
+        foreach ($submissions as $submission) {
+            $map = [
+                '{year}' => $settingsProgram['year'],
+                '{proposal}' => $submission->proposal_id,
+                '{uid}' => $submission->student_id,
+                '{type}' => 'CV'
+            ];
+            if (!$zip->addFile($fileManager->getFilePath($map), $fileManager->getRelativeFilePath($map))) {
+                throw new \Exception(Error::ZIP_CREATE);
+            };
+            $map['{type}'] = 'CM';
+            if (!$zip->addFile($fileManager->getFilePath($map), $fileManager->getRelativeFilePath($map))) {
+                throw new \Exception(Error::ZIP_CREATE);
+            };
+        }
+        $zip->close();
+
+        $logger->addRecord(Info::SUBMISSION_DOWNLOAD_ALL, ['uid' => $uid]);
+
+        return $response->withHeader('Content-Type:', 'application/zip')
+                        ->withHeader('Content-Disposition', 'inline; filename="CVS.zip"')
+                        ->withHeader('Content-Length', filesize($filePath))
+                        ->withBody(new Stream(fopen($filePath, 'rb')));
     }
 
     public function getList(Request $request, Response $response, $args)

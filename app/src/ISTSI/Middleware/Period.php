@@ -11,23 +11,32 @@ use Slim\Http\Response;
 class Period
 {
     protected $c;
-    private $inRange;
+    private $period;
 
-    public function __construct(ContainerInterface $c, $inRange = true)
+    public function __construct(ContainerInterface $c, $period)
     {
         $this->c = $c;
-        $this->inRange = $inRange;
+        $this->period = $period;
     }
 
     public function __invoke(Request $request, Response $response, $next)
     {
         $settingsProgram = $this->c->get('settings')['program'];
-        $periodStart = $settingsProgram['period']['start'];
-        $periodEnd = $settingsProgram['period']['end'];
 
-        if ($this->inRange && !DateTime::isBetween($periodStart, $periodEnd) ||
-            !$this->inRange && !DateTime::isBefore($periodEnd)
-        ) {
+        $validate = function ($periodStart, $periodEnd) {
+            switch ($this->period) {
+                case DateTime::BEFORE:
+                    return DateTime::isBefore($periodEnd);
+                case DateTime::BETWEEN:
+                    return DateTime::isBetween($periodStart, $periodEnd);
+                case DateTime::AFTER:
+                    return DateTime::isAfter($periodEnd);
+                default:
+                    return false;
+            }
+        };
+
+        if (!$validate($settingsProgram['period']['start'], $settingsProgram['period']['end'])) {
             if ($request->isXhr()) {
                 return $response->withJson([
                     'status' => 'fail',

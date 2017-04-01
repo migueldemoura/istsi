@@ -1,5 +1,11 @@
 'use strict';
 
+$('a').on('click', function(e){
+    if ($(this).is('[disabled]')) {
+        e.preventDefault();
+    }
+});
+
 function getToken() {
     return $('#token').text();
 }

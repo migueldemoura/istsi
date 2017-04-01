@@ -52,12 +52,13 @@ class Company
         $uid = $session->getUid();
 
         $templateArgs = [
-            'programName' => $settingsProgram['name'],
-            'programYear' => $settingsProgram['year'],
-            'uid'         => $uid,
-            'logout'      => '/auth/passwordless/logout',
-            'token'       => $session->getToken(),
-            'onPeriod'    => DateTime::isBefore($settingsProgram['period']['end'])
+            'programName'  => $settingsProgram['name'],
+            'programYear'  => $settingsProgram['year'],
+            'uid'          => $uid,
+            'logout'       => '/auth/passwordless/logout',
+            'token'        => $session->getToken(),
+            'beforePeriod' => DateTime::isBefore($settingsProgram['period']['end']),
+            'afterPeriod'  => DateTime::isAfter($settingsProgram['period']['end'])
         ];
 
         return $this->c->get('renderer')->render($response, 'company/dashboard.twig', $templateArgs);

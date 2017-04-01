@@ -1,6 +1,7 @@
 <?php
 declare(strict_types = 1);
 
+use ISTSI\Helpers\DateTime;
 use ISTSI\Identifiers\Auth as IdentifiersAuth;
 use ISTSI\Middleware\Auth;
 use ISTSI\Middleware\CSRF;
@@ -49,27 +50,34 @@ $app->group('/auth', function () use ($app, $c) {
 });
 
 $app->group('/submission', function () use ($app, $c) {
-    $app->get('/get/list', 'ISTSI\Controllers\Submission:getList');
-    $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Submission:getData');
-    $app->get('/get/file/{proposal}/{file}', 'ISTSI\Controllers\Submission:getFile');
-    $app->post('/create/{proposal}', 'ISTSI\Controllers\Submission:create')->add(new Period($c));
-    //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
-    $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update')->add(new Period($c));
-    $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete')->add(new Period($c));
-})->add(new Info($c, IdentifiersAuth::FENIX))
-  ->add(new CSRF($c))
-  ->add(new Auth($c, IdentifiersAuth::FENIX));
+    $app->group('', function () use ($app, $c) {
+        $app->get('/get/list', 'ISTSI\Controllers\Submission:getList');
+        $app->get('/get/data/{proposal}', 'ISTSI\Controllers\Submission:getData');
+        $app->get('/get/file/{proposal}/{file}', 'ISTSI\Controllers\Submission:getFile');
+        $app->group('', function () use ($app, $c) {
+            $app->post('/create/{proposal}', 'ISTSI\Controllers\Submission:create');
+            //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
+            $app->post('/update/{proposal}', 'ISTSI\Controllers\Submission:update');
+            $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Submission:delete');
+        })->add(new Period($c, DateTime::BETWEEN));
+    })->add(new Info($c, IdentifiersAuth::FENIX))
+      ->add(new CSRF($c))
+      ->add(new Auth($c, IdentifiersAuth::FENIX));
+
+    $app->get('/get/all', 'ISTSI\Controllers\Submission:getAll')
+        ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
+        ->add(new Period($c, DateTime::AFTER));
+});
 
 $app->group('/proposal', function () use ($app, $c) {
     $app->group('', function () use ($app, $c) {
         $app->get('/get/list', 'ISTSI\Controllers\Proposal:getList');
-        $app->post('/create', 'ISTSI\Controllers\Proposal:create')
-            ->add(new Period($c, false));
-        //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
-        $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update')
-            ->add(new Period($c, false));
-        $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete')
-            ->add(new Period($c, false));
+        $app->group('', function () use ($app, $c) {
+            $app->post('/create', 'ISTSI\Controllers\Proposal:create');
+            //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
+            $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update');
+            $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete');
+        })->add(new Period($c, DateTime::BEFORE));
     })->add(new Info($c, IdentifiersAuth::PASSWORDLESS))
       ->add(new CSRF($c))
       ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));

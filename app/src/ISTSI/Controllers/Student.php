@@ -49,12 +49,12 @@ class Student
         $uid = $session->getUid();
 
         $templateArgs = [
-            'programName' => $settingsProgram['name'],
-            'programYear' => $settingsProgram['year'],
-            'uid'         => $uid,
-            'logout'      => '/auth/fenix/logout',
-            'token'       => $session->getToken(),
-            'onPeriod'    => DateTime::isBetween(
+            'programName'   => $settingsProgram['name'],
+            'programYear'   => $settingsProgram['year'],
+            'uid'           => $uid,
+            'logout'        => '/auth/fenix/logout',
+            'token'         => $session->getToken(),
+            'betweenPeriod' => DateTime::isBetween(
                 $settingsProgram['period']['start'],
                 $settingsProgram['period']['end']
             )

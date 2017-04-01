@@ -13,6 +13,7 @@ class Info
     const SUBMISSION_EDIT = ['INFO', 'Student edited submission information'];
     const SUBMISSION_DELETE = ['INFO', 'Student deleted submission'];
     const SUBMISSION_VIEW = ['INFO', 'Student viewed submission'];
+    const SUBMISSION_DOWNLOAD_ALL = ['INFO', 'Company downloaded submissions'];
     const PROPOSAL_NEW = ['INFO', 'Company created new proposal'];
     const PROPOSAL_EDIT = ['INFO', 'Company edited proposal information'];
     const PROPOSAL_DELETE = ['INFO', 'Company deleted proposal'];
