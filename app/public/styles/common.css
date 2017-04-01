@@ -79,6 +79,11 @@ a.inverse:hover {
     background-color: #242424;
 }
 
+.btn-info[disabled]:hover, .btn-info[disabled]:active, .btn-info[disabled]:focus {
+    background-color: #576084;
+    border-color: #3E4459;
+}
+
 .label-info {
     background-color: #008ACB;
 }
@@ -100,7 +105,7 @@ a.inverse:hover {
 .table tbody tr:hover th,
 .table tbody tr:active td,
 .table tbody tr:active th {
-    background-color: #008ACB;
+    background-color: #777;
     color: white;
 }
 
