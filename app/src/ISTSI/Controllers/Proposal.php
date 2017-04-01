@@ -95,7 +95,7 @@ class Proposal
             'observations' => $request->getParsedBodyParam('observations'),
             'duration' => $request->getParsedBodyParam('duration'),
             'location' => $request->getParsedBodyParam('location'),
-            'vacancies' => $request->getParsedBodyParam('vacancies'),
+            'vacancies' => (int) $request->getParsedBodyParam('vacancies'),
             'courses' => $request->getParsedBodyParam('courses')
         ]);
         if (!$proposalMapper->save($proposal)) {
@@ -135,7 +135,7 @@ class Proposal
         $proposal->observations = $request->getParsedBodyParam('observations');
         $proposal->duration = $request->getParsedBodyParam('duration');
         $proposal->location = $request->getParsedBodyParam('location');
-        $proposal->vacancies = $request->getParsedBodyParam('vacancies');
+        $proposal->vacancies = (int) $request->getParsedBodyParam('vacancies');
         $proposal->courses = $request->getParsedBodyParam('courses');
         if (!$proposalMapper->update($proposal)) {
             throw new \Exception(Notice::PROPOSAL_INVALID);

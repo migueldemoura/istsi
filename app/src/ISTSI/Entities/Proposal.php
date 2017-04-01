@@ -54,7 +54,7 @@ class Proposal extends Entity
                 'vacancies' => $entity->vacancies
             ]);
             $validator->rules([
-                'min' => ['vacancies', 1]
+                'min' => [['vacancies', 1]]
             ]);
             return $validator->validate();
         });
