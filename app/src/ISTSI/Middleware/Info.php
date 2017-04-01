@@ -24,27 +24,24 @@ class Info
         $database = $this->c->get('database');
         $session = $this->c->get('session');
 
-        $valid = false;
         $uid = $session->getUid();
-        if ($this->method === Auth::FENIX) {
-            $studentMapper = $database->mapper('\ISTSI\Entities\Student');
-            $student = $studentMapper->get($uid);
 
-            if ($student->phone !== null) {
-                $valid = true;
+        $validate = function ($database, $uid) {
+            switch ($this->method) {
+                case Auth::FENIX:
+                    $studentMapper = $database->mapper('\ISTSI\Entities\Student');
+                    $student = $studentMapper->get($uid);
+                    return $student->phone !== null;
+                case Auth::PASSWORDLESS:
+                    $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+                    $company = $companyMapper->first(['email' => $uid]);
+                    return !in_array(null, [$company->name, $company->representative, $company->phone], true);
+                default:
+                    return true;
             }
-        } elseif ($this->method === Auth::PASSWORDLESS) {
-            $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-            $company = $companyMapper->first(['email' => $uid]);
+        };
 
-            if ($company->name !== null && $company->representative !== null && $company->phone !== null) {
-                $valid = true;
-            }
-        } else {
-            $valid = true;
-        }
-
-        if (!$valid) {
+        if (!$validate($database, $uid)) {
             if ($request->isXhr()) {
                 return $response->withJson([
                     'status' => 'fail',
