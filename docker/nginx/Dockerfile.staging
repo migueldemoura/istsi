@@ -1,6 +1,8 @@
 FROM debian:jessie
 
-RUN apt update && apt install -y nginx
+ENV TZ="/usr/share/zoneinfo/Europe/London"
+
+RUN apt-get update && apt-get install -y nginx
 
 COPY shared/nginx.conf /etc/nginx/
 COPY staging/istsi.conf /etc/nginx/sites-available/
