@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace ISTSI\Services;
 
 use GuzzleHttp\Client;
+use ISTSI\Exception\Exception;
 use Psr\Container\ContainerInterface;
 
 class Fenix
@@ -50,7 +51,7 @@ class Fenix
         $data = json_decode($response->getBody()->getContents());
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception($data->error_description);
+            throw new Exception($data->error_description);
         }
 
         return $data;
@@ -66,7 +67,7 @@ class Fenix
         $data = json_decode($response->getBody()->getContents());
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception($data->error_description);
+            throw new Exception($data->error_description);
         }
 
         return $data;

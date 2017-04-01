@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers\Auth;
 
+use ISTSI\Exception\Exception;
 use ISTSI\Identifiers\Auth;
 use ISTSI\Identifiers\Error;
 use ISTSI\Identifiers\Info;
@@ -54,7 +55,7 @@ class PasswordLess
                 if (!($authToken = $authTokenMapper->create(
                     ['email' => $email, 'token' => bin2hex(random_bytes(64))]
                 ))) {
-                    throw new \Exception(Error::DB_OP);
+                    throw new Exception(Error::DB_OP);
                 }
             }
         } else {

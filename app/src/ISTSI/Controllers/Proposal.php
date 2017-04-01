@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
+use ISTSI\Exception\Exception;
 use ISTSI\Identifiers\Notice;
 use ISTSI\Identifiers\Info;
 use Psr\Container\ContainerInterface;
@@ -105,7 +106,7 @@ class Proposal
             'courses' => $request->getParsedBodyParam('courses')
         ]);
         if (!$proposalMapper->save($proposal)) {
-            throw new \Exception(Notice::PROPOSAL_INVALID);
+            throw new Exception(Notice::PROPOSAL_INVALID);
         }
 
         $logger->addRecord(Info::PROPOSAL_NEW, ['uid' => $uid, 'proposal' => $proposal]);
@@ -144,7 +145,7 @@ class Proposal
         $proposal->vacancies = (int) $request->getParsedBodyParam('vacancies');
         $proposal->courses = $request->getParsedBodyParam('courses');
         if (!$proposalMapper->update($proposal)) {
-            throw new \Exception(Notice::PROPOSAL_INVALID);
+            throw new Exception(Notice::PROPOSAL_INVALID);
         };
 
         $logger->addRecord(Info::PROPOSAL_EDIT, ['uid' => $uid, 'proposal' => $proposal]);
@@ -172,7 +173,7 @@ class Proposal
             'id' => $proposal,
             'company_id' => $companyMapper->first(['email' => $uid])->id
         ])) {
-            throw new \Exception(Notice::PROPOSAL_INVALID);
+            throw new Exception(Notice::PROPOSAL_INVALID);
         }
 
         $logger->addRecord(Info::PROPOSAL_DELETE, ['uid' => $uid, 'proposal' => $proposal]);

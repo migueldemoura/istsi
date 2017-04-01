@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace ISTSI\Services;
 
+use ISTSI\Exception\Exception;
+
 class Mailer
 {
     private $fromEmail;
@@ -40,7 +42,7 @@ class Mailer
         $mail->msgHTML($body);
 
         if (!$mail->send()) {
-            throw new \Exception($mail->ErrorInfo);
+            throw new Exception($mail->ErrorInfo);
         }
 
         return true;

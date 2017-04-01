@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers\Auth;
 
+use ISTSI\Exception\Exception;
 use ISTSI\Identifiers\Auth;
 use ISTSI\Identifiers\Error;
 use ISTSI\Identifiers\Info;
@@ -64,7 +65,7 @@ class Fenix
                 'course' => $course,
                 'year'   => $year
             ])) {
-                throw new \Exception(Error::DB_OP);
+                throw new Exception(Error::DB_OP);
             }
         }
 

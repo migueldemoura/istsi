@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ISTSI\Controllers;
 
+use ISTSI\Exception\Exception;
 use ISTSI\Identifiers\Error;
 use ISTSI\Identifiers\Notice;
 use ISTSI\Identifiers\Info;
@@ -45,14 +46,14 @@ class Submission
         $zip = new ZipArchive();
         $directory = $settingsFiles['directoryRoot'] . 'zip/';
         if (!$fileManager->createDirectory($directory)) {
-            throw new \Exception(Error::DIR_CREATE);
+            throw new Exception(Error::DIR_CREATE);
         };
         $filePath = realpath($directory) . '/' . $companyId;
         if (!$fileManager->deleteFile($filePath)) {
-            throw new \Exception(Error::ZIP_DELETE);
+            throw new Exception(Error::ZIP_DELETE);
         }
         if ($zip->open($filePath, ZipArchive::CREATE) !== true) {
-            throw new \Exception(Error::ZIP_CREATE);
+            throw new Exception(Error::ZIP_CREATE);
         }
         sleep(5);
         if (count($submissions) === 0) {
@@ -66,11 +67,11 @@ class Submission
                 '{type}' => 'CV'
             ];
             if (!$zip->addFile($fileManager->getFilePath($map), $fileManager->getRelativeFilePath($map))) {
-                throw new \Exception(Error::ZIP_CREATE);
+                throw new Exception(Error::ZIP_CREATE);
             };
             $map['{type}'] = 'CM';
             if (!$zip->addFile($fileManager->getFilePath($map), $fileManager->getRelativeFilePath($map))) {
-                throw new \Exception(Error::ZIP_CREATE);
+                throw new Exception(Error::ZIP_CREATE);
             };
         }
         $zip->close();
@@ -129,7 +130,7 @@ class Submission
 
         $result = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
         if (!$result) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         return $response->withJson([
@@ -153,13 +154,13 @@ class Submission
         $file = $args['file'];
 
         if (!in_array($file, ['CV', 'CM'])) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         if (!$submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal])) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         $filePath = $fileManager->getFilePath([
@@ -199,7 +200,7 @@ class Submission
         ]);
 
         if (!$submissionMapper->save($submission)) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         // File Upload
@@ -259,7 +260,7 @@ class Submission
         $submission = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
         $submission->observations = $request->getParsedBodyParam('observations');
         if (!$submissionMapper->update($submission)) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         foreach ($request->getUploadedFiles() as $type => $file) {
@@ -304,7 +305,7 @@ class Submission
         $proposal = $args['proposal'];
 
         if (!$submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal])) {
-            throw new \Exception(Notice::SUBMISSION_INVALID);
+            throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         // Delete submission files
@@ -315,11 +316,11 @@ class Submission
             '{type}' => 'CV'
         ];
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            throw new \Exception(Error::FILE_DELETE);
+            throw new Exception(Error::FILE_DELETE);
         };
         $substitutions['{type}'] = 'CM';
         if (!$fileManager->deleteFile($fileManager->getFilePath($substitutions))) {
-            throw new \Exception(Error::FILE_DELETE);
+            throw new Exception(Error::FILE_DELETE);
         };
 
         $logger->addRecord(Info::SUBMISSION_DELETE, ['uid' => $uid, 'proposal' => $proposal]);
