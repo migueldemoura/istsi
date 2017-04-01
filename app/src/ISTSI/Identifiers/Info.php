@@ -17,4 +17,5 @@ class Info
     const PROPOSAL_NEW = ['INFO', 'Company created new proposal'];
     const PROPOSAL_EDIT = ['INFO', 'Company edited proposal information'];
     const PROPOSAL_DELETE = ['INFO', 'Company deleted proposal'];
+    const PROPOSAL_VIEW = ['INFO', 'User viewed proposal'];
 }

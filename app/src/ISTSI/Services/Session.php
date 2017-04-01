@@ -48,7 +48,7 @@ class Session
 
     public function getUid()
     {
-        return $_SESSION['uid'];
+        return isset($_SESSION['uid']) ? $_SESSION['uid'] : '';
     }
 
     private function setUid(string $uid)

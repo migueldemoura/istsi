@@ -43,6 +43,10 @@ class Proposal
     public function getData(Request $request, Response $response, $args)
     {
         $database = $this->c->get('database');
+        $logger = $this->c->get('logger');
+        $session = $this->c->get('session');
+
+        $uid = $session->getUid();
 
         $proposal = $args['proposal'];
 
@@ -56,6 +60,8 @@ class Proposal
                 'data'   => 'data'
             ]);
         }
+
+        $logger->addRecord(Info::PROPOSAL_VIEW, ['uid' => $uid, 'proposal' => $proposal]);
 
         return $response->withJson([
             'status' => 'success',
