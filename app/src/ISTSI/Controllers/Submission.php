@@ -188,9 +188,16 @@ class Submission
 
         $uid = $session->getUid();
 
+        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
         $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
 
         $proposal = $args['proposal'];
+
+        // Check if proposal accepts the student's course
+        if (!in_array($studentMapper->get($uid)->course, $proposalMapper->get($proposal)->courses)) {
+            throw new Exception(Notice::SUBMISSION_INVALID);
+        }
 
         // Database Update
         $submission = $submissionMapper->build([
