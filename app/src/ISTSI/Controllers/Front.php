@@ -55,24 +55,24 @@ class Front
 
             $templateName = 'home.full';
             $templateArgs = [
-                'programName' => $settingsProgram['name'],
-                'programYear' => $settingsProgram['year'],
-                'email'       => $settingsProgram['email'],
-                'facebook'    => $settingsProgram['facebook'],
-                'societies'   => $settingsProgram['societies'],
-                'termsPath'   => $settingsProgram['termsPath'],
-                'courses'     => $courseMapper->all()->toArray(),
-                'proposals'   => $proposals,
-                'noCompanies' => $noCompanies,
-                'noProposals' => $noProposals,
-                'noVacancies' => $noVacancies,
-                'periodStart' => $settingsProgram['period']['start'],
-                'periodEnd'   => $settingsProgram['period']['end'],
-                'onPeriod'    => DateTime::isBetween(
+                'programName'   => $settingsProgram['name'],
+                'programYear'   => $settingsProgram['year'],
+                'email'         => $settingsProgram['email'],
+                'facebook'      => $settingsProgram['facebook'],
+                'societies'     => $settingsProgram['societies'],
+                'termsPath'     => $settingsProgram['termsPath'],
+                'courses'       => $courseMapper->all()->toArray(),
+                'proposals'     => $proposals,
+                'noCompanies'   => $noCompanies,
+                'noProposals'   => $noProposals,
+                'noVacancies'   => $noVacancies,
+                'periodStart'   => $settingsProgram['period']['start'],
+                'periodEnd'     => $settingsProgram['period']['end'],
+                'betweenPeriod' => DateTime::isBetween(
                     $settingsProgram['period']['start'],
                     $settingsProgram['period']['end']
                 ),
-                'token'       => $session->getToken()
+                'token'         => $session->getToken()
             ];
         }
         return $this->c->get('renderer')->render($response, 'front/' . $templateName . '.twig', $templateArgs);

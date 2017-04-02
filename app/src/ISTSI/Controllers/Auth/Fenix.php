@@ -56,15 +56,17 @@ class Fenix
             $student->email = $email;
             $student->course = $course;
             $student->year = $year;
-            $studentMapper->update($student);
+            if ($studentMapper->update($student) === false) {
+                throw new Exception(Error::DB_OP);
+            }
         } else {
-            if (!$studentMapper->create([
+            if ($studentMapper->create([
                 'id'     => $uid,
                 'name'   => $name,
                 'email'  => $email,
                 'course' => $course,
                 'year'   => $year
-            ])) {
+            ]) === false) {
                 throw new Exception(Error::DB_OP);
             }
         }

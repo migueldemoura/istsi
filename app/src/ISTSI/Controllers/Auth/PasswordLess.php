@@ -52,9 +52,9 @@ class PasswordLess
                 }
             } else {
                 // Create new token
-                if (!($authToken = $authTokenMapper->create(
+                if (($authToken = $authTokenMapper->create(
                     ['email' => $email, 'token' => bin2hex(random_bytes(64))]
-                ))) {
+                )) === false) {
                     throw new Exception(Error::DB_OP);
                 }
             }

@@ -89,7 +89,7 @@ class Company
         $company->name = $request->getParsedBody()['name'];
         $company->representative = $request->getParsedBody()['representative'];
         $company->phone = $request->getParsedBody()['phone'];
-        if (!$companyMapper->update($company)) {
+        if ($companyMapper->update($company) === false) {
             $data = [
                 'status' => 'fail',
                 'data'   => 'data'

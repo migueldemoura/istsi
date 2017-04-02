@@ -75,7 +75,7 @@ class Student
         $student = $studentMapper->get($uid);
         $student->email = $request->getParsedBody()['email'];
         $student->phone = $request->getParsedBody()['phone'];
-        if (!$studentMapper->update($student)) {
+        if ($studentMapper->update($student) === false) {
             $data = [
                 'status' => 'fail',
                 'data'   => 'data'

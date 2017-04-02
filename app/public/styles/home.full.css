@@ -96,7 +96,7 @@ h2 {
     cursor: pointer;
 }
 
-.btn-login {
+.btn.btn-login {
     padding: 15px 100px;
     margin: 15px 0;
     color: white;
