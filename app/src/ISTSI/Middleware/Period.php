@@ -25,11 +25,15 @@ class Period
 
         $validate = function ($periodStart, $periodEnd) {
             switch ($this->period) {
-                case DateTime::BEFORE:
+                case DateTime::BEFORE_START:
+                    return DateTime::isBefore($periodStart);
+                case DateTime::BEFORE_END:
                     return DateTime::isBefore($periodEnd);
                 case DateTime::BETWEEN:
                     return DateTime::isBetween($periodStart, $periodEnd);
-                case DateTime::AFTER:
+                case DateTime::AFTER_START:
+                    return DateTime::isAfter($periodStart);
+                case DateTime::AFTER_END:
                     return DateTime::isAfter($periodEnd);
                 default:
                     return false;

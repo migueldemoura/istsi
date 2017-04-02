@@ -5,9 +5,11 @@ namespace ISTSI\Helpers;
 
 class DateTime
 {
-    const BEFORE = 0;
-    const BETWEEN = 1;
-    const AFTER = 2;
+    const BEFORE_START = 0;
+    const BEFORE_END = 1;
+    const BETWEEN = 2;
+    const AFTER_START = 3;
+    const AFTER_END = 4;
 
     public static function isBefore($pointer, $equal = false)
     {

@@ -66,7 +66,7 @@ $app->group('/submission', function () use ($app, $c) {
 
     $app->get('/get/all', 'ISTSI\Controllers\Submission:getAll')
         ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS))
-        ->add(new Period($c, DateTime::AFTER));
+        ->add(new Period($c, DateTime::AFTER_END));
 });
 
 $app->group('/proposal', function () use ($app, $c) {
@@ -77,7 +77,7 @@ $app->group('/proposal', function () use ($app, $c) {
             //TODO: should be $app->put, but see this https://github.com/slimphp/Slim/issues/1396
             $app->post('/update/{proposal}', 'ISTSI\Controllers\Proposal:update');
             $app->delete('/delete/{proposal}', 'ISTSI\Controllers\Proposal:delete');
-        })->add(new Period($c, DateTime::BEFORE));
+        })->add(new Period($c, DateTime::BEFORE_END));
     })->add(new Info($c, IdentifiersAuth::PASSWORDLESS))
       ->add(new CSRF($c))
       ->add(new Auth($c, IdentifiersAuth::PASSWORDLESS));
