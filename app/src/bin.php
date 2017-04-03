@@ -11,8 +11,6 @@ require __DIR__ . '/dependencies.php';
 $c = $app->getContainer();
 
 if ($argv[1] === 'migrations') {
-    require 'ISTSI/Database/Migrations/Migrations.php';
     $migrations = new \ISTSI\Database\Migrations\Migrations($c);
-
     $migrations->migrate();
 }

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace ISTSI\Services;
 
-use ISTSI\Identifiers\Error;
 use Psr\Container\ContainerInterface;
 use \Slim\Http\UploadedFile;
 

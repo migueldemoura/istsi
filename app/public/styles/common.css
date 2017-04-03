@@ -92,6 +92,10 @@ a.inverse:hover {
     border-color: #242424;
 }
 
+.navbar-inverse .navbar-brand {
+    color: #EFEFEF;
+}
+
 .navbar-collapse {
     border: none;
 }

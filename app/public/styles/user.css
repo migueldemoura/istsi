@@ -7,10 +7,6 @@ body {
     margin: 0 0 75px; /* bottom = footer height */
 }
 
-.navbar-inverse .navbar-brand {
-    color: #EFEFEF;
-}
-
 input.input-file {
     display: none;
 }
