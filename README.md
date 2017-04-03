@@ -1,4 +1,4 @@
-#ISTSI
+# ISTSI
 
 ISTSI is the website and submission platform for the [IST Summer Internships].
 
@@ -20,7 +20,8 @@ This project includes config files to create an environment with Nginx, PHP-FPM,
 
 * Install [Docker] and [Docker Compose]
 * Go to `docker/`, rename `.env.dist` to `.env` and fill all the options.
-The available options for the ENV variable are: `dev`, `staging` and `prod`.
+The available options for the ENV variable are `dev`, `staging` and `prod`.
+* Go to `docker/nginx/shared/tls`, replace all files with your own and strip the `.dist` from the filenames.
 
 * Start environment:
 
@@ -32,7 +33,7 @@ You may need to also execute the following to fix some permission issues:
 
 ```sh
 $ ./deploy.sh exec
-container# chown -R www-data:www-data /var/www/cache /var/www/data /var/www/logs
+container# cd /var/www && chown -R www-data:www-data cache data logs
 container# exit
 ```
 
