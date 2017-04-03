@@ -20,7 +20,7 @@ class Course
     {
         $database = $this->c->get('database');
 
-        $courseMapper = $database->mapper('\ISTSI\Entities\Course');
+        $courseMapper = $database->mapper('\ISTSI\Database\Entities\Course');
 
         $courses = $courseMapper->all()->toArray();
         $data['acronym'] = array_column($courses, 'acronym');

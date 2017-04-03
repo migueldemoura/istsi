@@ -38,9 +38,9 @@ class Front
                 $session->setToken();
             }
 
-            $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-            $courseMapper = $database->mapper('\ISTSI\Entities\Course');
-            $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+            $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+            $courseMapper = $database->mapper('\ISTSI\Database\Entities\Course');
+            $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
             $proposalsQuery = $proposalMapper->all();
 
@@ -54,7 +54,8 @@ class Front
                 $noVacancies += $proposals[$key]['vacancies'];
                 $proposals[$key]['company_id'] = $companyMapper->get($proposal->company_id)->name;
                 $proposals[$key]['courses'] = array_column(
-                    $proposal->relation('courses')->getIterator()->toArray(), 'acronym'
+                    $proposal->relation('courses')->getIterator()->toArray(),
+                    'acronym'
                 );
             }
 

@@ -24,7 +24,7 @@ class Student
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
+        $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
         $uid = $session->getUid();
         $student = $studentMapper->get($uid);
 
@@ -69,7 +69,7 @@ class Student
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
+        $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
         $uid = $session->getUid();
 
         $student = $studentMapper->get($uid);

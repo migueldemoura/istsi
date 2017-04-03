@@ -29,8 +29,8 @@ class PasswordLess
 
         $email = $request->getParsedBodyParam('email');
 
-        $authTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\AuthToken');
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $authTokenMapper = $database->mapper('\ISTSI\Database\Entities\PasswordLess\AuthToken');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
 
         // Check if email belongs to a company
         if ($company = $companyMapper->first(['email' => $email])) {
@@ -91,7 +91,7 @@ class PasswordLess
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        $authTokenMapper = $database->mapper('\ISTSI\Entities\PasswordLess\AuthToken');
+        $authTokenMapper = $database->mapper('\ISTSI\Database\Entities\PasswordLess\AuthToken');
 
         if (!($authToken = $authTokenMapper->first([
             'token' => $request->getParam('token'),

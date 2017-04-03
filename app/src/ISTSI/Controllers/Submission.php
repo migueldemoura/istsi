@@ -33,9 +33,9 @@ class Submission
 
         $uid = $session->getUid();
 
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $companyId = $companyMapper->first(['email' => $uid])->id;
 
@@ -91,9 +91,9 @@ class Submission
 
         $uid = $session->getUid();
 
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $student = $studentMapper->get($uid);
 
@@ -130,7 +130,7 @@ class Submission
 
         $proposal = $args['proposal'];
 
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $result = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
         if (!$result) {
@@ -161,7 +161,7 @@ class Submission
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         if (!$submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal])) {
             throw new Exception(Notice::SUBMISSION_INVALID);
@@ -192,9 +192,9 @@ class Submission
 
         $uid = $session->getUid();
 
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
+        $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $proposal = $args['proposal'];
 
@@ -268,7 +268,7 @@ class Submission
 
         $uid = $session->getUid();
 
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $proposal = $args['proposal'];
 
@@ -315,7 +315,7 @@ class Submission
 
         $uid = $session->getUid();
 
-        $submissionMapper = $database->mapper('\ISTSI\Entities\Submission');
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $proposal = $args['proposal'];
 

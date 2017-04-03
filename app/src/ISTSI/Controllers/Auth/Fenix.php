@@ -49,7 +49,7 @@ class Fenix
         }
         $year = $fenix->getYear($course);
 
-        $studentMapper = $database->mapper('\ISTSI\Entities\Student');
+        $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
 
         if ($student = $studentMapper->get($uid)) {
             $student->name = $name;

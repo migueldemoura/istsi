@@ -29,11 +29,11 @@ class Info
         $validate = function ($database, $uid) {
             switch ($this->method) {
                 case Auth::FENIX:
-                    $studentMapper = $database->mapper('\ISTSI\Entities\Student');
+                    $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
                     $student = $studentMapper->get($uid);
                     return $student->phone !== null;
                 case Auth::PASSWORDLESS:
-                    $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+                    $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
                     $company = $companyMapper->first(['email' => $uid]);
                     return !in_array(null, [$company->name, $company->representative, $company->phone], true);
                 default:

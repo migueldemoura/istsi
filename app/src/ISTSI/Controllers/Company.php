@@ -24,7 +24,7 @@ class Company
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
 
         $uid = $session->getUid();
 
@@ -82,7 +82,7 @@ class Company
         $logger = $this->c->get('logger');
         $session = $this->c->get('session');
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
         $uid = $session->getUid();
 
         $company = $companyMapper->first(['email' => $uid]);

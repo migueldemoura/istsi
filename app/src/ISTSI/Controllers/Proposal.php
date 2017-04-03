@@ -26,8 +26,8 @@ class Proposal
 
         $uid = $session->getUid();
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
         $proposals = array_column($proposalMapper->where(
             ['company_id' => $companyMapper->first(['email' => $uid])->id]
@@ -51,8 +51,8 @@ class Proposal
 
         $proposal = $args['proposal'];
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
         $data = $proposalMapper->get($proposal);
         if (!$data) {
@@ -90,9 +90,9 @@ class Proposal
 
         $uid = $session->getUid();
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $courseMapper = $database->mapper('\ISTSI\Entities\Course');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $courseMapper = $database->mapper('\ISTSI\Database\Entities\Course');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
         $proposal = $proposalMapper->build([
             'company_id' => $companyMapper->first(['email' => $uid])->id,
@@ -131,9 +131,9 @@ class Proposal
 
         $uid = $session->getUid();
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $courseMapper = $database->mapper('\ISTSI\Entities\Course');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $courseMapper = $database->mapper('\ISTSI\Database\Entities\Course');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
         $proposal = $args['proposal'];
 
@@ -176,9 +176,9 @@ class Proposal
 
         $uid = $session->getUid();
 
-        $companyMapper = $database->mapper('\ISTSI\Entities\Company');
-        $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
-        $proposalCourseMapper = $database->mapper('\ISTSI\Entities\ProposalCourse');
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
+        $proposalCourseMapper = $database->mapper('\ISTSI\Database\Entities\ProposalCourse');
 
         $proposal = $args['proposal'];
 

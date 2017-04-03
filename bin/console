@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd deployment/
+source .env
+
+case "$1" in
+  "up") args="up -d" ;;
+  "down") args="down" ;;
+  "build") args="build" ;;
+  "exec") args="exec --user www-data php bash" ;;
+  "migrate") args="exec --user www-data php php "src/bin.php" migrations" ;;
+  *) exit -1 ;;
+esac
+
+docker-compose -f $ENV.yml $args
