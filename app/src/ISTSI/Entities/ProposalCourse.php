@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace ISTSI\Entities;
 
 use Spot\Entity;
+use Spot\EntityInterface;
+use Spot\MapperInterface;
 
 class ProposalCourse extends Entity
 {
@@ -14,8 +16,16 @@ class ProposalCourse extends Entity
         return [
             'id'          => ['type' => 'integer', 'autoincrement' => true, 'primary' => true],
             'proposal_id' => ['type' => 'integer'],
-            'company_id'  => ['type' => 'integer'],
+            'course_id'   => ['type' => 'integer'],
             'created_at'  => ['type' => 'datetime', 'value' => new \DateTime()]
+        ];
+    }
+
+    public static function relations(MapperInterface $mapper, EntityInterface $entity)
+    {
+        return [
+            'proposal' => $mapper->belongsTo($entity, 'ISTSI\Entities\Proposal', 'proposal_id'),
+            'course' => $mapper->belongsTo($entity, 'ISTSI\Entities\Course', 'course_id')
         ];
     }
 }

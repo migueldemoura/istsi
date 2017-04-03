@@ -101,11 +101,15 @@ class Submission
 
         $availableProposals = [];
 
-        foreach ($proposalMapper->all() as $proposalData) {
-            if (!in_array($proposalData->id, $doneProposals) &&
-                in_array($student->course, $proposalData->courses)
+        foreach ($proposalMapper->all() as $proposal) {
+            if (!in_array($proposal->id, $doneProposals, true) &&
+                in_array(
+                    $student->course,
+                    array_column($proposal->relation('courses')->getIterator()->toArray(), 'acronym'),
+                    true
+                )
             ) {
-                array_push($availableProposals, $proposalData->id);
+                array_push($availableProposals, $proposal->id);
             }
         }
 
@@ -153,7 +157,7 @@ class Submission
         $proposal = $args['proposal'];
         $file = $args['file'];
 
-        if (!in_array($file, ['CV', 'CM'])) {
+        if (!in_array($file, ['CV', 'CM'], true)) {
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
@@ -195,7 +199,11 @@ class Submission
         $proposal = $args['proposal'];
 
         // Check if proposal accepts the student's course
-        if (!in_array($studentMapper->get($uid)->course, $proposalMapper->get($proposal)->courses)) {
+        if (!in_array(
+            $studentMapper->get($uid)->course,
+            array_column($proposalMapper->get($proposal)->relation('courses')->getIterator()->toArray(), 'acronym'),
+            true
+        )) {
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
@@ -206,13 +214,13 @@ class Submission
             'observations' => $request->getParsedBodyParam('observations')
         ]);
 
-        if (!$submissionMapper->save($submission)) {
+        if ($submissionMapper->save($submission) === false) {
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         // File Upload
         foreach ($request->getUploadedFiles() as $type => $file) {
-            if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
+            if (in_array($type, ['CV', 'CM'], true) && $file->file !== '') {
                 if (!$fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
@@ -266,12 +274,12 @@ class Submission
 
         $submission = $submissionMapper->first(['student_id' => $uid, 'proposal_id' => $proposal]);
         $submission->observations = $request->getParsedBodyParam('observations');
-        if (!$submissionMapper->update($submission)) {
+        if ($submissionMapper->update($submission) === false) {
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
         foreach ($request->getUploadedFiles() as $type => $file) {
-            if (in_array($type, ['CV', 'CM']) && $file->file !== '') {
+            if (in_array($type, ['CV', 'CM'], true) && $file->file !== '') {
                 if (!$fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
@@ -311,7 +319,7 @@ class Submission
 
         $proposal = $args['proposal'];
 
-        if (!$submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal])) {
+        if ($submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal]) === false) {
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 

@@ -42,15 +42,20 @@ class Front
             $courseMapper = $database->mapper('\ISTSI\Entities\Course');
             $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
 
-            $proposals = $proposalMapper->all()->toArray();
+            $proposalsQuery = $proposalMapper->all();
 
             $noCompanies = count($companyMapper->all());
             $noProposals = $noVacancies = 0;
 
-            foreach ($proposals as $key => $proposal) {
+            $proposals = $proposalsQuery->toArray();
+
+            foreach ($proposalsQuery as $key => $proposal) {
                 $noProposals++;
                 $noVacancies += $proposals[$key]['vacancies'];
-                $proposals[$key]['company_id'] = $companyMapper->get($proposal['company_id'])->name;
+                $proposals[$key]['company_id'] = $companyMapper->get($proposal->company_id)->name;
+                $proposals[$key]['courses'] = array_column(
+                    $proposal->relation('courses')->getIterator()->toArray(), 'acronym'
+                );
             }
 
             $templateName = 'home.full';

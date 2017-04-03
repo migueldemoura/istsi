@@ -77,7 +77,7 @@ class Proposal
                 'duration' => $data->duration,
                 'location' => $data->location,
                 'vacancies' => $data->vacancies,
-                'courses' => $data->courses
+                'courses' => array_column($data->relation('courses')->getIterator()->toArray(), 'acronym')
             ]
         ]);
     }
@@ -91,6 +91,7 @@ class Proposal
         $uid = $session->getUid();
 
         $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $courseMapper = $database->mapper('\ISTSI\Entities\Course');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
 
         $proposal = $proposalMapper->build([
@@ -102,10 +103,15 @@ class Proposal
             'observations' => $request->getParsedBodyParam('observations'),
             'duration' => $request->getParsedBodyParam('duration'),
             'location' => $request->getParsedBodyParam('location'),
-            'vacancies' => (int) $request->getParsedBodyParam('vacancies'),
-            'courses' => $request->getParsedBodyParam('courses')
+            'vacancies' => (int) $request->getParsedBodyParam('vacancies')
         ]);
-        if (!$proposalMapper->save($proposal)) {
+        $proposal->relation('courses', array_map(
+            function ($string) use ($courseMapper) {
+                return $courseMapper->first(['acronym' => $string]);
+            },
+            $request->getParsedBodyParam('courses')
+        ));
+        if ($proposalMapper->save($proposal, ['relations' => true]) === false) {
             throw new Exception(Notice::PROPOSAL_INVALID);
         }
 
@@ -126,6 +132,7 @@ class Proposal
         $uid = $session->getUid();
 
         $companyMapper = $database->mapper('\ISTSI\Entities\Company');
+        $courseMapper = $database->mapper('\ISTSI\Entities\Course');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
 
         $proposal = $args['proposal'];
@@ -143,8 +150,13 @@ class Proposal
         $proposal->duration = $request->getParsedBodyParam('duration');
         $proposal->location = $request->getParsedBodyParam('location');
         $proposal->vacancies = (int) $request->getParsedBodyParam('vacancies');
-        $proposal->courses = $request->getParsedBodyParam('courses');
-        if (!$proposalMapper->update($proposal)) {
+        $proposal->relation('courses', array_map(
+            function ($string) use ($courseMapper) {
+                return $courseMapper->first(['acronym' => $string]);
+            },
+            $request->getParsedBodyParam('courses')
+        ));
+        if ($proposalMapper->update($proposal, ['relations' => true]) === false) {
             throw new Exception(Notice::PROPOSAL_INVALID);
         };
 
@@ -166,13 +178,23 @@ class Proposal
 
         $companyMapper = $database->mapper('\ISTSI\Entities\Company');
         $proposalMapper = $database->mapper('\ISTSI\Entities\Proposal');
+        $proposalCourseMapper = $database->mapper('\ISTSI\Entities\ProposalCourse');
 
         $proposal = $args['proposal'];
 
-        if (!$proposalMapper->delete([
+        $data = $proposalMapper->first([
             'id' => $proposal,
             'company_id' => $companyMapper->first(['email' => $uid])->id
-        ])) {
+        ]);
+        if ($data === false) {
+            throw new Exception(Notice::PROPOSAL_INVALID);
+        }
+
+        if (in_array(
+            false,
+            [$proposalCourseMapper->delete(['proposal_id' => $proposal]), $proposalMapper->delete($data)],
+            true
+        )) {
             throw new Exception(Notice::PROPOSAL_INVALID);
         }
 
