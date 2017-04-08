@@ -43,6 +43,15 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         volumes:
             - ../backups/mysql:/backup
+    php-backup:
+        build: php-backup
+        links:
+            - php
+        environment:
+            PATH_TO_BACKUP: /data
+        volumes:
+            - ../backups/php:/backup
+            - data-app:/data
 
 volumes:
     data-mysql:
