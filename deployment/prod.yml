@@ -33,6 +33,16 @@ services:
             - 443:443
         volumes:
             - ../app/public:/var/www/istsi/public:ro
+    mysql-backup:
+        build: mysql-backup
+        links:
+            - mysql
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - ../backups/mysql:/backup
 
 volumes:
     data-mysql:
