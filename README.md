@@ -4,45 +4,31 @@ ISTSI is the website and submission platform for the [IST Summer Internships].
 
 It was built to ease the work of those behind the program and to allow the candidates to have a simple, consistent and comprehensive experience.
 
-### Installation
-
-* Install [Composer]
-* Install dependencies:
-
-    ```sh
-    $ composer install
-    ```
-* Go to `app/src/`, rename `settings.php.dist` to `settings.php` and fill all the options.
-
-### Docker
+### Installation and Deployment
 
 This project includes config files to create an environment with Nginx, PHP-FPM, MySQL, among others.
 
 * Install [Docker] and [Docker Compose]
-* Go to `docker/`, rename `.env.dist` to `.env` and fill all the options.
-The available options for the ENV variable are `dev`, `staging` and `prod`.
-* Go to `docker/nginx/shared/tls`, replace all files with your own and strip the `.dist` from the filenames.
+* Go to `app/src/`, rename `settings.php.dist` to `settings.php` and fill all options.
+* Go to `deployment/`, rename `.env.dist` to `.env` and fill all fields.
+The available settings for the ENV variable are `dev`, `staging` and `prod`.
+* Go to `deployment/nginx/shared/tls`, replace all files with your own and strip the `.dist` from the filenames.
 
 * Start environment:
 
     ```sh
-    $ ./deploy.sh up
+    $ bin/console up -d
     ```
 
-You may need to also execute the following to fix some permission issues:
-
-```sh
-$ ./deploy.sh exec
-container# cd /var/www && chown -R www-data:www-data cache data logs
-container# exit
-```
+When first starting the environment you will need to run `$ bin/console migrate` to update the database schema.
+This process isn't done automatically since renamed columns are deleted upon migration (potential loss of data).
 
 To access the dev webpage go to [istsi.localhost](http://istsi.localhost).
 
 * Stop environment:
 
     ```sh
-    $ ./deploy.sh down
+    $ bin/console down
     ```
 
 ### License

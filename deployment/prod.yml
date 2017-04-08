@@ -1,10 +1,10 @@
-version: '2'
+version: '3'
 
 services:
-    db:
+    mysql:
         image: mysql
         volumes:
-            - ./.data/db:/var/lib/mysql
+            - data-mysql:/var/lib/mysql:rw
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -16,17 +16,28 @@ services:
             context: php
             dockerfile: Dockerfile.prod
         volumes:
+            - ../app:/var/www/istsi:ro
+            - data-app:/var/www/data
+            - data-app-log:/var/www/logs
+    composer:
+        build: composer
+        user: www-data
+        command: install --no-dev -o
+        volumes:
             - ../app:/var/www/istsi
-            - ../cache:/var/www/cache
-            - ../logs:/var/www/logs
-            - ../data:/var/www/data
     nginx:
         build:
             context: nginx
             dockerfile: Dockerfile.prod
         ports:
             - 443:443
-        volumes_from:
-            - php
         volumes:
-            - ../logs/nginx/:/var/log/nginx
+            - ../app/public:/var/www/istsi/public:ro
+
+volumes:
+    data-mysql:
+        driver: local
+    data-app:
+        driver: local
+    data-app-log:
+        driver: local
