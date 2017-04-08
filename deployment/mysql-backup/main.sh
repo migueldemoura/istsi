@@ -13,7 +13,8 @@ elif [ -n "${RESTORE_LATEST_ON_INIT}" ]; then
         echo "[Note] Waiting for the mysql container"
         sleep 1
     done
-    ls -d -1 /backup/* | tail -1 | xargs /restore.sh
+    # Find the last modified file
+    find /backup/* -maxdepth 1 -type f | xargs -d '\n' ls -t | head -n1 | xargs /restore.sh
 fi
 
 echo "0 0 * * * /backup.sh" > /crontab.conf
