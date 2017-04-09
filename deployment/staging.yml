@@ -17,8 +17,8 @@ services:
         build:
             context: php
             dockerfile: Dockerfile.prod
-                args:
-                    env: ${ENV}
+            args:
+                env: ${ENV}
         volumes:
             - ../app:/var/www/istsi:ro
             - data-app:/var/www/data
