@@ -4,41 +4,71 @@ services:
     mysql:
         image: mysql
         volumes:
-            - data-mysql:/var/lib/mysql:rw
+            - data-mysql:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        security_opt:
+            - no-new-privileges
     php:
         build:
             context: php
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.${ENV}
         volumes:
             - ../app:/var/www/istsi:ro
             - data-app:/var/www/data
             - data-app-log:/var/www/logs
+        security_opt:
+            - no-new-privileges
     composer:
         build: composer
         user: www-data
         command: install
         volumes:
             - ../app:/var/www/istsi
+        security_opt:
+            - no-new-privileges
     nginx:
         build:
             context: nginx
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.${ENV}
         ports:
             - 80:80
         volumes:
             - ../app/public:/var/www/istsi/public:ro
+        security_opt:
+            - no-new-privileges
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         environment:
             PMA_HOST: mysql
         ports:
             - 8080:80
+        security_opt:
+            - no-new-privileges
+    backup-mysql:
+        build: backup-mysql
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - ../backups/mysql:/backup
+        security_opt:
+            - no-new-privileges
+    backup-php:
+        build: backup-php
+        environment:
+            PATH_TO_BACKUP: /data
+            BACKUP_ON_INIT: 1
+        volumes:
+            - ../backups/php:/backup
+            - data-app:/data
+        security_opt:
+            - no-new-privileges
 
 volumes:
     data-mysql:

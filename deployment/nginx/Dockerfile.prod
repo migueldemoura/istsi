@@ -1,9 +1,11 @@
 FROM nginx
 
+ARG env
+
 RUN usermod -u 1000 www-data
 
 COPY shared/nginx.conf /etc/nginx/
-COPY prod/istsi.conf /etc/nginx/conf.d/istsi.conf
+COPY $env/istsi.conf /etc/nginx/conf.d/istsi.conf
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY shared/tls/istsi.pem /etc/nginx/ssl/istsi.pem
