@@ -42,7 +42,7 @@ class Student extends Entity
                 'phone' => $entity->phone
             ]);
             $rules = ['email' => 'email'];
-            if ($entity->updated_at !== null) {
+            if ($entity->updated_at !== null && $entity->phone !== null) {
                 $rules = array_merge($rules, ['required' => 'phone']);
             }
             $validator->rules($rules);
