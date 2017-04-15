@@ -9,14 +9,20 @@ $(document).ready(function () {
     updateProposalListStatus();
 
     function updateProposalListStatus() {
-        $('#noproposals')[(($('td')[0].offsetParent === null) ? 'remove' : 'add') + 'Class']('hidden');
+        $('#noproposals')[($('td:visible').length ? 'add' : 'remove') + 'Class']('hidden');
     }
 
     $('[data-toggle="tooltip"]').tooltip();
 
     $('nav a[href*="#"]').on('click', function(e) {
         e.preventDefault();
+
         $('html, body').animate({scrollTop: $(this.hash).offset().top - 50}, 500);
+
+        var toggle = $('.navbar-toggle');
+        if (toggle.css('display') !== 'none') {
+            toggle.trigger('click')
+        }
     });
 
     $('.dropdown-menu li a').click(function(e) {
