@@ -43,11 +43,10 @@ class Front
             $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
 
             $proposalsQuery = $proposalMapper->all();
-
-            $noCompanies = count($companyMapper->all());
-            $noProposals = $noVacancies = 0;
-
             $proposals = $proposalsQuery->toArray();
+
+            $noCompanies = count(array_unique(array_column($proposals, 'company_id')));
+            $noProposals = $noVacancies = 0;
 
             foreach ($proposalsQuery as $key => $proposal) {
                 $noProposals++;
