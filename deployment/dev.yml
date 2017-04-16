@@ -55,6 +55,7 @@ services:
             MYSQL_HOST: mysql
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            BACKUP_ON_INIT: 1
         volumes:
             - ../backups/mysql:/backup
         security_opt:

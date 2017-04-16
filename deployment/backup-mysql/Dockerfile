@@ -1,6 +1,7 @@
 FROM debian:jessie
 
-RUN apt-get update && apt-get install -y --no-install-recommends mysql-client netcat-openbsd cron
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends mysql-client cron gettext-base
 RUN mkdir /backup
 
 COPY main.sh /main.sh
