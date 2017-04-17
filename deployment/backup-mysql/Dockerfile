@@ -7,6 +7,6 @@ RUN mkdir /backup
 COPY main.sh /main.sh
 COPY backup.sh /backup.sh
 COPY restore.sh /restore.sh
-RUN cd / && chmod +x main.sh backup.sh restore.sh
+RUN chmod +x /main.sh
 
 CMD ["/main.sh"]
