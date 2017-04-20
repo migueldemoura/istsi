@@ -149,7 +149,7 @@ class Fenix
     {
         foreach ($this->getPerson()->roles as $role) {
             if ($role->type === 'STUDENT') {
-                return $role->registrations[0]->acronym;
+                return array_values(array_slice($role->registrations, -1))[0]->acronym;
             }
         }
         return null;
