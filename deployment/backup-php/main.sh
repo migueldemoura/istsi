@@ -1,5 +1,8 @@
 #!/bin/bash
 
+envsubst '${PATH_TO_BACKUP}' < /backup.sh > /backup.sh.new && mv /backup.sh.new /backup.sh
+chmod +x /backup.sh
+
 if [ -n "${BACKUP_ON_INIT}" ]; then
     /backup.sh
 elif [ -n "${RESTORE_LATEST_ON_INIT}" ]; then
