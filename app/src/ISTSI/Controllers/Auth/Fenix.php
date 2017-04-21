@@ -43,7 +43,7 @@ class Fenix
         $name = $fenix->getName();
         $email = $fenix->getEmail();
         $course = $fenix->getCourse();
-        if ($course === null) {
+        if (in_array($course, [null, ''], true)) {
             //TODO
             die('FENIX_NOT_STUDENT');
         }
