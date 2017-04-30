@@ -34,9 +34,10 @@ services:
     nginx:
         build:
             context: nginx
-            dockerfile: Dockerfile.${ENV}
+            args:
+                HOST: istsi.localhost
         ports:
-            - 80:80
+            - 443:443
         volumes:
             - ../app/public:/var/www/istsi/public:ro
         security_opt:

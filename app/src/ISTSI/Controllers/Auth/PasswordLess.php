@@ -67,8 +67,7 @@ class PasswordLess
         }
 
         // Send mail
-        $loginUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
-                    $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
+        $loginUrl = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/passwordless/login?token=' . $authToken->token;
         $mailer->sendMail(
             $email,
             'ISTSI Login Link',

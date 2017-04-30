@@ -4,11 +4,16 @@ ppath=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)
 
 cd "$ppath"/../deployment/
 
-source .env
-
 case "$1" in
-    "migrate") args="exec --user www-data php php "src/bin.php" migrations" ;;
-    *) args="$@" ;;
+    "setup")
+        cd nginx/shared/tls
+        openssl req -x509 -subj '/CN=istsi.localhost' -out istsi.pem -days 365 \
+                    -newkey rsa:4096 -nodes -keyout istsi.key
+        exit 0 ;;
+    "migrate") ARGS="exec --user www-data php php "src/bin.php" migrations" ;;
+    "deploy") ARGS="${@:2}" ;;
+    *) exit -1 ;;
 esac
 
-docker-compose -f $ENV.yml $args
+source .env
+docker-compose -f $ENV.yml ${ARGS}

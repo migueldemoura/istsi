@@ -36,9 +36,8 @@ services:
     nginx:
         build:
             context: nginx
-            dockerfile: Dockerfile.prod
             args:
-                env: ${ENV}
+                HOST: staging.istsi.org
         ports:
             - 443:443
         volumes:

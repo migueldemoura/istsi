@@ -12,23 +12,23 @@ This project includes config files to create an environment with Nginx, PHP-FPM,
 * Go to `app/src/`, rename `settings.php.dist` to `settings.php` and fill all options.
 * Go to `deployment/`, rename `.env.dist` to `.env` and fill all fields.
 The available settings for the ENV variable are `dev`, `staging` and `prod`.
-* Go to `deployment/nginx/shared/tls`, replace all files with your own and strip the `.dist` from the filenames.
+* If the above ENV variable is `dev` run `$ bin/console setup` to get a self-signed TLS certificate, otherwise go to `deployment/nginx/tls`, replace all files with your own and strip the `.dist` from the filenames.
 
 * Start environment:
 
     ```sh
-    $ bin/console up -d
+    $ bin/console deploy up -d
     ```
 
 When first starting the environment you will need to run `$ bin/console migrate` to update the database schema.
 This process isn't done automatically since renamed columns are deleted upon migration (potential loss of data).
 
-To access the dev webpage go to [istsi.localhost](http://istsi.localhost).
+To access the dev webpage go to [istsi.localhost](https://istsi.localhost).
 
 * Stop environment:
 
     ```sh
-    $ bin/console down
+    $ bin/console deploy down
     ```
 
 ### License

@@ -4,7 +4,6 @@ app/composer.lock
 backups/mysql/*
 backups/php/*
 deployment/.env
-deployment/nginx/shared/tls/cloudflare-origin-pulls.pem
-deployment/nginx/shared/tls/istsi.key
-deployment/nginx/shared/tls/istsi.pem
+deployment/nginx/tls/istsi.key
+deployment/nginx/tls/istsi.pem
 !.keep
