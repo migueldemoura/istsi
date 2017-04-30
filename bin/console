@@ -6,8 +6,8 @@ cd "$ppath"/../deployment/
 
 case "$1" in
     "setup")
-        cd nginx/shared/tls
-        openssl req -x509 -subj '/CN=istsi.localhost' -out istsi.pem -days 365 \
+        cd nginx/tls
+        openssl req -x509 -subj '/CN=istsi.localhost/O=ISTSI' -out istsi.pem -days 365 \
                     -newkey rsa:4096 -nodes -keyout istsi.key
         exit 0 ;;
     "migrate") ARGS="exec --user www-data php php "src/bin.php" migrations" ;;

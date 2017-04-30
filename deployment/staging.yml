@@ -37,8 +37,9 @@ services:
         build:
             context: nginx
             args:
-                HOST: staging.istsi.org
+                SERVER_NAME: staging.istsi.org
         ports:
+            - 80:80
             - 443:443
         volumes:
             - ../app/public:/var/www/istsi/public:ro

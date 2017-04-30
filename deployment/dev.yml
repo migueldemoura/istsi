@@ -35,8 +35,9 @@ services:
         build:
             context: nginx
             args:
-                HOST: istsi.localhost
+                SERVER_NAME: istsi.localhost
         ports:
+            - 80:80
             - 443:443
         volumes:
             - ../app/public:/var/www/istsi/public:ro
