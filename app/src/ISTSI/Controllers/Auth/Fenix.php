@@ -53,7 +53,10 @@ class Fenix
 
         if ($student = $studentMapper->get($uid)) {
             $student->name = $name;
-            $student->email = $email;
+            // Don't overwrite the student's email if he has already approved it
+            if (in_array(null, [$student->email, $student->phone])) {
+                $student->email = $email;
+            }
             $student->course = $course;
             $student->year = $year;
             if ($studentMapper->update($student) === false) {
