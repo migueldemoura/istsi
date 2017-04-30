@@ -46,12 +46,17 @@ class FileManager
 
     public function getFilePath(array $map)
     {
-        return $this->directoryRoot . strtr($this->directory . $this->filename, $map) . '.' . $this->extension;
+        return $this->directoryRoot . $this->getRelativeFilePath($map);
     }
 
     public function getRelativeFilePath(array $map)
     {
-        return strtr($this->directory . $this->filename, $map) . '.' . $this->extension;
+        return $this->getRelativeFileName($map) . '.' . $this->extension;
+    }
+
+    public function getRelativeFileName(array $map)
+    {
+        return strtr($this->directory . $this->filename, $map);
     }
 
     public function getExtension(UploadedFile $file)

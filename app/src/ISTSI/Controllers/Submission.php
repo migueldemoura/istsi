@@ -73,6 +73,10 @@ class Submission
             if (!$zip->addFile($fileManager->getFilePath($map), $fileManager->getRelativeFilePath($map))) {
                 throw new Exception(Error::ZIP_CREATE);
             };
+            $map['{type}'] = 'Observations';
+            if ($submission->observations !== '') {
+                $zip->addFromString($fileManager->getRelativeFileName($map), $submission->observations);
+            }
         }
         $zip->close();
 
