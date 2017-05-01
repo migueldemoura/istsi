@@ -8,7 +8,7 @@ class Exception extends \Exception
     protected $message;
     protected $code;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->message = $data[0];
         $this->code = $data[1];
