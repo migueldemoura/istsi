@@ -38,7 +38,10 @@ class FileManager
             return false;
         }
 
-        $this->createDirectory(dirname($path));
+        if (!$this->createDirectory(dirname($path))) {
+            return false;
+        }
+
         $file->moveTo($path);
 
         return true;

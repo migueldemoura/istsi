@@ -55,7 +55,6 @@ class Submission
         if ($zip->open($filePath, ZipArchive::CREATE) !== true) {
             throw new Exception(Error::ZIP_CREATE);
         }
-        sleep(5);
         if (count($submissions) === 0) {
             $zip->addFromString('Nenhuma candidatura submetida', '');
         }
@@ -222,10 +221,10 @@ class Submission
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
-        // File Upload
+        $validTypes = ['CV', 'CM'];
         foreach ($request->getUploadedFiles() as $type => $file) {
-            if (in_array($type, ['CV', 'CM'], true) && $file->file !== '') {
-                if (!$fileManager->parseUpload(
+            if (in_array($type, $validTypes, true) && $file->file !== '' &&
+                $fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
                         '{year}' => $settingsProgram['year'],
@@ -233,25 +232,29 @@ class Submission
                         '{uid}' => $uid,
                         '{type}' => $type
                     ])
-                )) {
-                    $substitutions = [
-                        '{year}' => $settingsProgram['year'],
-                        '{proposal}' => $proposal,
-                        '{uid}' => $uid,
-                        '{type}' => 'CV'
-                    ];
-                    $fileManager->deleteFile($fileManager->getFilePath($substitutions));
-                    $substitutions['{type}'] = 'CM';
-                    $fileManager->deleteFile($fileManager->getFilePath($substitutions));
-
-                    $submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal]);
-
-                    return $response->withJson([
-                        'status' => 'fail',
-                        'data'   => 'data'
-                    ]);
-                }
+                )
+            ) {
+                unset($validTypes[array_search($type, $validTypes)]);
             }
+        }
+        if ($validTypes !== []) {
+            // Not all files were uploaded successfully
+            $substitutions = [
+                '{year}' => $settingsProgram['year'],
+                '{proposal}' => $proposal,
+                '{uid}' => $uid,
+                '{type}' => 'CV'
+            ];
+            $fileManager->deleteFile($fileManager->getFilePath($substitutions));
+            $substitutions['{type}'] = 'CM';
+            $fileManager->deleteFile($fileManager->getFilePath($substitutions));
+
+            $submissionMapper->delete(['student_id' => $uid, 'proposal_id' => $proposal]);
+
+            return $response->withJson([
+                'status' => 'fail',
+                'data'   => 'data'
+            ]);
         }
 
         $logger->addRecord(Info::SUBMISSION_NEW, ['uid' => $uid, 'proposal' => $proposal]);
@@ -282,9 +285,10 @@ class Submission
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
+        $validTypes = ['CV', 'CM'];
         foreach ($request->getUploadedFiles() as $type => $file) {
-            if (in_array($type, ['CV', 'CM'], true) && $file->file !== '') {
-                if (!$fileManager->parseUpload(
+            if (!in_array($type, $validTypes, true) || $file->file === '' ||
+                !$fileManager->parseUpload(
                     $request->getUploadedFiles()[$type],
                     $fileManager->getFilePath([
                         '{year}' => $settingsProgram['year'],
@@ -292,13 +296,14 @@ class Submission
                         '{uid}' => $uid,
                         '{type}' => $type
                     ])
-                )) {
-                    return $response->withJson([
-                        'status' => 'fail',
-                        'data'   => 'data'
-                    ]);
-                }
+                )
+            ) {
+                return $response->withJson([
+                    'status' => 'fail',
+                    'data'   => 'data'
+                ]);
             }
+            unset($validTypes[array_search($type, $validTypes)]);
         }
 
         $logger->addRecord(Info::SUBMISSION_EDIT);
@@ -327,7 +332,6 @@ class Submission
             throw new Exception(Notice::SUBMISSION_INVALID);
         }
 
-        // Delete submission files
         $substitutions = [
             '{year}' => $settingsProgram['year'],
             '{proposal}' => $proposal,
