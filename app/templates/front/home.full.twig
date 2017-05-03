@@ -163,6 +163,9 @@
                     </p>
                 {% else %}
                     <p class="white">As incrições já fecharam!</p>
+                    <a href="/auth/fenix/connect?csrf_token={{ token }}" class="btn btn-block btn-lg btn-login">
+                        Login
+                    </a>
                     <p class="white">Consulta os termos do
                         <a class="inverse" href="{{ termsPath }}">regulamento</a> do programa.
                     </p>
