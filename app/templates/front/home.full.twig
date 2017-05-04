@@ -115,6 +115,7 @@
                             <th>Empresa</th>
                             <th>Descrição</th>
                             <th class="hidden">Cursos</th>
+                            {% if afterPeriod %}<th>Seleção</th>{% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -127,6 +128,9 @@
                                 <td class="filterable-course hidden">
                                     {% for course in proposal.courses %}{{ course }},{% endfor %}
                                 </td>
+                                {% if afterPeriod %}
+                                    <td>{{ proposal.status }}</td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                         <tr id="noproposals" class="hidden">

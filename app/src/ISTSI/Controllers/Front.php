@@ -77,6 +77,7 @@ class Front
                     $settingsProgram['period']['start'],
                     $settingsProgram['period']['end']
                 ),
+                'afterPeriod'   => DateTime::isAfter($settingsProgram['period']['end']),
                 'token'         => $session->getToken()
             ];
         }

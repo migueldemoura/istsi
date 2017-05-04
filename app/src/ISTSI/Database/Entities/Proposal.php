@@ -26,6 +26,7 @@ class Proposal extends Entity
             'duration'     => ['type' => 'string', 'required' => true],
             'location'     => ['type' => 'string', 'required' => true],
             'vacancies'    => ['type' => 'integer', 'required' => true],
+            'status'       => ['type' => 'string'],
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()],
             'updated_at'   => ['type' => 'datetime']
         ];
