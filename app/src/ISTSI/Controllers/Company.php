@@ -46,10 +46,15 @@ class Company
 
     public function showDashboard(Request $request, Response $response, $args)
     {
+        $database = $this->c->get('database');
         $session = $this->c->get('session');
         $settingsProgram = $this->c->get('settings')['program'];
 
+        $companyMapper = $database->mapper('\ISTSI\Database\Entities\Company');
+        $proposalMapper = $database->mapper('\ISTSI\Database\Entities\Proposal');
         $uid = $session->getUid();
+
+        $submissionMapper = $database->mapper('\ISTSI\Database\Entities\Submission');
 
         $templateArgs = [
             'programName'  => $settingsProgram['name'],
@@ -57,6 +62,9 @@ class Company
             'uid'          => $uid,
             'logout'       => '/auth/passwordless/logout',
             'token'        => $session->getToken(),
+            'hasProposals' => $proposalMapper->first(
+                ['company_id' => $companyMapper->first(['email' => $uid])->id]
+            ) !== false,
             'beforePeriod' => DateTime::isBefore($settingsProgram['period']['end']),
             'afterPeriod'  => DateTime::isAfter($settingsProgram['period']['end'])
         ];

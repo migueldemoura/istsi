@@ -39,6 +39,14 @@ class Submission
 
         $companyId = $companyMapper->first(['email' => $uid])->id;
 
+        if ($proposalMapper->first(
+            ['company_id' => $companyMapper->first(['email' => $uid])->id]
+        ) === false) {
+            //TODO
+            die('NO_PROPOSALS');
+        }
+
+
         $submissions = $submissionMapper->where([
             'proposal_id' => array_column($proposalMapper->where(['company_id' => $companyId])->toArray(), 'id')
         ]);

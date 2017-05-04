@@ -36,7 +36,7 @@
                 <span class="glyphicon glyphicon-plus"></span> Nova Proposta
             </button>
             <a class="btn btn-info" href="/submission/get/all" target="_blank" rel="noopener"
-               {% if not afterPeriod %}disabled{% endif %}>
+               {% if not afterPeriod or not hasProposals %}disabled{% endif %}>
                 <span class="glyphicon glyphicon-file"></span> Obter Candidaturas
             </a>
         </div>
