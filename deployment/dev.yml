@@ -5,6 +5,8 @@ services:
         image: mysql
         volumes:
             - data-mysql:/var/lib/mysql
+        ports:
+            - 3306:3306
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -41,14 +43,6 @@ services:
             - 443:443
         volumes:
             - ../app/public:/var/www/istsi/public:ro
-        security_opt:
-            - no-new-privileges
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        environment:
-            PMA_HOST: mysql
-        ports:
-            - 8080:80
         security_opt:
             - no-new-privileges
     backup-mysql:
