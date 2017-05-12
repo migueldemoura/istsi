@@ -43,11 +43,11 @@ class Fenix
         $name = $fenix->getName();
         $email = $fenix->getEmail();
         $course = $fenix->getCourse();
-        if (in_array($course, [null, ''], true)) {
+        if ($course === null) {
             //TODO
             die('FENIX_NOT_STUDENT');
         }
-        $year = $fenix->getYear($course);
+        $year = $fenix->getYear();
 
         $studentMapper = $database->mapper('\ISTSI\Database\Entities\Student');
 

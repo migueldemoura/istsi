@@ -67,7 +67,7 @@ class Fenix
         $data = json_decode($response->getBody()->getContents());
 
         if ($response->getStatusCode() !== 200) {
-            throw new Exception($data->error_description);
+            throw new \Exception($data->error_description);
         }
 
         return $data;
@@ -145,24 +145,26 @@ class Fenix
         return $this->getPerson()->email;
     }
 
-    public function getCourse()
+    private function getCurrentCourse()
     {
-        foreach ($this->getPerson()->roles as $role) {
-            if ($role->type === 'STUDENT') {
-                return array_values(array_slice($role->registrations, -1))[0]->acronym;
+        $curriculum = $this->getCurriculum();
+        for ($i = count($curriculum) - 1; $i <= 0; --$i) {
+            if (!$curriculum[$i]->isFinished) {
+                return $curriculum[$i];
             }
         }
         return null;
     }
 
-    public function getYear($course)
+    public function getCourse()
     {
-        $curriculum = $this->getCurriculum();
-        foreach ($curriculum as $key => $record) {
-            if (!$record->isFinished && $curriculum[$key]->degree->acronym === $course) {
-                return $curriculum[$key]->currentYear;
-            }
-        }
-        return null;
+        $course = $this->getCurrentCourse();
+        return $course->degree->acronym === '' ? 'ISOLATEDSUBJS' : $course->degree->acronym;
+    }
+
+    public function getYear()
+    {
+        $course = $this->getCurrentCourse();
+        return $course->currentYear;
     }
 }
