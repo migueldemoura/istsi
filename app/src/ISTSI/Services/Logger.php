@@ -21,8 +21,7 @@ class Logger
     {
         $path = preg_replace('/([?&])csrf_token=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']);
 
-        $url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' .
-               $_SERVER['HTTP_HOST'] . $path;
+        $url = 'https://' . $_SERVER['HTTP_HOST'] . $path;
 
         $this->logger->{'add' . ucwords(strtolower($error[0]))}($error[1] . ' ' . $url, $context);
     }
