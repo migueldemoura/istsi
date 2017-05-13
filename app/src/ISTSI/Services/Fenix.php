@@ -148,7 +148,7 @@ class Fenix
     private function getCurrentCourse()
     {
         $curriculum = $this->getCurriculum();
-        for ($i = count($curriculum) - 1; $i <= 0; --$i) {
+        for ($i = count($curriculum) - 1; $i >= 0; --$i) {
             if (!$curriculum[$i]->isFinished) {
                 return $curriculum[$i];
             }
@@ -159,12 +159,18 @@ class Fenix
     public function getCourse()
     {
         $course = $this->getCurrentCourse();
-        return $course->degree->acronym === '' ? 'ISOLATEDSUBJS' : $course->degree->acronym;
+        if ($course !== null) {
+            return $course->degree->acronym === '' ? 'ISOLATEDSUBJS' : $course->degree->acronym;
+        }
+        return null;
     }
 
     public function getYear()
     {
         $course = $this->getCurrentCourse();
-        return $course->currentYear;
+        if ($course !== null) {
+            return $course->currentYear;
+        }
+        return null;
     }
 }
