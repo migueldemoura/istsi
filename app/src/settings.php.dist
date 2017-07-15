@@ -37,7 +37,7 @@ return [
 
         'database' => [
             'driver'      => 'pdo_mysql',
-            'host'        => 'db',
+            'host'        => 'mysql',
             'database'    => '',
             'username'    => '',
             'password'    => '',
