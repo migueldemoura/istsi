@@ -1,8 +1,7 @@
 app/src/settings.php
 app/vendor/
 app/composer.lock
-backups/mysql/*
-backups/php/*
+backups/
 deployment/.env
 deployment/nginx/tls/istsi.key
 deployment/nginx/tls/istsi.pem

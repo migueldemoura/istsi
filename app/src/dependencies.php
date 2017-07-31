@@ -53,7 +53,7 @@ $c['database'] = function ($c) {
     $settings = $c->get('settings')['database'];
     $config = new Spot\Config();
 
-    $config->addConnection('mysql', [
+    $config->addConnection('db', [
         'driver'   => $settings['driver'],
         'host'     => $settings['host'],
         'dbname'   => $settings['database'],

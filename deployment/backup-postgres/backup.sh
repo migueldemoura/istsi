@@ -1,16 +1,17 @@
 #!/bin/bash
 
-BACKUP_NAME=$(date +\%Y.\%m.\%d.\%H\%M\%S).sql
-BACKUP_CMD="mysqldump -h${MYSQL_HOST} -P${MYSQL_PORT} -u${MYSQL_USER} -p${MYSQL_PASSWORD} -r /backup/${BACKUP_NAME} --all-databases"
+export PGPASSWORD="${POSTGRES_PASSWORD}"
 
-while ! mysqladmin ping -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" --silent; do
-    echo "[Note] Waiting for the mysql container"
+BACKUP_NAME=$(date +\%Y.\%m.\%d.\%H\%M\%S).sql
+
+until psql -h "${POSTGRES_HOST}" -p "${POSTGRES_PORT}" -U postgres -w -c '\l' > /dev/null 2>&1; do
+    echo "[Note] Waiting for postgres container"
     sleep 1
 done
 
 echo "[Note] Creating backup ${BACKUP_NAME}"
 
-if ${BACKUP_CMD}; then
+if pg_dumpall -c -h "${POSTGRES_HOST}" -p "${POSTGRES_PORT}" -U postgres -w -f /backup/"${BACKUP_NAME}" > /dev/null; then
     echo "[Note] Backup succeeded"
 else
     echo "[Error] Backup failed"

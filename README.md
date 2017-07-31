@@ -12,7 +12,8 @@ This project includes config files to create an environment with Nginx, PHP-FPM,
 * Go to `app/src/`, rename `settings.php.dist` to `settings.php` and fill all options.
 * Go to `deployment/`, rename `.env.dist` to `.env` and fill all fields.
 The available settings for the ENV variable are `dev`, `staging` and `prod`.
-* If the above ENV variable is `dev` run `$ bin/console setup` to get a self-signed TLS certificate, otherwise go to `deployment/nginx/tls`, replace all files with your own and strip the `.dist` from the filenames.
+* If the above ENV variable isn't `dev` go to `deployment/nginx/tls`, replace all files with your own and strip the `.dist` from the filenames.
+* Run `$ bin/console setup`.
 
 * Start environment:
 

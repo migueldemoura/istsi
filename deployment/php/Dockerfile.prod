@@ -5,9 +5,9 @@ ARG env
 RUN usermod -u 1000 www-data
 RUN cd /var/www && mkdir -p cache data logs && chown -R www-data:www-data cache data logs
 
-RUN apt-get update && apt-get install -y zlib1g-dev
+RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev
 
-RUN docker-php-ext-install pdo pdo_mysql zip opcache
+RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache
 
 COPY shared/php.ini /usr/local/etc/php/php.ini
 COPY $env/php.ini /usr/local/etc/php/php.ini.$env

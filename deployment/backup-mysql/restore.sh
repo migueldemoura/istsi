@@ -2,7 +2,7 @@
 
 while ! mysqladmin ping -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" --silent; do
     echo "[Note] Waiting for the mysql container"
-    sleep 5
+    sleep 1
 done
 
 echo "[Note] Restoring backup from $1"

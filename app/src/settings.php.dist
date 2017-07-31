@@ -36,13 +36,12 @@ return [
         ],
 
         'database' => [
-            'driver'      => 'pdo_mysql',
-            'host'        => 'mysql',
+            'driver'      => 'pdo_pgsql', // or pdo_mysql
+            'host'        => 'postgres', // or mysql
             'database'    => '',
             'username'    => '',
             'password'    => '',
-            'charset'     => 'utf8mb4',
-            'collation'   => 'utf8mb4_unicode_ci',
+            'charset'     => 'utf8', // or utf8mb4 for mysql
         ],
 
         'files' => [

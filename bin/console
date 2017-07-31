@@ -3,13 +3,16 @@
 ppath=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)
 
 cd "$ppath"/../deployment/
+source .env
 
 case "$1" in
     "setup")
-        mkdir -p ../backups/php/ ../backups/mysql/
-        cd nginx/tls
-        openssl req -x509 -subj '/CN=istsi.localhost/O=ISTSI' -out istsi.pem -days 365 \
+        mkdir -p ../backups/php/ ../backups/postgres/ ../backups/mysql/
+        if [ "$ENV" == "dev" ]; then
+            cd nginx/tls
+            openssl req -x509 -subj '/CN=istsi.localhost/O=ISTSI' -out istsi.pem -days 365 \
                     -newkey rsa:4096 -nodes -keyout istsi.key
+        fi
         exit 0 ;;
     "migrate") ARGS="exec --user www-data php php "src/bin.php" migrations" ;;
     "deploy") ARGS="${@:2}" ;;

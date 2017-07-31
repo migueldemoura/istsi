@@ -1,16 +1,28 @@
 version: '3'
 
 services:
-    mysql:
-        image: mysql
+    # mysql:
+    #     image: mysql
+    #     volumes:
+    #         - data-mysql:/var/lib/mysql
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    #         MYSQL_DATABASE: ${DB_NAME}
+    #         MYSQL_USER: ${DB_APP_USER}
+    #         MYSQL_PASSWORD: ${DB_APP_PASSWORD}
+    #     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    #     security_opt:
+    #         - no-new-privileges
+    postgres:
+        build: postgres
         volumes:
-            - data-mysql:/var/lib/mysql
+            - data-postgres:/var/lib/postgresql/data
         environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+            POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_APP_USER: ${DB_APP_USER}
+            POSTGRES_APP_PASSWORD: ${DB_APP_PASSWORD}
+            POSTGRES_INITDB_ARGS: --data-checksums
         security_opt:
             - no-new-privileges
     php:
@@ -45,15 +57,27 @@ services:
             - ../app/public:/var/www/istsi/public:ro
         security_opt:
             - no-new-privileges
-    backup-mysql:
-        build: backup-mysql
+    # backup-mysql:
+    #     build: backup-mysql
+    #     environment:
+    #         MYSQL_HOST: mysql
+    #         MYSQL_USER: ${DB_APP_USER}
+    #         MYSQL_PASSWORD: ${DB_APP_PASSWORD}
+    #         BACKUP_ON_INIT: 1
+    #     volumes:
+    #         - ../backups/mysql:/backup
+    #     security_opt:
+    #         - no-new-privileges
+    backup-postgres:
+        build: backup-postgres
         environment:
-            MYSQL_HOST: mysql
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            POSTGRES_HOST: postgres
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_USER: ${DB_APP_USER}
+            POSTGRES_PASSWORD: ${DB_APP_PASSWORD}
             BACKUP_ON_INIT: 1
         volumes:
-            - ../backups/mysql:/backup
+            - ../backups/postgres:/backup
         security_opt:
             - no-new-privileges
     backup-php:
@@ -68,7 +92,9 @@ services:
             - no-new-privileges
 
 volumes:
-    data-mysql:
+    # data-mysql:
+    #     driver: local
+    data-postgres:
         driver: local
     data-app:
         driver: local
