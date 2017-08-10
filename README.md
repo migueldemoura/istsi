@@ -6,7 +6,7 @@ It was built to ease the work of those behind the program and to allow the candi
 
 ### Installation and Deployment
 
-This project includes config files to create an environment with Nginx, PHP-FPM, MySQL, among others.
+This project includes config files to create an environment with Nginx, PHP-FPM, PostgreSQL/MySQL and automatic backups.
 
 * Install [Docker] and [Docker Compose]
 * Go to `app/src/`, rename `settings.php.dist` to `settings.php` and fill all options.
