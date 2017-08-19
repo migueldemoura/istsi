@@ -75,8 +75,7 @@ services:
         environment:
             POSTGRES_HOST: postgres
             POSTGRES_DB: ${DB_NAME}
-            POSTGRES_USER: ${DB_APP_USER}
-            POSTGRES_PASSWORD: ${DB_APP_PASSWORD}
+            POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
             BACKUP_ON_INIT: 1
         volumes:
             - ../backups/postgres:/backup
