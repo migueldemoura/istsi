@@ -19,5 +19,4 @@ case "$1" in
     *) exit -1 ;;
 esac
 
-source .env
 docker-compose -f $ENV.yml ${ARGS}
