@@ -1,6 +1,9 @@
 # ISTSI
 
-ISTSI is the website and submission platform for the [IST Summer Internships].
+> Since I've left the ISTSI team, and am no longer maintaining this repository, all infrastruture has been moved to the hands of the faculty. A *postmortem* and general overview of the program is available in [my blog](https://migueldemoura.com/posts/ist-summer-internships-istsi/).
+---
+
+ISTSI was the website and submission platform for the [IST Summer Internships].
 
 It was built to ease the work of those behind the program and to allow the candidates to have a simple, consistent and comprehensive experience.
 
