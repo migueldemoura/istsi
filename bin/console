@@ -13,10 +13,10 @@ case "$1" in
             openssl req -x509 -subj '/CN=istsi.localhost/O=ISTSI' -out istsi.pem -days 365 \
                     -newkey rsa:4096 -nodes -keyout istsi.key
         fi
-        exit 0 ;;
-    "migrate") ARGS="exec --user www-data php php "src/bin.php" migrations" ;;
-    "deploy") ARGS="${@:2}" ;;
+        ARGS="build" ;;
+    "migrate") ARGS="exec --user www-data php php \"src/bin.php\" migrations" ;;
+    "deploy") ARGS="${*:2}" ;;
     *) exit -1 ;;
 esac
 
-docker-compose -f $ENV.yml ${ARGS}
+docker-compose -f "$ENV.yml" -p istsi "${ARGS}"
